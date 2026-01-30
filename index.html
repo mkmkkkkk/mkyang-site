@@ -306,6 +306,14 @@
             text-transform: uppercase;
         }
 
+        /* Static mode for screenshots */
+        body.static * {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            clip-path: none !important;
+        }
+
         @media (max-width: 600px) {
             h1 { font-size: 2.8rem; letter-spacing: -1px; }
             .tagline { font-size: 1rem; }
@@ -369,6 +377,11 @@
     </div>
 
     <script>
+        // Static mode for screenshots
+        if (new URLSearchParams(window.location.search).has('static')) {
+            document.body.classList.add('static');
+        }
+
         // === PARALLAX STARFIELD ===
         const layers = [
             { el: document.getElementById('layer1'), factor: 0.04, count: 80, sizeRange: [1, 2.5], shimmerChance: 0.3 },
