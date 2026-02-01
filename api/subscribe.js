@@ -37,7 +37,7 @@ export default async function handler(req, res) {
         } else {
             const err = await response.json();
             console.error('Notion error:', JSON.stringify(err));
-            return res.status(500).json({ error: 'Failed to save subscription' });
+            return res.status(500).json({ error: 'Failed to save subscription', debug: err.message || err.code, status: response.status });
         }
     } catch (err) {
         console.error('Subscribe error:', err.message);
