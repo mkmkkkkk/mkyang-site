@@ -53,9 +53,8 @@ const postCards = posts.map(p => {
             <a href="/blog/${p.slug}" class="post-card">
                 <time class="post-date">${formatDate(p.date)}</time>
                 <h2 class="post-title">${p.title}</h2>
-                ${p.title_zh ? `<p class="post-title-zh">${p.title_zh}</p>` : ''}
                 <p class="post-desc">${p.description || ''}</p>
-                <div class="post-tags">${tagHTML}${bilingualBadge}</div>
+                <div class="post-tags">${tagHTML}</div>
             </a>`;
 }).join('\n');
 
