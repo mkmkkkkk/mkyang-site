@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="alternate" type="application/rss+xml" title="Michael Yang's Blog" href="/feed.xml">
     <style>
         /* === BLOG INDEX === */
         .blog-index {
@@ -122,6 +123,102 @@
             border-color: rgba(201, 168, 76, 0.2);
         }
 
+        .subscribe-section {
+            margin-top: 4rem;
+            padding: 2.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.8s;
+        }
+
+        .subscribe-section h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .subscribe-section p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: rgba(240, 237, 230, 0.5);
+            margin-bottom: 1.5rem;
+        }
+
+        .subscribe-form {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 420px;
+        }
+
+        .subscribe-form input[type="email"] {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .subscribe-form input[type="email"]:focus {
+            border-color: var(--accent);
+        }
+
+        .subscribe-form input[type="email"]::placeholder {
+            color: rgba(240, 237, 230, 0.3);
+        }
+
+        .subscribe-form button {
+            padding: 0.7rem 1.5rem;
+            background: var(--accent);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .subscribe-form button:hover {
+            opacity: 0.85;
+        }
+
+        .subscribe-form button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .subscribe-msg {
+            font-size: 0.8rem;
+            margin-top: 0.75rem;
+            min-height: 1.2em;
+        }
+
+        .subscribe-msg.success { color: #4ade80; }
+        .subscribe-msg.error { color: #f87171; }
+
+        .rss-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .rss-link:hover { color: var(--accent); }
+
         .blog-footer {
             border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding-top: 2rem;
@@ -130,7 +227,7 @@
             justify-content: space-between;
             align-items: center;
             opacity: 0;
-            animation: fadeUp 1s ease forwards 0.8s;
+            animation: fadeUp 1s ease forwards 1s;
         }
 
         .topbar { margin-bottom: 5rem; }
@@ -181,6 +278,20 @@
             </a>
             </div>
 
+            <section class="subscribe-section">
+                <h3>Stay Updated</h3>
+                <p>Get notified when I publish new posts.</p>
+                <form class="subscribe-form" id="subscribeForm">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+                <div class="subscribe-msg" id="subscribeMsg"></div>
+                <a href="/feed.xml" class="rss-link" target="_blank" rel="noopener">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg>
+                    RSS Feed
+                </a>
+            </section>
+
             <footer class="blog-footer">
                 <nav class="links">
                     <a href="/">Home</a>
@@ -192,5 +303,38 @@
             </footer>
         </main>
     </div>
+    <script>
+        document.getElementById('subscribeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const input = e.target.querySelector('input');
+            const msg = document.getElementById('subscribeMsg');
+            btn.disabled = true;
+            btn.textContent = '...';
+            msg.textContent = '';
+            msg.className = 'subscribe-msg';
+            try {
+                const res = await fetch('/api/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: input.value })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    msg.textContent = 'Subscribed. Welcome aboard.';
+                    msg.className = 'subscribe-msg success';
+                    input.value = '';
+                } else {
+                    msg.textContent = data.error || 'Something went wrong.';
+                    msg.className = 'subscribe-msg error';
+                }
+            } catch {
+                msg.textContent = 'Network error. Try again.';
+                msg.className = 'subscribe-msg error';
+            }
+            btn.disabled = false;
+            btn.textContent = 'Subscribe';
+        });
+    </script>
 </body>
 </html>
