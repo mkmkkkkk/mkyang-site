@@ -309,7 +309,27 @@ body.static * {
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
-    .page { padding: 2rem; }
-    .v-line { left: 2rem; }
+    .page { padding: 1.5rem; }
+    .v-line { display: none; }
+    .orb-1 { width: 500px; height: 500px; filter: blur(100px); }
+    .orb-2 { width: 350px; height: 350px; filter: blur(100px); }
+    .grid-overlay { background-size: 50px 50px; }
+    .grid-glow { display: none; }
+    .cursor-glow { display: none; }
+    .topbar { flex-wrap: wrap; gap: 0.75rem; }
+    .topbar-right { gap: 1rem; }
+    .status-badge { display: none; }
+    .bottombar { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
     .links { gap: 1.5rem; flex-wrap: wrap; }
+    .copyright { margin-top: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+    .page { padding: 1.25rem; }
+    .orb-1 { width: 350px; height: 350px; opacity: 0.1; }
+    .orb-2 { width: 250px; height: 250px; opacity: 0.15; }
+    .logo { font-size: 0.65rem; }
+    .topbar-nav a { font-size: 0.65rem; }
+    .links { gap: 1.25rem; }
+    .links a { font-size: 0.7rem; }
 }

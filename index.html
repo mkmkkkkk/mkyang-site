@@ -137,8 +137,29 @@
 
         @media (max-width: 768px) {
             .hero { padding-left: 0; }
-            .hero-name { font-size: clamp(3rem, 14vw, 6rem); }
+            .hero-name { font-size: clamp(2.8rem, 13vw, 5rem); }
+            .hero-name .line:nth-child(2) span { margin-left: 0.5rem; }
+            .hero-tagline { font-size: 1rem; max-width: 100%; }
+            .hero-rule { margin: 1.5rem 0; }
             .deco-number { display: none; }
+            .hero::before {
+                width: 600px; height: 450px;
+                left: 50%;
+                filter: blur(80px);
+            }
+            .topbar-right { gap: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name { font-size: clamp(2.5rem, 15vw, 4rem); }
+            .hero-name .line:nth-child(2) span { margin-left: 0; }
+            .hero-label { font-size: 0.7rem; margin-bottom: 1.5rem; }
+            .hero-tagline { font-size: 0.95rem; line-height: 1.6; }
+            .hero-rule { width: 40px; margin: 1.25rem 0; }
+            .hero::before {
+                width: 400px; height: 300px;
+                filter: blur(60px);
+            }
         }
     </style>
 </head>
