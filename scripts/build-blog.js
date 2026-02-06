@@ -409,23 +409,58 @@ function escapeXml(s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-const rssItems = posts.map(p => `    <item>
+// Extract article body content from HTML file for RSS content:encoded
+function extractArticleContent(slug) {
+    const filePath = path.join(BLOG_DIR, slug);
+    try {
+        const html = fs.readFileSync(filePath, 'utf-8');
+        // Extract content inside <article class="article">...</article>
+        const articleMatch = html.match(/<article\s+class="article">([\s\S]*?)<\/article>/);
+        if (!articleMatch) return null;
+        let content = articleMatch[1];
+        // Strip the language toggle buttons and article-footer if present
+        content = content.replace(/<div class="lang-toggle">[\s\S]*?<\/div>/, '');
+        content = content.replace(/<footer[\s\S]*?<\/footer>/, '');
+        // Strip script tags
+        content = content.replace(/<script[\s\S]*?<\/script>/g, '');
+        return content.trim();
+    } catch {
+        return null;
+    }
+}
+
+const rssItems = posts.map(p => {
+    const articleContent = extractArticleContent(p.slug);
+    const contentEncoded = articleContent
+        ? `\n      <content:encoded><![CDATA[${articleContent}]]></content:encoded>`
+        : '';
+    return `    <item>
       <title>${escapeXml(p.title)}</title>
       <link>${SITE_URL}/blog/${p.slug}</link>
-      <guid>${SITE_URL}/blog/${p.slug}</guid>
+      <guid isPermaLink="true">${SITE_URL}/blog/${p.slug}</guid>
       <pubDate>${rssDate(p.date)}</pubDate>
-      <description>${escapeXml(p.description || '')}</description>
-    </item>`).join('\n');
+      <author>yangzk2001@gmail.com (Michael Yang)</author>
+      <description>${escapeXml(p.description || '')}</description>${contentEncoded}
+    </item>`;
+}).join('\n');
 
 const rss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Michael Yang's Blog</title>
     <link>${SITE_URL}/blog</link>
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
+    <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>${SITE_URL}/favicon.svg</url>
+      <title>Michael Yang's Blog</title>
+      <link>${SITE_URL}/blog</link>
+    </image>
 ${rssItems}
   </channel>
 </rss>
