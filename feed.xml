@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Fri, 06 Feb 2026 10:20:45 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 06 Feb 2026 21:32:50 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -16,145 +16,192 @@
       <link>https://mkyang.ai/blog</link>
     </image>
     <item>
-      <title>AgentGate: A Transaction Firewall for the Agent Economy</title>
+      <title>PaySentry: The Missing Control Plane for Agent Payments</title>
       <link>https://mkyang.ai/blog/agentgate-whitepaper.html</link>
       <guid isPermaLink="true">https://mkyang.ai/blog/agentgate-whitepaper.html</guid>
       <pubDate>Fri, 06 Feb 2026 00:00:00 GMT</pubDate>
       <author>yangzk2001@gmail.com (Michael Yang)</author>
-      <description>A protocol abstraction layer + transaction firewall for AI agent payments &amp;mdash; unifying x402, AP2, and ACP behind a single SDK with built-in prompt injection defense</description>
+      <description>PaySentry is the missing middleware between AI agent frameworks and payment protocols &amp;mdash; observe spending, enforce policies, resolve disputes, and test safely across x402, ACP, AP2, and Visa TAP</description>
       <content:encoded><![CDATA[<!-- ==================== ENGLISH ==================== -->
             <div class="lang-content active" id="content-en">
                 <div class="article-meta">Michael Yang &middot; February 6, 2026</div>
-                <h1 class="article-title">AgentGate: A Transaction Firewall for the Agent Economy</h1>
-                <p class="article-subtitle">The agent payment stack is fragmented and insecure. Here&rsquo;s a protocol-level fix.</p>
+                <h1 class="article-title">PaySentry: The Missing Control Plane for Agent Payments</h1>
+                <p class="article-subtitle">Seven protocols. $80M+ in funding. Zero middleware. Here&rsquo;s the layer nobody built.</p>
                 <div class="article-rule"></div>
 
                 <div class="prose">
-                    <p>In my <a href="/blog/agent-payment-landscape">previous analysis</a>, I mapped the agent payment landscape and found four gaping holes: no universal escrow, no protocol interoperability, no consumer wallet, and no unified SDK. Plus a landmine under it all &mdash; prompt injection.</p>
+                    <p>In my <a href="/blog/agent-payment-landscape">previous analysis</a>, I mapped the agent payment landscape and found a fragmented mess: seven competing protocols, no interoperability, no observability, and prompt injection lurking underneath it all.</p>
 
-                    <p>After weeks of deep research across x402, AP2, ACP, Virtuals Protocol, ERC-8004, and dozens of grassroots projects on Moltbook and ClawTasks, I&rsquo;m proposing something specific: <strong>AgentGate</strong> &mdash; a transaction firewall and protocol abstraction layer that sits between AI agents and payment rails.</p>
+                    <p>The initial instinct was to build another protocol wrapper with a firewall bolted on. After deeper research &mdash; studying what developers actually struggle with on GitHub issues, HN threads, and Reddit &mdash; I realized the real gap is bigger than security. It&rsquo;s <strong>governance</strong>.</p>
 
-                    <p>Not a new blockchain. Not a new token. Not another wallet. A <strong>middleware layer</strong> that makes existing protocols work together securely.</p>
+                    <p>Nobody can answer basic questions: <em>What did my agents spend last week? Which agent is burning through budget? What happens when a payment fails? How do I test payment flows without real money?</em></p>
 
-                    <h2>The Problem, Precisely</h2>
+                    <p>The answer isn&rsquo;t another protocol. It&rsquo;s <strong>PaySentry</strong> &mdash; a control plane that sits between agent frameworks (LangChain, CrewAI, AutoGen) and payment rails (x402, ACP, AP2, Visa TAP), giving developers the visibility and control they&rsquo;re missing.</p>
 
-                    <p>There are now <strong>seven competing payment standards</strong> for AI agents: x402 (Coinbase), AP2 (Google), ACP (Stripe/OpenAI), Virtuals ACP, ERC-8004, Visa Trusted Agent Protocol, and Mastercard Agent Pay. None interoperate. A developer building an agent today must choose a rail and get locked in.</p>
+                    <h2>The Real Problem</h2>
 
-                    <p>Meanwhile, the security story is terrifying. Prompt injection &mdash; where malicious content tricks an AI agent into unauthorized actions &mdash; is <strong>fundamentally unsolvable at the model level</strong>. OpenAI&rsquo;s head of preparedness admitted this publicly. OWASP ranks it #1. Anthropic has reduced attack success to 1.4% with Claude Opus, but 1.4% of $600M+ in annual x402 volume is still $8.4M in potential fraud.</p>
+                    <p>There are now <strong>seven competing payment standards</strong> for AI agents: x402 (Coinbase), AP2 (Google), ACP (Stripe/OpenAI), Virtuals ACP, ERC-8004, Visa Trusted Agent Protocol, and Mastercard Agent Pay. The funded startups building on them &mdash; Skyfire ($9.5M), Kite ($33M), Natural ($9.8M), Payman ($13.8M), Nevermined ($7M) &mdash; are all racing to own the payment rail itself.</p>
 
-                    <p>Every payment protocol today assumes the agent is trustworthy. None of them ask: <em>what if the agent has been compromised?</em></p>
+                    <p>But talk to developers actually building agents that spend money, and you hear a different set of complaints:</p>
+
+                    <ul>
+                        <li><strong>&ldquo;I have no idea what my agents are spending.&rdquo;</strong> &mdash; There&rsquo;s no dashboard, no analytics, no alerts. You find out about runaway spending when the wallet is empty.</li>
+                        <li><strong>&ldquo;I can&rsquo;t set a policy.&rdquo;</strong> &mdash; No equivalent of OPA or AWS IAM for agent payments. Every team builds ad-hoc if/else guards in application code.</li>
+                        <li><strong>&ldquo;When something goes wrong, I&rsquo;m on my own.&rdquo;</strong> &mdash; No dispute resolution, no audit trail, no automated recovery. Agent-to-agent payment failures are silent.</li>
+                        <li><strong>&ldquo;Testing is terrifying.&rdquo;</strong> &mdash; No sandbox environment. Developers test with real money on mainnet because there&rsquo;s no mock infrastructure for agent payment protocols.</li>
+                    </ul>
+
+                    <p>These aren&rsquo;t niche complaints. They&rsquo;re the same problems every infrastructure category hits at scale: you need a control plane.</p>
 
                     <div class="section-divider"></div>
 
                     <h2>The Insight</h2>
 
-                    <p>After studying Google&rsquo;s AP2 mandate architecture, Meta&rsquo;s LlamaFirewall, and the academic literature (AgentSpec at ICSE 2026, Agent Security Bench at ICLR 2025), one principle emerges:</p>
+                    <p>Every mature infrastructure has a control plane separate from its data plane. Kubernetes has it. Service meshes have it. Databases have it. Agent payments don&rsquo;t.</p>
 
-                    <blockquote><strong>Separate intent generation from transaction execution.</strong> The LLM becomes a suggestion engine, not an execution engine. Even a compromised agent cannot execute an unauthorized transaction.</blockquote>
+                    <blockquote><strong>The protocols are the data plane. What&rsquo;s missing is the control plane &mdash; observe, control, protect, test.</strong></blockquote>
 
-                    <p>AP2 partially implements this with cryptographic mandate chains. But AP2 only works with traditional card networks. x402 has no security layer at all &mdash; it&rsquo;s pure pay-then-deliver. Virtuals has escrow but is locked to its own ecosystem.</p>
-
-                    <p>Nobody has built a security layer that works <em>across all protocols</em>.</p>
+                    <p>This isn&rsquo;t about replacing x402 or competing with ACP. It&rsquo;s about building the middleware layer that makes <em>any</em> payment protocol manageable in production. The same way Datadog doesn&rsquo;t replace your servers but makes them observable, PaySentry doesn&rsquo;t replace payment protocols but makes them governable.</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>AgentGate: Architecture</h2>
+                    <h2>PaySentry: Four Pillars</h2>
 
-                    <p>AgentGate is three components working as one:</p>
+                    <h3>1. Observe &mdash; Know What Your Agents Spend</h3>
 
-                    <p><strong>1. Unified SDK</strong> &mdash; A single API that abstracts x402, AP2, and ACP behind a common interface. Developers write payment logic once; AgentGate routes to the right protocol based on the counterparty&rsquo;s capabilities. Think of it as an ORM for payment protocols.</p>
+                    <p>Real-time spending analytics across all protocols. Per-agent breakdowns, time-series tracking, budget alerts, anomaly detection. Think Datadog for agent payments.</p>
 
-<pre><code>import { AgentGate } from '@agentgate/sdk';
+<pre><code>import { SpendTracker } from '@paysentry/observe';
 
-const gate = new AgentGate({
-  wallet: myWallet,
-  policies: {
-    maxPerTransaction: 100,    // USD
-    maxDaily: 1000,
-    allowedRecipients: ['*.verified'],
-    requireEscrow: amount > 50
-  }
-});
+const tracker = new SpendTracker();
+tracker.record(transaction);
 
-// AgentGate auto-detects protocol
-// x402 for HTTP APIs, ACP for merchant checkout,
-// escrow for agent-to-agent jobs
-const result = await gate.pay({
-  to: 'agent://pixie.virtuals',
-  amount: 25,
-  currency: 'USDC',
-  description: 'Generate 3 logo variants',
-  escrow: { deadline: '24h', evaluator: 'auto' }
+// Per-agent spending breakdown
+const breakdown = tracker.getAgentBreakdown('agent-007');
+// { totalSpent: 847.30, txCount: 23, byProtocol: { x402: 612, acp: 235.30 } }
+
+// Budget alerts
+tracker.onAlert('budget-80pct', (agent, spent, limit) => {
+  slack.notify(`${agent} at ${(spent/limit*100).toFixed(0)}% budget`);
 });</code></pre>
 
-                    <p><strong>2. Transaction Firewall</strong> &mdash; Every payment intent passes through a multi-layer validation pipeline before any funds move. This is where prompt injection defense lives.</p>
+                    <h3>2. Control &mdash; Enforce Policies Before Funds Move</h3>
 
-<pre><code>Agent LLM generates intent
-        |
-   [Layer 1] Classifier Model
-        |  Small, fast model (86M params) detects
-        |  injection patterns in the intent
-        |
-   [Layer 2] Policy Engine
-        |  Amount limits, recipient whitelists,
-        |  category restrictions, time-of-day rules
-        |
-   [Layer 3] Intent Diff Checker
-        |  Does this payment match what the user
-        |  originally asked for? Semantic comparison
-        |  against the original instruction
-        |
-   [Layer 4] Cryptographic Signing
-        |  Intent is hashed and signed. Any modification
-        |  after this point breaks the signature
-        |
-   [Layer 5] Human Escalation (configurable)
-        |  Transactions above threshold trigger
-        |  push notification for approval
-        |
-   Payment Rail (x402 / AP2 / ACP / Escrow)</code></pre>
+                    <p>A policy engine for agent payments. Spending limits, recipient whitelists, category restrictions, time-of-day rules, per-agent budgets. Deterministic rules that no LLM can override. OPA for payments.</p>
 
-                    <p>The key innovation: <strong>intent fingerprinting</strong>. When a user tells their agent &ldquo;book a flight to NYC under $300,&rdquo; AgentGate creates a cryptographic hash of that intent. If the agent &mdash; due to prompt injection or any other reason &mdash; tries to book a $3,000 flight or send money to an unrelated address, the hash won&rsquo;t match and the transaction is blocked. The LLM never touches the signing key.</p>
+<pre><code>import { PolicyEngine, RuleBuilder } from '@paysentry/control';
 
-                    <p><strong>3. Escrow Router</strong> &mdash; Universal escrow that works across platforms. When two agents on different platforms need to transact, AgentGate deploys a lightweight smart contract on Base that locks funds until an evaluator (AI or human) confirms delivery.</p>
+const policy = new RuleBuilder()
+  .maxPerTransaction(100)
+  .dailyBudget('agent-007', 1000)
+  .allowRecipients(['*.verified', 'api.openai.com'])
+  .blockCategories(['gambling', 'adult'])
+  .requireApproval(amount => amount > 500)
+  .build();
 
-                    <p>This is what the grassroots community has been building in fragments. agent-escrow on Base mainnet, TheHandshake with Claude Judge, Themis with 12 escrows, Trust Escrow with sub-second setup &mdash; AgentGate unifies these patterns into a single, audited, cross-platform primitive.</p>
+const engine = new PolicyEngine([policy]);
+const verdict = engine.evaluate(transaction);
+// { allowed: false, reason: 'Exceeds daily budget (spent: $940, limit: $1000)' }</code></pre>
+
+                    <h3>3. Protect &mdash; Audit, Dispute, Recover</h3>
+
+                    <p>Immutable audit trail for every transaction. Full dispute lifecycle management. Automated recovery with retry logic. When an agent-to-agent payment goes wrong, PaySentry provides the tooling to investigate, escalate, and resolve.</p>
+
+<pre><code>import { AuditTrail, DisputeManager } from '@paysentry/protect';
+
+// Immutable audit log
+const trail = new AuditTrail();
+trail.log(transaction, { agentId, userId, policyResult, metadata });
+
+// Dispute lifecycle
+const dispute = disputes.open({
+  transactionId: 'tx_abc123',
+  reason: 'Service not delivered within deadline',
+  evidence: [{ type: 'timeout', deadline: '24h', elapsed: '72h' }]
+});
+// States: open → investigating → resolved / escalated</code></pre>
+
+                    <h3>4. Test &mdash; Ship Without Fear</h3>
+
+                    <p>Mock implementations of x402, ACP, and AP2 for local development. Pre-built test scenarios: happy paths, timeouts, insufficient funds, dispute flows, prompt injection attempts. Developers test payment integrations without spending real money.</p>
+
+<pre><code>import { MockX402, MockACP, scenarios } from '@paysentry/sandbox';
+
+const mockX402 = new MockX402({ failRate: 0.1 }); // 10% random failures
+const mockACP = new MockACP({ latency: 200 });     // 200ms simulated delay
+
+// Run pre-built scenarios
+const results = await scenarios.run('budget-exceeded');
+// Tests: agent hits budget limit → policy blocks → alert fires → audit logged</code></pre>
 
                     <div class="section-divider"></div>
 
                     <h2>Why Not Just Use X?</h2>
 
-                    <p>Fair question. Here&rsquo;s how AgentGate differs from every funded competitor:</p>
-
                     <table>
                         <tr><th>Player</th><th>What They Do</th><th>What&rsquo;s Missing</th></tr>
-                        <tr><td><strong>Kite</strong> ($33M)</td><td>New L1 blockchain for agent payments</td><td>Cold start problem. Why build a new chain when x402 runs on any chain?</td></tr>
-                        <tr><td><strong>Skyfire</strong> ($9.5M)</td><td>Custodial agent wallets + USDC on Base</td><td>Custodial = single point of failure. No prompt injection defense. Base-only.</td></tr>
-                        <tr><td><strong>Natural</strong> ($9.8M)</td><td>B2B agent payments via bank rails</td><td>Pre-product. Fiat only. No escrow.</td></tr>
-                        <tr><td><strong>Payman</strong> ($13.8M)</td><td>Gateway + policy engine + marketplace</td><td>Trying to be everything. No protocol abstraction.</td></tr>
-                        <tr><td><strong>Nevermined</strong> ($7M)</td><td>Metering and billing for AI services</td><td>Billing layer, not security. Stripe could add this feature.</td></tr>
-                        <tr><td><strong>SpendSafe</strong></td><td>Non-custodial spending guardrails</td><td>Crypto-only. No protocol routing. Pure middleware with no moat.</td></tr>
+                        <tr><td><strong>Kite</strong> ($33M)</td><td>New L1 blockchain for agent payments</td><td>Cold start. No observability, no policy engine, no sandbox.</td></tr>
+                        <tr><td><strong>Skyfire</strong> ($9.5M)</td><td>Custodial agent wallets + USDC on Base</td><td>Custodial = single point of failure. No multi-protocol. No dispute resolution.</td></tr>
+                        <tr><td><strong>Payman</strong> ($13.8M)</td><td>Gateway + policy engine + marketplace</td><td>Trying to be everything. No testing infrastructure. No audit trail.</td></tr>
+                        <tr><td><strong>Nevermined</strong> ($7M)</td><td>Metering and billing for AI services</td><td>Billing only. No security, no disputes, no sandbox.</td></tr>
+                        <tr><td><strong>SpendSafe</strong></td><td>Non-custodial spending guardrails</td><td>Crypto-only. Single protocol. No observability.</td></tr>
                     </table>
 
-                    <p><strong>AgentGate&rsquo;s positioning:</strong> Non-custodial, protocol-agnostic, security-first. We don&rsquo;t hold funds (like Skyfire), don&rsquo;t build chains (like Kite), and don&rsquo;t try to be a marketplace (like Payman). We sit at the chokepoint between agent intent and payment execution &mdash; and that&rsquo;s the most defensible position in the stack.</p>
+                    <p><strong>PaySentry&rsquo;s positioning:</strong> We don&rsquo;t build payment rails. We don&rsquo;t hold funds. We don&rsquo;t compete with protocols. We&rsquo;re the control plane that makes <em>every</em> protocol production-ready &mdash; observable, governable, auditable, testable.</p>
+
+                    <p>The closest analogy: PaySentry is to agent payments what Datadog + OPA + PagerDuty is to cloud infrastructure. Nobody questions whether you need observability and policy enforcement for your servers. The same will be true for agents that spend money.</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>How the Firewall Stops Prompt Injection</h2>
+                    <h2>Prompt Injection: A Control Plane Problem</h2>
 
-                    <p>The academic consensus (ICSE 2026, ICLR 2025, OWASP) is clear: you cannot make an LLM immune to prompt injection. The defense must be <strong>architectural</strong>, not model-level.</p>
+                    <p>The academic consensus (ICSE 2026, ICLR 2025, OWASP) is clear: prompt injection is <strong>unsolvable at the model level</strong>. Anthropic has reduced attack success to 1.4% with Claude Opus, but 1.4% of $600M+ in annual x402 volume is still $8.4M in potential fraud.</p>
 
-                    <p>AgentGate&rsquo;s approach, informed by Meta&rsquo;s LlamaFirewall (90% attack reduction) and Anthropic&rsquo;s classifier architecture:</p>
+                    <p>Most projects treat this as a security problem and build classifiers. PaySentry treats it as a <strong>governance problem</strong>:</p>
 
-                    <p><strong>Layer 1: Injection Classifier.</strong> A lightweight model (~86M parameters, similar to Meta&rsquo;s PromptGuard 2) scans every transaction intent for adversarial patterns. Different architecture from the main agent LLM, so attacks that fool one model are unlikely to fool both. Alone, this reduces attack success from ~17% to ~7%.</p>
+                    <ul>
+                        <li><strong>Observe</strong> &mdash; Detect anomalous spending patterns that suggest compromise. An agent suddenly spending 10x its normal rate triggers alerts.</li>
+                        <li><strong>Control</strong> &mdash; Deterministic policies that no injected prompt can override. A $100 limit is a $100 limit, enforced in code, not in prompts.</li>
+                        <li><strong>Protect</strong> &mdash; When an attack succeeds (and some will), the audit trail provides forensics and the dispute system enables recovery.</li>
+                        <li><strong>Test</strong> &mdash; Pre-built injection scenarios let developers verify their defenses before production.</li>
+                    </ul>
 
-                    <p><strong>Layer 2: Structured Intent Extraction.</strong> The agent&rsquo;s free-text payment request is parsed into a structured JSON schema: <code>{to, amount, currency, purpose, deadline}</code>. Any content that doesn&rsquo;t map to these fields is discarded. This eliminates hidden instructions embedded in invoices, emails, or API responses.</p>
+                    <p>This is defense in depth, not defense by prayer. Even if an agent is fully compromised, the control plane limits the blast radius.</p>
 
-                    <p><strong>Layer 3: Intent-Origin Comparison.</strong> The structured intent is compared against the user&rsquo;s original instruction (stored at session start, before any external data enters the context). Semantic drift beyond a threshold triggers a block. This is the &ldquo;intent fingerprinting&rdquo; mechanism &mdash; even if the agent is fully compromised, the original user intent serves as ground truth.</p>
+                    <div class="section-divider"></div>
 
-                    <p><strong>Layer 4: Deterministic Policy Engine.</strong> Hard-coded rules that no LLM can override: per-transaction limits, daily caps, recipient whitelists, category restrictions. Enforced in code, not in prompts. This is the last line of defense &mdash; even if layers 1-3 all fail, a $100 spending limit is a $100 spending limit.</p>
+                    <h2>Architecture</h2>
 
-                    <p>Combined, these layers reduce the attack surface from ~17% (unprotected agent) to <strong>&lt;0.2%</strong> (projected, based on LlamaFirewall + classifier + deterministic rules). And for transactions above a configurable threshold, human-in-the-loop provides a fifth layer.</p>
+<pre><code>┌─────────────────────────────────────────────┐
+│         Agent Framework Layer                │
+│    (LangChain / CrewAI / AutoGen / custom)   │
+└──────────────────┬──────────────────────────┘
+                   │  payment intent
+                   ▼
+┌─────────────────────────────────────────────┐
+│              PaySentry Control Plane          │
+│                                               │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐     │
+│  │ Observe  │ │ Control  │ │ Protect  │     │
+│  │ tracking │ │ policies │ │ disputes │     │
+│  │ alerts   │ │ rules    │ │ audit    │     │
+│  │ analytics│ │ middleware│ │ recovery │     │
+│  └──────────┘ └──────────┘ └──────────┘     │
+│                                               │
+│  ┌──────────────────────────────────────┐    │
+│  │    Sandbox (dev/test only)           │    │
+│  │    mock-x402 / mock-acp / mock-ap2   │    │
+│  └──────────────────────────────────────┘    │
+└──────────────────┬──────────────────────────┘
+                   │  validated transaction
+                   ▼
+┌─────────────────────────────────────────────┐
+│           Payment Protocol Layer             │
+│  x402 (Coinbase) │ ACP (Stripe) │ AP2 (Google)│
+│  Visa TAP │ Mastercard Agent Pay │ ERC-8004  │
+└─────────────────────────────────────────────┘</code></pre>
+
+                    <p>PaySentry is <strong>non-custodial</strong> and <strong>protocol-agnostic</strong>. It intercepts payment intents, applies policies, logs everything, and passes validated transactions to the underlying protocol. It never touches private keys or holds funds.</p>
 
                     <div class="section-divider"></div>
 
@@ -162,173 +209,207 @@ const result = await gate.pay({
 
                     <table>
                         <tr><th>Tier</th><th>Price</th><th>What You Get</th></tr>
-                        <tr><td><strong>Open Source</strong></td><td>Free</td><td>SDK, policy engine, single-protocol routing. Community support.</td></tr>
-                        <tr><td><strong>Pro</strong></td><td>$99/mo</td><td>Multi-protocol routing, firewall classifier, analytics dashboard. 10K transactions/mo.</td></tr>
-                        <tr><td><strong>Enterprise</strong></td><td>Custom</td><td>Custom policies, dedicated classifier fine-tuning, SLA, compliance reporting.</td></tr>
-                        <tr><td><strong>Escrow</strong></td><td>0.5% per tx</td><td>Universal escrow with evaluator. Cheaper than TheHandshake (2.5%) and Abraham (5%).</td></tr>
+                        <tr><td><strong>Open Source</strong></td><td>Free</td><td>All 5 packages. Full control plane. Community support.</td></tr>
+                        <tr><td><strong>Cloud</strong></td><td>$99/mo</td><td>Hosted dashboard, managed alerts, cross-agent analytics. 10K transactions/mo.</td></tr>
+                        <tr><td><strong>Enterprise</strong></td><td>Custom</td><td>Custom policies, compliance reporting, SLA, dedicated support.</td></tr>
                     </table>
 
-                    <p>The open-source core builds developer adoption. The firewall classifier is the paid moat &mdash; it requires continuous training on new attack vectors, which creates a data flywheel that&rsquo;s hard to replicate.</p>
-
-                    <div class="section-divider"></div>
-
-                    <h2>MVP: 4 Weeks</h2>
-
-                    <p><strong>Week 1-2: SDK + Single Protocol.</strong> Ship <code>@agentgate/sdk</code> with x402 support (the most mature protocol, 100M+ payments). Express/Next.js middleware. Basic policy engine (spending limits, recipient whitelist).</p>
-
-                    <p><strong>Week 3: Firewall.</strong> Integrate PromptGuard 2 (Meta&rsquo;s open-source classifier, 86M params). Add structured intent extraction and intent-origin comparison. Ship as a standalone npm package that works with any agent framework.</p>
-
-                    <p><strong>Week 4: Escrow + Multi-Protocol.</strong> Deploy escrow contract on Base (fork proven patterns from agent-escrow and Trust Escrow). Add AP2 routing for fiat merchants. Launch on Moltbook for community testing.</p>
-
-                    <p><strong>Post-MVP:</strong> Consumer dashboard (&ldquo;Mint for AI Agents&rdquo;), ACP integration for ChatGPT Shopping, ERC-8004 identity integration, mobile push notifications for human-in-the-loop approvals.</p>
+                    <p>The open-source core builds adoption. The cloud dashboard is the paid product &mdash; developers want hosted observability, not another self-hosted tool. The data moat grows with every transaction logged.</p>
 
                     <div class="section-divider"></div>
 
                     <h2>The Bet</h2>
 
-                    <p>The agent payment market is projected at $136B in 2026, growing to $1.7T by 2030. Seven protocols are competing. $80M+ in VC money has been deployed. But nobody owns the chokepoint between intent and execution.</p>
+                    <p>The agent payment market is projected at $136B in 2026, growing to $1.7T by 2030. Seven protocols are competing. $80M+ in VC money has been deployed. Everyone is building rails. Nobody is building the control plane.</p>
 
-                    <p>Firewalls won the internet security market not by replacing HTTP, but by sitting in the middle and inspecting traffic. AgentGate is the same play for agent payments: don&rsquo;t replace the protocols, <strong>secure the bridge between them</strong>.</p>
+                    <p>Kubernetes didn&rsquo;t win by being a better container runtime. It won by being the control plane for <em>all</em> container runtimes. PaySentry is the same play: don&rsquo;t replace the protocols, <strong>make them manageable</strong>.</p>
 
-                    <p>The grassroots community is already building the pieces &mdash; escrow contracts, spending guardrails, injection classifiers. AgentGate is the integration layer that makes them work together.</p>
+                    <p>The question isn&rsquo;t whether agents will spend money autonomously &mdash; they already are. The question is whether anyone will know what they&rsquo;re spending, be able to set limits, investigate failures, and test safely. That&rsquo;s what we&rsquo;re building.</p>
 
-                    <p>Whoever solves both unification and security wins. We intend to.</p>
+                    <p><strong><a href="/paysentry">Explore PaySentry &rarr;</a></strong></p>
                 </div>
             </div>
 
             <!-- ==================== CHINESE ==================== -->
             <div class="lang-content" id="content-zh">
                 <div class="article-meta">Michael Yang &middot; 2026 年 2 月 6 日</div>
-                <h1 class="article-title">AgentGate：Agent 经济的交易防火墙</h1>
-                <p class="article-subtitle">Agent 支付栈又碎又不安全。这是一个协议层面的修复方案。</p>
+                <h1 class="article-title">PaySentry：Agent 支付的缺失控制面</h1>
+                <p class="article-subtitle">七个协议、8000 万+ 美元融资、零中间件。这是没有人造的那一层。</p>
                 <div class="article-rule"></div>
 
                 <div class="prose">
-                    <p>在我<a href="/blog/agent-payment-landscape">上一篇分析</a>中，我画了一张 Agent 支付赛道的全景图，发现了四个大洞：没有通用 escrow、协议之间不互通、没有消费者钱包、没有统一 SDK。而且地基下面还埋着一颗雷 &mdash; prompt injection。</p>
+                    <p>在我<a href="/blog/agent-payment-landscape">上一篇分析</a>中，我画了一张 Agent 支付赛道的全景图，发现了一片狼藉：七个互相竞争的协议、不互通、没有可观测性，而且 prompt injection 埋在所有东西下面。</p>
 
-                    <p>经过数周对 x402、AP2、ACP、Virtuals Protocol、ERC-8004 以及 Moltbook 和 ClawTasks 上几十个草根项目的深入研究，我提出一个具体方案：<strong>AgentGate</strong> &mdash; 一个位于 AI Agent 和支付轨道之间的交易防火墙和协议抽象层。</p>
+                    <p>最初的直觉是造另一个协议封装器加个防火墙。但更深入的研究 &mdash; 研究开发者在 GitHub issues、HN 和 Reddit 上真正在吐槽什么 &mdash; 让我意识到真正的缺口比安全更大。是<strong>治理</strong>。</p>
 
-                    <p>不是新公链。不是新代币。不是又一个钱包。而是一个<strong>中间件层</strong>，让现有协议能安全地协同工作。</p>
+                    <p>没人能回答这些基本问题：<em>我的 Agent 上周花了多少？哪个 Agent 在烧预算？支付失败了怎么办？怎么在不花真钱的情况下测试支付流程？</em></p>
 
-                    <h2>问题，精确描述</h2>
+                    <p>答案不是另一个协议。是 <strong>PaySentry</strong> &mdash; 一个位于 Agent 框架（LangChain、CrewAI、AutoGen）和支付轨道（x402、ACP、AP2、Visa TAP）之间的控制面，给开发者缺失的可见性和控制力。</p>
 
-                    <p>现在有 <strong>七个互相竞争的 Agent 支付标准</strong>：x402（Coinbase）、AP2（Google）、ACP（Stripe/OpenAI）、Virtuals ACP、ERC-8004、Visa Trusted Agent Protocol、Mastercard Agent Pay。没有一个互通。开发者今天造一个 Agent，必须选一条轨道，然后被锁死。</p>
+                    <h2>真正的问题</h2>
 
-                    <p>与此同时，安全问题令人恐惧。Prompt injection &mdash; 恶意内容诱骗 AI Agent 执行未授权操作 &mdash; <strong>在模型层面是根本无法解决的</strong>。OpenAI 安全负责人公开承认了这一点。OWASP 将其列为 #1 威胁。Anthropic 用 Claude Opus 把攻击成功率降到了 1.4%，但 x402 年化交易额 $6 亿+ 的 1.4% 仍然是 $840 万的潜在欺诈。</p>
+                    <p>现在有 <strong>七个互相竞争的 Agent 支付标准</strong>：x402（Coinbase）、AP2（Google）、ACP（Stripe/OpenAI）、Virtuals ACP、ERC-8004、Visa Trusted Agent Protocol、Mastercard Agent Pay。在上面建设的融资创业公司 &mdash; Skyfire（$950 万）、Kite（$3300 万）、Natural（$980 万）、Payman（$1380 万）、Nevermined（$700 万）&mdash; 都在争夺支付轨道本身。</p>
 
-                    <p>当前所有支付协议都假设 Agent 是可信的。没有一个在问：<em>如果 Agent 已经被入侵了呢？</em></p>
+                    <p>但跟真正在造会花钱的 Agent 的开发者聊，你听到的是另一组抱怨：</p>
+
+                    <ul>
+                        <li><strong>&ldquo;我完全不知道我的 Agent 花了多少。&rdquo;</strong> &mdash; 没有仪表盘，没有分析，没有告警。你发现失控消费的时候，钱包已经空了。</li>
+                        <li><strong>&ldquo;我没法设置策略。&rdquo;</strong> &mdash; Agent 支付没有等同于 OPA 或 AWS IAM 的东西。每个团队在应用代码里堆 if/else 土法守卫。</li>
+                        <li><strong>&ldquo;出问题了，全靠我自己。&rdquo;</strong> &mdash; 没有争议解决，没有审计日志，没有自动恢复。Agent 对 Agent 的支付失败是静默的。</li>
+                        <li><strong>&ldquo;测试太恐怖了。&rdquo;</strong> &mdash; 没有沙盒环境。开发者在主网用真钱测试，因为 Agent 支付协议没有 mock 基础设施。</li>
+                    </ul>
+
+                    <p>这不是小众问题。这是每个基础设施品类在规模化时都会遇到的问题：你需要一个控制面。</p>
 
                     <div class="section-divider"></div>
 
                     <h2>核心洞察</h2>
 
-                    <p>研究了 Google 的 AP2 Mandate 架构、Meta 的 LlamaFirewall，以及学术文献（ICSE 2026 的 AgentSpec、ICLR 2025 的 Agent Security Bench）之后，一个原则浮现出来：</p>
+                    <p>每个成熟的基础设施都有一个独立于数据面的控制面。Kubernetes 有。Service mesh 有。数据库有。Agent 支付没有。</p>
 
-                    <blockquote><strong>把意图生成和交易执行分离。</strong>LLM 变成建议引擎，而不是执行引擎。即使 Agent 被入侵，也无法执行未授权的交易。</blockquote>
+                    <blockquote><strong>协议是数据面。缺失的是控制面 &mdash; 观测、控制、保护、测试。</strong></blockquote>
 
-                    <p>AP2 用密码学 Mandate 链部分实现了这个思路。但 AP2 只支持传统银行卡网络。x402 完全没有安全层 &mdash; 就是纯粹的先付后收。Virtuals 有 escrow 但锁在自己的生态里。</p>
-
-                    <p>没有人做了一个<em>跨所有协议</em>的安全层。</p>
+                    <p>这不是要替换 x402 或跟 ACP 竞争。是建设让<em>任何</em>支付协议在生产环境可管理的中间件层。就像 Datadog 不替换你的服务器但让它们可观测一样，PaySentry 不替换支付协议但让它们可治理。</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>AgentGate：架构</h2>
+                    <h2>PaySentry：四大支柱</h2>
 
-                    <p>AgentGate 是三个组件协同工作：</p>
+                    <h3>1. Observe &mdash; 知道你的 Agent 在花什么</h3>
 
-                    <p><strong>1. 统一 SDK</strong> &mdash; 一个 API 把 x402、AP2、ACP 抽象在统一接口后面。开发者写一次支付逻辑；AgentGate 根据对方的能力自动路由到正确的协议。可以理解为支付协议的 ORM。</p>
+                    <p>跨所有协议的实时消费分析。逐 Agent 分解、时间序列追踪、预算告警、异常检测。Agent 支付的 Datadog。</p>
 
-<pre><code>import { AgentGate } from '@agentgate/sdk';
+<pre><code>import { SpendTracker } from '@paysentry/observe';
 
-const gate = new AgentGate({
-  wallet: myWallet,
-  policies: {
-    maxPerTransaction: 100,    // USD
-    maxDaily: 1000,
-    allowedRecipients: ['*.verified'],
-    requireEscrow: amount > 50
-  }
-});
+const tracker = new SpendTracker();
+tracker.record(transaction);
 
-// AgentGate 自动检测协议
-// HTTP API 用 x402，商家结账用 ACP，
-// Agent 对 Agent 任务用 escrow
-const result = await gate.pay({
-  to: 'agent://pixie.virtuals',
-  amount: 25,
-  currency: 'USDC',
-  description: '生成 3 个 logo 方案',
-  escrow: { deadline: '24h', evaluator: 'auto' }
+// 逐 Agent 消费分解
+const breakdown = tracker.getAgentBreakdown('agent-007');
+// { totalSpent: 847.30, txCount: 23, byProtocol: { x402: 612, acp: 235.30 } }
+
+// 预算告警
+tracker.onAlert('budget-80pct', (agent, spent, limit) => {
+  slack.notify(`${agent} 已用 ${(spent/limit*100).toFixed(0)}% 预算`);
 });</code></pre>
 
-                    <p><strong>2. 交易防火墙</strong> &mdash; 每一笔支付意图在资金移动之前都要通过多层验证管道。Prompt injection 防御就在这里。</p>
+                    <h3>2. Control &mdash; 在资金移动之前执行策略</h3>
 
-<pre><code>Agent LLM 生成意图
-        |
-   [Layer 1] 分类器模型
-        |  小型快速模型（86M 参数）检测
-        |  意图中的 injection 模式
-        |
-   [Layer 2] 策略引擎
-        |  金额限制、收款人白名单、
-        |  类别限制、时间规则
-        |
-   [Layer 3] 意图差异检查器
-        |  这笔支付是否匹配用户
-        |  最初的要求？语义对比
-        |  原始指令
-        |
-   [Layer 4] 密码学签名
-        |  意图被哈希并签名。之后的任何
-        |  修改都会破坏签名
-        |
-   [Layer 5] 人工升级（可配置）
-        |  超过阈值的交易触发
-        |  推送通知等待审批
-        |
-   支付轨道（x402 / AP2 / ACP / Escrow）</code></pre>
+                    <p>Agent 支付的策略引擎。消费限额、收款人白名单、类别限制、时间规则、逐 Agent 预算。确定性规则，没有 LLM 能覆盖。支付版 OPA。</p>
 
-                    <p>核心创新：<strong>意图指纹</strong>。当用户告诉 Agent &ldquo;订一张去纽约的机票，300 刀以内&rdquo;，AgentGate 对这个意图创建密码学哈希。如果 Agent &mdash; 因为 prompt injection 或任何其他原因 &mdash; 试图订一张 $3000 的机票或把钱转到无关地址，哈希不匹配，交易被阻断。LLM 永远不碰签名密钥。</p>
+<pre><code>import { PolicyEngine, RuleBuilder } from '@paysentry/control';
 
-                    <p><strong>3. Escrow 路由器</strong> &mdash; 跨平台通用 escrow。当两个不同平台上的 Agent 需要交易时，AgentGate 在 Base 上部署一个轻量级智能合约，锁定资金直到评估者（AI 或人类）确认交付。</p>
+const policy = new RuleBuilder()
+  .maxPerTransaction(100)
+  .dailyBudget('agent-007', 1000)
+  .allowRecipients(['*.verified', 'api.openai.com'])
+  .blockCategories(['gambling', 'adult'])
+  .requireApproval(amount => amount > 500)
+  .build();
 
-                    <p>这正是草根社区一直在零散地做的事情。Base 主网上的 agent-escrow、带 Claude 法官的 TheHandshake、有 12 笔 escrow 的 Themis、亚秒级设置的 Trust Escrow &mdash; AgentGate 把这些模式统一成一个经过审计的跨平台基元。</p>
+const engine = new PolicyEngine([policy]);
+const verdict = engine.evaluate(transaction);
+// { allowed: false, reason: '超出日预算 (已花: $940, 限额: $1000)' }</code></pre>
+
+                    <h3>3. Protect &mdash; 审计、争议、恢复</h3>
+
+                    <p>每笔交易的不可变审计日志。完整的争议生命周期管理。带重试逻辑的自动恢复。当 Agent 对 Agent 的支付出问题时，PaySentry 提供调查、升级和解决的工具链。</p>
+
+<pre><code>import { AuditTrail, DisputeManager } from '@paysentry/protect';
+
+// 不可变审计日志
+const trail = new AuditTrail();
+trail.log(transaction, { agentId, userId, policyResult, metadata });
+
+// 争议生命周期
+const dispute = disputes.open({
+  transactionId: 'tx_abc123',
+  reason: '服务未在截止时间内交付',
+  evidence: [{ type: 'timeout', deadline: '24h', elapsed: '72h' }]
+});
+// 状态: open → investigating → resolved / escalated</code></pre>
+
+                    <h3>4. Test &mdash; 无惧上线</h3>
+
+                    <p>x402、ACP 和 AP2 的本地开发 mock 实现。预置测试场景：正常路径、超时、余额不足、争议流程、prompt injection 尝试。开发者不花真钱就能测试支付集成。</p>
+
+<pre><code>import { MockX402, MockACP, scenarios } from '@paysentry/sandbox';
+
+const mockX402 = new MockX402({ failRate: 0.1 }); // 10% 随机失败
+const mockACP = new MockACP({ latency: 200 });     // 200ms 模拟延迟
+
+// 运行预置场景
+const results = await scenarios.run('budget-exceeded');
+// 测试: agent 触达预算上限 → 策略拦截 → 告警触发 → 审计记录</code></pre>
 
                     <div class="section-divider"></div>
 
                     <h2>为什么不直接用 X？</h2>
 
-                    <p>好问题。AgentGate 和每个融过资的竞争对手的区别：</p>
-
                     <table>
                         <tr><th>玩家</th><th>做什么</th><th>缺什么</th></tr>
-                        <tr><td><strong>Kite</strong>（$3300万）</td><td>为 Agent 支付做的新公链</td><td>冷启动问题。x402 在任何链上都能跑，为什么要造新链？</td></tr>
-                        <tr><td><strong>Skyfire</strong>（$950万）</td><td>托管 Agent 钱包 + Base 上的 USDC</td><td>托管 = 单点故障。没有 prompt injection 防御。只支持 Base。</td></tr>
-                        <tr><td><strong>Natural</strong>（$980万）</td><td>B2B Agent 支付走银行通道</td><td>产品还没出来。只支持法币。没有 escrow。</td></tr>
-                        <tr><td><strong>Payman</strong>（$1380万）</td><td>网关 + 策略引擎 + 市场</td><td>什么都想做。没有协议抽象。</td></tr>
-                        <tr><td><strong>Nevermined</strong>（$700万）</td><td>AI 服务计量和计费</td><td>计费层，不是安全层。Stripe 随时能加这个功能。</td></tr>
-                        <tr><td><strong>SpendSafe</strong></td><td>非托管消费防护栏</td><td>只支持 crypto。不做协议路由。纯中间件，没有护城河。</td></tr>
+                        <tr><td><strong>Kite</strong>（$3300万）</td><td>Agent 支付新公链</td><td>冷启动。没有可观测性、策略引擎、沙盒。</td></tr>
+                        <tr><td><strong>Skyfire</strong>（$950万）</td><td>托管 Agent 钱包 + Base USDC</td><td>托管 = 单点故障。不支持多协议。没有争议解决。</td></tr>
+                        <tr><td><strong>Payman</strong>（$1380万）</td><td>网关 + 策略引擎 + 市场</td><td>什么都想做。没有测试基础设施。没有审计日志。</td></tr>
+                        <tr><td><strong>Nevermined</strong>（$700万）</td><td>AI 服务计量和计费</td><td>只做计费。没有安全、争议、沙盒。</td></tr>
+                        <tr><td><strong>SpendSafe</strong></td><td>非托管消费防护栏</td><td>只支持 crypto。单协议。没有可观测性。</td></tr>
                     </table>
 
-                    <p><strong>AgentGate 的定位：</strong>非托管、协议无关、安全优先。我们不托管资金（不像 Skyfire），不造链（不像 Kite），不做市场（不像 Payman）。我们守在 Agent 意图和支付执行之间的咽喉要道 &mdash; 这是整个堆栈中最具防御性的位置。</p>
+                    <p><strong>PaySentry 的定位：</strong>我们不造支付轨道。不托管资金。不跟协议竞争。我们是让<em>每个</em>协议都能投产的控制面 &mdash; 可观测、可治理、可审计、可测试。</p>
+
+                    <p>最贴切的类比：PaySentry 之于 Agent 支付，就像 Datadog + OPA + PagerDuty 之于云基础设施。没有人质疑你的服务器是否需要可观测性和策略执行。Agent 花钱也一样。</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>防火墙如何阻止 Prompt Injection</h2>
+                    <h2>Prompt Injection：一个控制面问题</h2>
 
-                    <p>学术界的共识（ICSE 2026、ICLR 2025、OWASP）很明确：你无法让 LLM 对 prompt injection 免疫。防御必须是<strong>架构级别的</strong>，而不是模型级别的。</p>
+                    <p>学术界的共识（ICSE 2026、ICLR 2025、OWASP）很明确：prompt injection <strong>在模型层面无法解决</strong>。Anthropic 用 Claude Opus 把攻击成功率降到了 1.4%，但 x402 年化交易额 $6 亿+ 的 1.4% 仍然是 $840 万的潜在欺诈。</p>
 
-                    <p>AgentGate 的方案，参考了 Meta 的 LlamaFirewall（90% 攻击减少率）和 Anthropic 的分类器架构：</p>
+                    <p>大多数项目把这当安全问题来造分类器。PaySentry 把它当<strong>治理问题</strong>：</p>
 
-                    <p><strong>Layer 1：注入分类器。</strong>一个轻量级模型（约 86M 参数，类似 Meta 的 PromptGuard 2）扫描每一笔交易意图中的对抗性模式。与主 Agent LLM 架构不同，所以能骗过一个模型的攻击不太可能骗过另一个。单独使用可将攻击成功率从约 17% 降至约 7%。</p>
+                    <ul>
+                        <li><strong>Observe</strong> &mdash; 检测暗示入侵的异常消费模式。Agent 突然以 10 倍正常速率消费会触发告警。</li>
+                        <li><strong>Control</strong> &mdash; 确定性策略，没有注入的 prompt 能覆盖。$100 限额就是 $100 限额，在代码中执行，不在 prompt 中。</li>
+                        <li><strong>Protect</strong> &mdash; 当攻击得逞（总会有的），审计日志提供取证，争议系统启动恢复。</li>
+                        <li><strong>Test</strong> &mdash; 预置注入场景让开发者在上线前验证防御。</li>
+                    </ul>
 
-                    <p><strong>Layer 2：结构化意图提取。</strong>Agent 的自由文本支付请求被解析为结构化 JSON schema：<code>{to, amount, currency, purpose, deadline}</code>。任何无法映射到这些字段的内容都被丢弃。这消除了隐藏在发票、邮件或 API 响应中的恶意指令。</p>
+                    <p>这是纵深防御，不是祈祷防御。即使 Agent 完全被入侵，控制面限制了爆炸半径。</p>
 
-                    <p><strong>Layer 3：意图-来源对比。</strong>结构化意图与用户的原始指令进行对比（在任何外部数据进入上下文之前，在 session 开始时存储）。语义漂移超过阈值就触发拦截。这就是&ldquo;意图指纹&rdquo;机制 &mdash; 即使 Agent 完全被入侵，用户的原始意图作为 ground truth。</p>
+                    <div class="section-divider"></div>
 
-                    <p><strong>Layer 4：确定性策略引擎。</strong>硬编码规则，没有 LLM 能覆盖：单笔限额、日限额、收款人白名单、类别限制。在代码中执行，不在 prompt 中。这是最后一道防线 &mdash; 即使 Layer 1-3 全部失败，$100 的消费限额就是 $100 的消费限额。</p>
+                    <h2>架构</h2>
 
-                    <p>组合起来，这些层将攻击面从约 17%（无保护 Agent）降至 <strong>&lt;0.2%</strong>（基于 LlamaFirewall + 分类器 + 确定性规则的估算）。对于超过可配置阈值的交易，human-in-the-loop 提供第五层防护。</p>
+<pre><code>┌─────────────────────────────────────────────┐
+│           Agent 框架层                       │
+│    (LangChain / CrewAI / AutoGen / 自定义)    │
+└──────────────────┬──────────────────────────┘
+                   │  支付意图
+                   ▼
+┌─────────────────────────────────────────────┐
+│            PaySentry 控制面                   │
+│                                               │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐     │
+│  │ Observe  │ │ Control  │ │ Protect  │     │
+│  │ 追踪     │ │ 策略     │ │ 争议     │     │
+│  │ 告警     │ │ 规则     │ │ 审计     │     │
+│  │ 分析     │ │ 中间件   │ │ 恢复     │     │
+│  └──────────┘ └──────────┘ └──────────┘     │
+│                                               │
+│  ┌──────────────────────────────────────┐    │
+│  │    Sandbox（仅开发/测试）             │    │
+│  │    mock-x402 / mock-acp / mock-ap2   │    │
+│  └──────────────────────────────────────┘    │
+└──────────────────┬──────────────────────────┘
+                   │  验证后的交易
+                   ▼
+┌─────────────────────────────────────────────┐
+│           支付协议层                          │
+│  x402 (Coinbase) │ ACP (Stripe) │ AP2 (Google)│
+│  Visa TAP │ Mastercard Agent Pay │ ERC-8004  │
+└─────────────────────────────────────────────┘</code></pre>
+
+                    <p>PaySentry 是<strong>非托管</strong>且<strong>协议无关</strong>的。它拦截支付意图，应用策略，记录一切，然后把验证后的交易传给底层协议。它永远不碰私钥或持有资金。</p>
 
                     <div class="section-divider"></div>
 
@@ -336,37 +417,24 @@ const result = await gate.pay({
 
                     <table>
                         <tr><th>层级</th><th>价格</th><th>包含什么</th></tr>
-                        <tr><td><strong>开源版</strong></td><td>免费</td><td>SDK、策略引擎、单协议路由。社区支持。</td></tr>
-                        <tr><td><strong>专业版</strong></td><td>$99/月</td><td>多协议路由、防火墙分类器、分析面板。10K 交易/月。</td></tr>
-                        <tr><td><strong>企业版</strong></td><td>定制</td><td>自定义策略、专属分类器微调、SLA、合规报告。</td></tr>
-                        <tr><td><strong>Escrow</strong></td><td>每笔 0.5%</td><td>通用 escrow + 评估者。比 TheHandshake（2.5%）和 Abraham（5%）便宜。</td></tr>
+                        <tr><td><strong>开源版</strong></td><td>免费</td><td>全部 5 个包。完整控制面。社区支持。</td></tr>
+                        <tr><td><strong>云版</strong></td><td>$99/月</td><td>托管仪表盘、托管告警、跨 Agent 分析。10K 交易/月。</td></tr>
+                        <tr><td><strong>企业版</strong></td><td>定制</td><td>自定义策略、合规报告、SLA、专属支持。</td></tr>
                     </table>
 
-                    <p>开源核心建立开发者采用。防火墙分类器是付费护城河 &mdash; 它需要对新攻击向量持续训练，这创造了一个难以复制的数据飞轮。</p>
-
-                    <div class="section-divider"></div>
-
-                    <h2>MVP：4 周</h2>
-
-                    <p><strong>第 1-2 周：SDK + 单协议。</strong>发布 <code>@agentgate/sdk</code>，支持 x402（最成熟的协议，1 亿+ 支付）。Express/Next.js 中间件。基础策略引擎（消费限额、收款人白名单）。</p>
-
-                    <p><strong>第 3 周：防火墙。</strong>集成 PromptGuard 2（Meta 开源分类器，86M 参数）。添加结构化意图提取和意图-来源对比。作为独立 npm 包发布，兼容任何 Agent 框架。</p>
-
-                    <p><strong>第 4 周：Escrow + 多协议。</strong>在 Base 上部署 escrow 合约（fork agent-escrow 和 Trust Escrow 的验证模式）。添加 AP2 路由支持法币商家。在 Moltbook 上发布社区测试。</p>
-
-                    <p><strong>后续：</strong>消费者面板（&ldquo;AI Agent 版 Mint&rdquo;）、ACP 集成支持 ChatGPT Shopping、ERC-8004 身份集成、移动推送通知做 human-in-the-loop 审批。</p>
+                    <p>开源核心建立采用。云仪表盘是付费产品 &mdash; 开发者要的是托管的可观测性，不是又一个自己运维的工具。数据护城河随每笔记录的交易增长。</p>
 
                     <div class="section-divider"></div>
 
                     <h2>赌注</h2>
 
-                    <p>Agent 支付市场预计 2026 年达 $1360 亿，2030 年达 $1.7 万亿。七个协议在竞争。$8000 万+ 的 VC 资金已经投下。但没有人占据意图和执行之间的咽喉要道。</p>
+                    <p>Agent 支付市场预计 2026 年达 $1360 亿，2030 年达 $1.7 万亿。七个协议在竞争。$8000 万+ 的 VC 资金已经投下。所有人都在造轨道。没人在造控制面。</p>
 
-                    <p>防火墙赢得互联网安全市场，不是靠替换 HTTP，而是坐在中间检查流量。AgentGate 对 Agent 支付做同样的事：不替换协议，<strong>保护协议之间的桥梁</strong>。</p>
+                    <p>Kubernetes 赢了不是因为它是更好的容器运行时。它赢了因为它是<em>所有</em>容器运行时的控制面。PaySentry 是同样的打法：不替换协议，<strong>让它们可管理</strong>。</p>
 
-                    <p>草根社区已经在造碎片 &mdash; escrow 合约、消费防护栏、注入分类器。AgentGate 是让它们协同工作的集成层。</p>
+                    <p>问题不是 Agent 会不会自主花钱 &mdash; 它们已经在花了。问题是有没有人知道它们在花什么、能不能设限额、能不能查失败、能不能安全地测试。这就是我们在做的事。</p>
 
-                    <p>谁能同时解决统一和安全，谁就赢。我们打算赢。</p>
+                    <p><strong><a href="/paysentry">探索 PaySentry &rarr;</a></strong></p>
                 </div>
             </div>
 
@@ -557,6 +625,10 @@ const result = await gate.pay({
 
                     <p>真正的 call to action 是做那个统一者 &mdash; 把这些割裂的生态连起来。但光统一还不够。如果一条 prompt injection 就能让 Agent 把钱包掏空，再好的支付轨道也白搭。<strong>谁能同时解决统一和安全，谁就赢。</strong></p>
                 </div>
+            </div>
+
+            <div class="next-post">
+                <a href="/blog/agentgate-whitepaper">Next <span class="next-arrow">&rarr;</span></a>
             </div>
 
             <!-- Footer -->]]></content:encoded>
@@ -928,6 +1000,10 @@ const result = await gate.pay({
 
                     <p><em>以上是我的使用心得，欢迎交流。</em></p>
                 </div>
+            </div>
+
+            <div class="next-post">
+                <a href="/blog/agent-payment-landscape">Next <span class="next-arrow">&rarr;</span></a>
             </div>
 
             <!-- Footer -->]]></content:encoded>
