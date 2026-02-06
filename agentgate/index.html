@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentGate - Transaction Firewall for AI Agent Payments</title>
+    <meta name="description" content="AgentGate: Unified SDK, transaction firewall, and universal escrow for AI agent payments. One API to pay via any protocol with built-in prompt injection defense.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* === RESET & VARIABLES === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --accent: #C9A84C;
+            --accent-dim: rgba(201, 168, 76, 0.12);
+            --bg: #08080A;
+            --text: #F0EDE6;
+            --muted: rgba(240, 237, 230, 0.4);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* === AMBIENT ORBS === */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(130px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 900px; height: 900px;
+            top: -25%; right: -15%;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.15;
+            animation: orbDrift 18s ease-in-out infinite alternate;
+        }
+
+        .orb-2 {
+            width: 600px; height: 600px;
+            bottom: -20%; left: -10%;
+            background: radial-gradient(circle, #1a1040 0%, transparent 70%);
+            opacity: 0.2;
+            animation: orbDrift 22s ease-in-out infinite alternate-reverse;
+        }
+
+        .orb-3 {
+            width: 400px; height: 400px;
+            top: 40%; left: 50%;
+            background: radial-gradient(circle, rgba(201, 168, 76, 0.3) 0%, transparent 70%);
+            opacity: 0.08;
+            animation: orbDrift 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes orbDrift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, -30px) scale(1.12); }
+        }
+
+        /* === GRID OVERLAY === */
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 80px 80px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* === GRID FLASHLIGHT === */
+        .grid-glow {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(rgba(201, 168, 76, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201, 168, 76, 0.08) 1px, transparent 1px);
+            background-size: 80px 80px;
+            z-index: 1;
+            pointer-events: none;
+            mask-image: radial-gradient(600px circle at var(--glow-x, -999px) var(--glow-y, -999px), black 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(600px circle at var(--glow-x, -999px) var(--glow-y, -999px), black 0%, transparent 100%);
+        }
+
+        /* === VERTICAL LINE === */
+        .v-line {
+            position: fixed;
+            left: 4rem;
+            top: 0;
+            width: 1px;
+            height: 100vh;
+            background: linear-gradient(to bottom, transparent 5%, var(--accent-dim) 30%, var(--accent-dim) 70%, transparent 95%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* === NOISE TEXTURE === */
+        .noise {
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.035;
+            mix-blend-mode: overlay;
+            pointer-events: none;
+            z-index: 100;
+            animation: grain 0.4s steps(4) infinite;
+        }
+
+        @keyframes grain {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-5%, -5%); }
+            50% { transform: translate(5%, -10%); }
+            75% { transform: translate(-10%, 5%); }
+            100% { transform: translate(5%, 5%); }
+        }
+
+        /* === VIGNETTE === */
+        .vignette {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(8, 8, 10, 0.6) 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* === CURSOR GLOW === */
+        .cursor-glow {
+            position: fixed;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(40px);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        body:hover .cursor-glow { opacity: 1; }
+
+        /* === PAGE LAYOUT === */
+        .page {
+            position: relative;
+            z-index: 3;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 4rem;
+        }
+
+        /* === TOP BAR === */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6rem;
+            opacity: 0;
+            animation: fadeDown 1s ease forwards 0.2s;
+        }
+
+        .logo {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover { color: var(--text); }
+
+        .back-link {
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover { color: var(--accent); }
+
+        /* === ANIMATIONS === */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes expandRight {
+            from { opacity: 0; width: 0; }
+            to { opacity: 1; width: 60px; }
+        }
+
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            text-align: center;
+            margin-bottom: 8rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            padding: 0.4rem 1.2rem;
+            border-radius: 100px;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.3s;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.4s;
+        }
+
+        .hero-title .accent {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: rgba(240, 237, 230, 0.6);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.02em;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.6s;
+        }
+
+        .hero-desc {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: rgba(240, 237, 230, 0.4);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.7s;
+        }
+
+        .hero-rule {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 2.5rem auto;
+            opacity: 0;
+            animation: expandRight 0.8s ease forwards 0.8s;
+        }
+
+        /* === STATUS BAR === */
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.9s;
+        }
+
+        .status-bar a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 0.45rem 1rem;
+            border: 1px solid rgba(240, 237, 230, 0.08);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .status-bar a:hover {
+            color: var(--text);
+            border-color: rgba(201, 168, 76, 0.3);
+            background: rgba(201, 168, 76, 0.05);
+        }
+
+        .status-bar a svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        /* === SECTION COMMON === */
+        section {
+            margin-bottom: 7rem;
+        }
+
+        .section-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .section-text {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: rgba(240, 237, 230, 0.55);
+            line-height: 1.8;
+            max-width: 700px;
+        }
+
+        /* === PROBLEM SECTION === */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            padding: 2rem;
+            border: 1px solid rgba(240, 237, 230, 0.06);
+            border-radius: 12px;
+            background: rgba(240, 237, 230, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(201, 168, 76, 0.2);
+            background: rgba(201, 168, 76, 0.03);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--muted);
+            letter-spacing: 0.05em;
+        }
+
+        /* === PILLARS SECTION === */
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pillar-card {
+            padding: 2.5rem 2rem;
+            border: 1px solid rgba(240, 237, 230, 0.06);
+            border-radius: 12px;
+            background: rgba(240, 237, 230, 0.015);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pillar-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .pillar-card:hover {
+            border-color: rgba(201, 168, 76, 0.2);
+            background: rgba(201, 168, 76, 0.03);
+            transform: translateY(-2px);
+        }
+
+        .pillar-card:hover::before {
+            opacity: 1;
+        }
+
+        .pillar-icon {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            background: rgba(201, 168, 76, 0.05);
+        }
+
+        .pillar-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .pillar-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .pillar-desc {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(240, 237, 230, 0.45);
+            line-height: 1.7;
+        }
+
+        .pillar-protocols {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 1rem;
+        }
+
+        .protocol-tag {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            padding: 0.2rem 0.6rem;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 4px;
+            background: rgba(201, 168, 76, 0.05);
+        }
+
+        /* === ARCHITECTURE SECTION === */
+        .arch-diagram {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            border: 1px solid rgba(240, 237, 230, 0.06);
+            border-radius: 12px;
+            background: rgba(8, 8, 10, 0.6);
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.8;
+            overflow-x: auto;
+        }
+
+        .arch-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.4rem 0;
+        }
+
+        .arch-connector {
+            text-align: center;
+            padding: 0.15rem 0;
+            color: rgba(240, 237, 230, 0.2);
+            font-size: 0.85rem;
+        }
+
+        .arch-node {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .arch-node.source {
+            background: rgba(240, 237, 230, 0.05);
+            border: 1px solid rgba(240, 237, 230, 0.1);
+            color: rgba(240, 237, 230, 0.7);
+        }
+
+        .arch-node.firewall {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #f87171;
+        }
+
+        .arch-node.router {
+            background: rgba(201, 168, 76, 0.08);
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            color: var(--accent);
+        }
+
+        .arch-node.execution {
+            background: rgba(74, 222, 128, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.25);
+            color: #4ade80;
+        }
+
+        .arch-arrow {
+            color: rgba(240, 237, 230, 0.2);
+            font-size: 1.1rem;
+        }
+
+        .arch-detail {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .arch-detail-box {
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(240, 237, 230, 0.04);
+            background: rgba(240, 237, 230, 0.015);
+        }
+
+        .arch-detail-title {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .arch-detail-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .arch-detail-list li {
+            font-size: 0.78rem;
+            color: rgba(240, 237, 230, 0.5);
+            padding: 0.25rem 0;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .arch-detail-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, 0.4);
+            transform: translateY(-50%);
+        }
+
+        /* === CODE SECTION === */
+        .code-block {
+            margin-top: 2rem;
+            border: 1px solid rgba(240, 237, 230, 0.06);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.5rem;
+            background: rgba(240, 237, 230, 0.03);
+            border-bottom: 1px solid rgba(240, 237, 230, 0.06);
+        }
+
+        .code-header-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-header-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(240, 237, 230, 0.08);
+        }
+
+        .code-header-dot:nth-child(1) { background: rgba(239, 68, 68, 0.5); }
+        .code-header-dot:nth-child(2) { background: rgba(234, 179, 8, 0.5); }
+        .code-header-dot:nth-child(3) { background: rgba(74, 222, 128, 0.5); }
+
+        .code-header-lang {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .code-body {
+            padding: 1.5rem 2rem;
+            background: rgba(8, 8, 10, 0.8);
+            overflow-x: auto;
+        }
+
+        .code-body pre {
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.82rem;
+            line-height: 1.75;
+            color: rgba(240, 237, 230, 0.7);
+            white-space: pre;
+            margin: 0;
+        }
+
+        /* Syntax highlighting */
+        .kw { color: #c792ea; }
+        .fn { color: #82aaff; }
+        .str { color: #c3e88d; }
+        .num { color: #f78c6c; }
+        .cm { color: rgba(240, 237, 230, 0.3); }
+        .ty { color: #ffcb6b; }
+        .prop { color: #89ddff; }
+
+        /* === PACKAGES SECTION === */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .package-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid rgba(240, 237, 230, 0.06);
+            border-radius: 10px;
+            background: rgba(240, 237, 230, 0.015);
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .package-card:hover {
+            border-color: rgba(201, 168, 76, 0.25);
+            background: rgba(201, 168, 76, 0.03);
+        }
+
+        .package-name {
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        .package-desc {
+            font-size: 0.78rem;
+            font-weight: 300;
+            color: var(--muted);
+            margin-top: 0.25rem;
+        }
+
+        /* === LINKS SECTION === */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid rgba(240, 237, 230, 0.06);
+            border-radius: 10px;
+            background: rgba(240, 237, 230, 0.015);
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .link-card:hover {
+            border-color: rgba(201, 168, 76, 0.3);
+            background: rgba(201, 168, 76, 0.04);
+            transform: translateY(-1px);
+        }
+
+        .link-card svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .link-card .link-label {
+            font-size: 0.82rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        .link-card .link-url {
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-top: 0.15rem;
+        }
+
+        /* === FOOTER === */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(240, 237, 230, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 3rem;
+        }
+
+        .footer-left {
+            font-size: 0.78rem;
+            font-weight: 300;
+            color: var(--muted);
+        }
+
+        .footer-left a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-left a:hover {
+            color: var(--text);
+        }
+
+        .footer-right {
+            font-size: 0.6rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .page { padding: 1.5rem; }
+            .v-line { display: none; }
+            .orb-1 { width: 500px; height: 500px; filter: blur(100px); }
+            .orb-2 { width: 350px; height: 350px; filter: blur(100px); }
+            .orb-3 { display: none; }
+            .grid-overlay { background-size: 50px 50px; }
+            .grid-glow { display: none; }
+            .cursor-glow { display: none; }
+
+            .topbar { margin-bottom: 4rem; }
+
+            .hero { margin-bottom: 5rem; }
+            .hero-title { font-size: clamp(2.8rem, 10vw, 4.5rem); }
+
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+            .stat-card { padding: 1.2rem; }
+            .stat-number { font-size: 1.8rem; }
+
+            .pillars-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+
+            .arch-detail { grid-template-columns: 1fr; }
+
+            .packages-grid { grid-template-columns: 1fr; }
+
+            .links-grid { grid-template-columns: 1fr 1fr; }
+
+            .status-bar { flex-wrap: wrap; }
+
+            .footer { flex-direction: column; gap: 1rem; align-items: flex-start; }
+        }
+
+        @media (max-width: 480px) {
+            .page { padding: 1.25rem; }
+            .orb-1 { width: 350px; height: 350px; opacity: 0.1; }
+            .orb-2 { width: 250px; height: 250px; opacity: 0.15; }
+
+            .hero-title { font-size: clamp(2.2rem, 12vw, 3.5rem); }
+            .hero-tagline { font-size: 1rem; }
+
+            .stats-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+
+            .arch-row { flex-wrap: wrap; gap: 0.5rem; }
+            .arch-node { font-size: 0.75rem; padding: 0.5rem 0.8rem; }
+
+            .links-grid { grid-template-columns: 1fr; }
+
+            .code-body { padding: 1rem; }
+            .code-body pre { font-size: 0.72rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ambient background -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+    <div class="grid-glow" id="gridGlow"></div>
+    <div class="v-line"></div>
+    <div class="noise"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="vignette"></div>
+
+    <div class="page">
+        <!-- Top bar -->
+        <header class="topbar">
+            <a href="/" class="logo">mkyang.ai</a>
+            <a href="/" class="back-link">&larr; Home</a>
+        </header>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-badge">Open Source</div>
+            <h1 class="hero-title">Agent<span class="accent">Gate</span></h1>
+            <p class="hero-tagline">Transaction Firewall for AI Agent Payments</p>
+            <div class="hero-rule"></div>
+            <p class="hero-desc">
+                A protocol abstraction layer that sits between AI agents and payment rails,
+                unifying x402, AP2, and ACP behind a single SDK with built-in prompt injection defense.
+            </p>
+            <div class="status-bar">
+                <a href="https://github.com/MichaelYangzk/agentgate" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                    GitHub
+                </a>
+                <a href="/blog/agentgate-whitepaper">
+                    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+                    Whitepaper
+                </a>
+            </div>
+        </section>
+
+        <!-- Problem Statement -->
+        <section>
+            <span class="section-label">The Problem</span>
+            <h2 class="section-title">7 protocols. None talk to each other.<br>None assume the agent could be compromised.</h2>
+            <p class="section-text">
+                The agent payment landscape is fragmenting fast. Coinbase shipped x402, Skyfire launched AP2,
+                Circle built ACP. Tens of millions in VC funding. Zero interoperability. And every single protocol
+                assumes the AI agent executing the payment is trustworthy.
+            </p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">$80M+</div>
+                    <div class="stat-label">VC funding in agent payments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Competing protocols</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Security layers</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Three Pillars -->
+        <section>
+            <span class="section-label">Core Components</span>
+            <h2 class="section-title">Three layers. One SDK.</h2>
+            <div class="pillars-grid">
+                <!-- Unified SDK -->
+                <div class="pillar-card">
+                    <div class="pillar-icon">
+                        <svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="pillar-name">Unified SDK</div>
+                    <p class="pillar-desc">
+                        One API to pay via any protocol. Write once, route to x402 for micropayments,
+                        AP2 for fiat, ACP for checkout flows. Protocol-agnostic by design.
+                    </p>
+                    <div class="pillar-protocols">
+                        <span class="protocol-tag">x402</span>
+                        <span class="protocol-tag">AP2</span>
+                        <span class="protocol-tag">ACP</span>
+                    </div>
+                </div>
+                <!-- Transaction Firewall -->
+                <div class="pillar-card">
+                    <div class="pillar-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="pillar-name">Transaction Firewall</div>
+                    <p class="pillar-desc">
+                        4-layer prompt injection defense: pattern matching, structured extraction,
+                        intent-origin diff check, and deterministic policy engine. Every transaction validated.
+                    </p>
+                    <div class="pillar-protocols">
+                        <span class="protocol-tag">4 Layers</span>
+                        <span class="protocol-tag">Injection Defense</span>
+                    </div>
+                </div>
+                <!-- Universal Escrow -->
+                <div class="pillar-card">
+                    <div class="pillar-icon">
+                        <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9m-9 9a9 9 0 019-9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="pillar-name">Universal Escrow</div>
+                    <p class="pillar-desc">
+                        Cross-platform agent-to-agent escrow on Base. Lock USDC with deadlines,
+                        evaluator pattern for delivery verification, dispute mechanism. 0.5% fee.
+                    </p>
+                    <div class="pillar-protocols">
+                        <span class="protocol-tag">Base L2</span>
+                        <span class="protocol-tag">USDC</span>
+                        <span class="protocol-tag">Solidity</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture -->
+        <section>
+            <span class="section-label">Architecture</span>
+            <h2 class="section-title">Intent to execution, secured at every step.</h2>
+            <div class="arch-diagram">
+                <div class="arch-row" style="justify-content: center;">
+                    <div class="arch-node source">Agent LLM</div>
+                    <span class="arch-arrow">&rarr;</span>
+                    <div class="arch-node firewall">Firewall</div>
+                    <span class="arch-arrow">&rarr;</span>
+                    <div class="arch-node router">Router</div>
+                    <span class="arch-arrow">&rarr;</span>
+                    <div class="arch-node execution">Payment Execution</div>
+                </div>
+                <div class="arch-detail">
+                    <div class="arch-detail-box">
+                        <div class="arch-detail-title">Firewall Layers</div>
+                        <ul class="arch-detail-list">
+                            <li>Injection Classifier (pattern-based, pluggable ML)</li>
+                            <li>Structured Intent Extraction</li>
+                            <li>Intent-Origin Diff Check</li>
+                            <li>Deterministic Policy Engine</li>
+                        </ul>
+                    </div>
+                    <div class="arch-detail-box">
+                        <div class="arch-detail-title">Protocol Router</div>
+                        <ul class="arch-detail-list">
+                            <li>x402 -- HTTP APIs, micropayments</li>
+                            <li>AP2 -- fiat merchants (planned)</li>
+                            <li>ACP -- checkout flows (planned)</li>
+                            <li>Escrow -- agent-to-agent jobs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Start -->
+        <section>
+            <span class="section-label">Quick Start</span>
+            <h2 class="section-title">Ship in minutes, not weeks.</h2>
+            <p class="section-text" style="margin-bottom: 0.5rem;">
+                Install the SDK, configure your policies, and start processing agent payments with a single API call.
+            </p>
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-header-dots">
+                        <span class="code-header-dot"></span>
+                        <span class="code-header-dot"></span>
+                        <span class="code-header-dot"></span>
+                    </div>
+                    <span class="code-header-lang">TypeScript</span>
+                </div>
+                <div class="code-body">
+<pre><span class="kw">import</span> { <span class="ty">AgentGate</span> } <span class="kw">from</span> <span class="str">'@agentgate/core'</span>;
+<span class="kw">import</span> { <span class="ty">X402Adapter</span> } <span class="kw">from</span> <span class="str">'@agentgate/x402'</span>;
+<span class="kw">import</span> { <span class="ty">TransactionFirewall</span> } <span class="kw">from</span> <span class="str">'@agentgate/firewall'</span>;
+
+<span class="kw">const</span> gate = <span class="kw">new</span> <span class="fn">AgentGate</span>({
+  <span class="prop">wallet:</span> { <span class="prop">address:</span> <span class="str">'0x...'</span> },
+  <span class="prop">policies:</span> {
+    <span class="prop">maxPerTransaction:</span> <span class="num">100</span>,
+    <span class="prop">maxDaily:</span> <span class="num">1000</span>,
+    <span class="prop">requireEscrowAbove:</span> <span class="num">50</span>,
+  },
+});
+
+gate.<span class="fn">use</span>(<span class="kw">new</span> <span class="fn">X402Adapter</span>({ <span class="prop">chain:</span> <span class="str">'base'</span> }));
+
+<span class="kw">const</span> result = <span class="kw">await</span> gate.<span class="fn">pay</span>({
+  <span class="prop">to:</span> <span class="str">'https://api.example.com/data'</span>,
+  <span class="prop">amount:</span> <span class="num">0.50</span>,
+  <span class="prop">currency:</span> <span class="str">'USDC'</span>,
+  <span class="prop">purpose:</span> <span class="str">'Fetch market data'</span>,
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Packages -->
+        <section>
+            <span class="section-label">Packages</span>
+            <h2 class="section-title">Modular by design.</h2>
+            <div class="packages-grid">
+                <div class="package-card">
+                    <div>
+                        <div class="package-name">@agentgate/core</div>
+                        <div class="package-desc">Types, policy engine, main AgentGate class</div>
+                    </div>
+                </div>
+                <div class="package-card">
+                    <div>
+                        <div class="package-name">@agentgate/firewall</div>
+                        <div class="package-desc">Injection classifier, intent extractor, drift detection</div>
+                    </div>
+                </div>
+                <div class="package-card">
+                    <div>
+                        <div class="package-name">@agentgate/x402</div>
+                        <div class="package-desc">x402 protocol adapter (Coinbase)</div>
+                    </div>
+                </div>
+                <div class="package-card">
+                    <div>
+                        <div class="package-name">@agentgate/escrow</div>
+                        <div class="package-desc">Solidity escrow contract + TypeScript client (Base)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Links -->
+        <section>
+            <span class="section-label">Links</span>
+            <h2 class="section-title">Go deeper.</h2>
+            <div class="links-grid">
+                <a href="https://github.com/MichaelYangzk/agentgate" target="_blank" rel="noopener" class="link-card">
+                    <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div>
+                        <div class="link-label">Source Code</div>
+                        <div class="link-url">github.com/MichaelYangzk/agentgate</div>
+                    </div>
+                </a>
+                <a href="/blog/agentgate-whitepaper" class="link-card">
+                    <svg viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div>
+                        <div class="link-label">Whitepaper</div>
+                        <div class="link-url">mkyang.ai/blog/agentgate-whitepaper</div>
+                    </div>
+                </a>
+                <a href="/blog/agent-payment-landscape" class="link-card">
+                    <svg viewBox="0 0 24 24"><path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div>
+                        <div class="link-label">Research</div>
+                        <div class="link-url">Agent Payment Landscape Analysis</div>
+                    </div>
+                </a>
+                <a href="https://www.npmjs.com/search?q=%40agentgate" target="_blank" rel="noopener" class="link-card">
+                    <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div>
+                        <div class="link-label">npm Packages</div>
+                        <div class="link-url">@agentgate/*</div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-left">
+                Built by <a href="/">Michael Yang</a>
+            </div>
+            <div class="footer-right">&copy; 2025 Michael Yang</div>
+        </footer>
+    </div>
+
+    <script>
+        // Cursor glow + interactive grid flashlight
+        const glow = document.getElementById('cursorGlow');
+        const gridGlow = document.getElementById('gridGlow');
+        let mx = 0, my = 0, cx = 0, cy = 0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+            gridGlow.style.setProperty('--glow-x', e.clientX + 'px');
+            gridGlow.style.setProperty('--glow-y', e.clientY + 'px');
+        });
+
+        function animateGlow() {
+            cx += (mx - cx) * 0.08;
+            cy += (my - cy) * 0.08;
+            glow.style.left = cx + 'px';
+            glow.style.top = cy + 'px';
+            requestAnimationFrame(animateGlow);
+        }
+        animateGlow();
+    </script>
+</body>
+</html>
