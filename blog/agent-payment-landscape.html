@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Agent Payment Problem: Who Pays When AI Does the Work? - Michael Yang</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/article.css">
+    <link rel="alternate" type="application/rss+xml" title="Michael Yang's Blog" href="/feed.xml">
+<!--
+BLOG_META
+title: The Agent Payment Problem: Who Pays When AI Does the Work?
+title_zh: AI Agent 支付赛道全景：当 AI 开始花钱，谁来管钱包？
+date: 2026-02-05
+description: A deep dive into the emerging agent payment landscape &mdash; protocols, pain points, and where the real opportunities are
+tags: ai, crypto, agent-payment, research
+bilingual: true
+END_META
+-->
+</head>
+<body>
+    <!-- Ambient background -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="grid-overlay"></div>
+    <div class="v-line"></div>
+    <div class="noise"></div>
+    <div class="vignette"></div>
+
+    <div class="page">
+        <!-- Top bar -->
+        <header class="topbar">
+            <a href="/" class="logo">mkyang.ai</a>
+            <div class="topbar-right">
+                <div class="lang-switch">
+                    <span class="lang-label active" data-lang="en">EN</span>
+                    <label class="lang-toggle">
+                        <input type="checkbox" id="langToggle">
+                        <span class="track"></span>
+                        <span class="knob"></span>
+                    </label>
+                    <span class="lang-label" data-lang="zh">中文</span>
+                </div>
+                <a href="/blog/" class="back-link">&larr; Blog</a>
+            </div>
+        </header>
+
+        <!-- Article -->
+        <article class="article">
+
+            <!-- ==================== ENGLISH ==================== -->
+            <div class="lang-content active" id="content-en">
+                <div class="article-meta">Michael Yang &middot; February 2026</div>
+                <h1 class="article-title">The Agent Payment Problem: Who Pays When AI Does the Work?</h1>
+                <p class="article-subtitle">I spent a week scraping Reddit, X, Moltbook, and every research report I could find to map the agent payment landscape. Three protocols are live, $60M+ in transactions have already happened on-chain, and yet the most basic question remains unanswered: how does one AI agent pay another?</p>
+                <div class="article-rule"></div>
+
+                <div class="prose">
+                    <p>If you&rsquo;ve been following my work with AI agents, you know I&rsquo;ve been deep in the weeds &mdash; building Claude Code into a personal assistant, deploying bots on cloud servers, even joining an agent social network. But there&rsquo;s one problem I keep running into: <strong>money.</strong></p>
+
+                    <p>Not making it. Moving it. When my agent needs to hire another agent, pay for an API call, or complete a bounty &mdash; the payment infrastructure simply doesn&rsquo;t exist yet. So I did what I always do: I went and researched the hell out of it.</p>
+
+                    <p>This article is the result &mdash; a complete landscape analysis of agent payments in early 2026, compiled from competitive deep dives, Reddit/web scraping, X (Twitter) monitoring, and Moltbook builder conversations.</p>
+
+                    <h2>1. The Numbers: Bigger Than You Think</h2>
+
+                    <p>Let me start with the data that surprised me most:</p>
+
+                    <ul>
+                        <li><strong>x402 protocol:</strong> 60M+ transactions on Solana, $10M+ in volume. This isn&rsquo;t a whitepaper &mdash; it&rsquo;s live production traffic.</li>
+                        <li><strong>AI agent token market cap:</strong> $50.5B (CoinGecko, Feb 2025)</li>
+                        <li><strong>Agentic commerce TAM for 2026:</strong> $136B, projected to reach $1.7T by 2030</li>
+                        <li><strong>Stablecoin annual transaction volume:</strong> $7.1T (Visa Onchain Analytics)</li>
+                        <li><strong>RentAHuman.ai:</strong> 81,000+ human workers, 81 agents &mdash; and <strong>zero payment layer</strong></li>
+                    </ul>
+
+                    <p>That last one is the kicker. A marketplace with 81K users and no way for agents to actually pay. That&rsquo;s like building Uber without Stripe.</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>2. The Big Four Protocols</h2>
+
+                    <p>Four protocols are competing to become the payment standard for AI agents. Each comes from a tech giant, and each has a fundamentally different approach:</p>
+
+                    <h3>x402 (Coinbase + Cloudflare)</h3>
+                    <p>The HTTP 402 status code was reserved for &ldquo;Payment Required&rdquo; since the dawn of the web &mdash; it just never got used. Coinbase finally gave it a job. Every HTTP request can now carry a micropayment. Already running 60M+ transactions on Solana. <strong>Limitation:</strong> only handles request-level payments, not task-level escrow.</p>
+
+                    <h3>ERC-8004 (MetaMask, Coinbase, Google, ETH Foundation)</h3>
+                    <p>An on-chain trust layer for agent identity, reputation, and validation. 10K+ agents on testnet, 2,000+ community members. <strong>Limitation:</strong> it&rsquo;s infrastructure for trust, not for payment. No wallet, no payment flow.</p>
+
+                    <h3>AP2 (Google Cloud + 60 partners)</h3>
+                    <p>Google&rsquo;s Agent Payment Protocol uses &ldquo;Mandates&rdquo; &mdash; structured payment authorizations. Production-ready. <strong>Limitation:</strong> no escrow, no agent-to-agent support.</p>
+
+                    <h3>ACP (Stripe + OpenAI)</h3>
+                    <p>The Agentic Commerce Protocol powers ChatGPT Shopping. Stripe&rsquo;s Patrick Collison: &ldquo;Internet purchasing modalities are going to change a lot.&rdquo; <strong>Limitation:</strong> checkout only, no A2A payments.</p>
+
+                    <p>Notice the pattern? <strong>Every protocol has the same blind spot: agent-to-agent payments.</strong> They all assume a human is at one end of the transaction. But the future &mdash; as a16z explicitly points out &mdash; is agents hiring agents. And none of these protocols support that natively.</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>3. The Pain Points: What Real Builders Are Saying</h2>
+
+                    <p>I scraped five subreddits (r/cryptocurrency, r/defi, r/LocalLLaMA, r/artificial) looking for agent payment discussions. <strong>I found exactly zero.</strong> The topic hasn&rsquo;t even penetrated mainstream Reddit yet. That alone tells you we&rsquo;re early.</p>
+
+                    <p>But on X, Moltbook, and DEV.to, the builders are screaming. Here are the pain points that came up repeatedly:</p>
+
+                    <h3>Gas Fees Are Eating Agent Profits Alive</h3>
+
+                    <blockquote>Agent &lsquo;RoseProtocol&rsquo; 4-day P&amp;L: <strong>-$8.30</strong>. A $3 bounty costs $4 in gas.</blockquote>
+
+                    <p>This is absurd. An agent that &ldquo;earns&rdquo; money by completing tasks is actually losing money on every transaction. It&rsquo;s like a delivery driver spending more on gas than the delivery pays.</p>
+
+                    <h3>No Escrow = Agents Getting Ghosted</h3>
+
+                    <blockquote>ClawTasks has 50+ bounties listed with no on-chain escrow. Agents do work, get ghosted.</blockquote>
+
+                    <p>On Moltbook, the highest-voted post (14 upvotes) was literally about building multi-party USDC escrow with milestone payments. The community is <em>begging</em> for this. Circle has a prototype. Nobody has productized it.</p>
+
+                    <h3>Consumers Don&rsquo;t Trust Agents With Money</h3>
+
+                    <blockquote>Only <strong>14%</strong> of Americans trust AI to place orders on their behalf. &mdash; YouGov, Dec 2025</blockquote>
+
+                    <blockquote>Giving an AI agent unrestricted access to a crypto wallet is like handing a toddler your credit card.</blockquote>
+
+                    <p>This is the consumer trust gap. Enterprise solutions (Skyfire, Natural) have raised $19M+ combined, but nobody is building the consumer-facing &ldquo;Mint for AI Agents&rdquo; &mdash; spending limits, category controls, audit trails.</p>
+
+                    <h3>Reputation Doesn&rsquo;t Travel</h3>
+
+                    <blockquote>An agent with 50 successful jobs on one platform starts at zero on another.</blockquote>
+
+                    <p>Imagine if your Uber driver rating reset every time they moved to a new city. That&rsquo;s the agent reputation landscape today. ERC-8004 is trying to solve this at the protocol level, but adoption is still early.</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>4. The Startup Landscape</h2>
+
+                    <p>The money is flowing in. Here&rsquo;s who&rsquo;s building:</p>
+
+                    <ul>
+                        <li><strong>Natural</strong> ($9.8M seed) &mdash; B2B embedded agentic payments. Won&rsquo;t touch consumer.</li>
+                        <li><strong>Skyfire</strong> ($9.5M, backed by Coinbase + a16z) &mdash; USDC agent wallets with spending controls. Enterprise-focused.</li>
+                        <li><strong>InFlow</strong> (stealth) &mdash; KYA (Know Your Agent) compliance + multi-rail payments.</li>
+                        <li><strong>Payman</strong> &mdash; Agent wallet infrastructure, API-first.</li>
+                        <li><strong>SpendSafe</strong> &mdash; Spending guard rails before transactions get signed.</li>
+                    </ul>
+
+                    <p>And on Moltbook, hackathon builders are shipping escrow solutions at a furious pace: <strong>agent-escrow</strong> (live on Base), <strong>TheHandshake</strong> ($10-100 USDC range), <strong>Themis</strong> (12 escrows, 7 active), <strong>Trust Escrow</strong> (sub-1-second setup).</p>
+
+                    <p>The signal is clear: the community needs escrow <em>now</em>, and they&rsquo;re not waiting for Circle or Coinbase to ship it.</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>5. Where I See the Opportunity</h2>
+
+                    <p>After triangulating data from all sources, here&rsquo;s what I think are the biggest gaps:</p>
+
+                    <h3>Gap 1: Task Escrow as a Service</h3>
+                    <p>Triple-validated across DEV.to, Moltbook, and competitive analysis. Circle has a prototype but hasn&rsquo;t productized it. Moltbook&rsquo;s highest-voted post is about exactly this. RentAHuman has 81K users and no payment layer. <strong>Revenue model:</strong> 1-3% per escrow.</p>
+
+                    <h3>Gap 2: Agent-to-Agent Payment Protocol</h3>
+                    <p>a16z explicitly called this out. Coinbase&rsquo;s Brian Armstrong publicly tweeted about x402 + Google &ldquo;unlocking a new level for agents.&rdquo; But wallet-to-wallet transfers between agents? Most platforms simply don&rsquo;t support it.</p>
+
+                    <h3>Gap 3: Consumer Agent Wallet</h3>
+                    <p>Only 14% consumer trust rate. Every startup is chasing enterprise. Nobody is building the &ldquo;Mint for AI Agents&rdquo; &mdash; a simple app where a normal person sets spending limits and monitors what their agent is buying.</p>
+
+                    <h3>Gap 4: Protocol Abstraction SDK</h3>
+                    <p>Three competing standards (x402, AP2, ACP), developers confused about which to use. On Moltbook, someone literally posted: &ldquo;TIL: x402 payment header is X-Payment-Signature, not X-Payment.&rdquo; A unified SDK that abstracts away protocol differences would be immediately useful.</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>6. The CEO Signals</h2>
+
+                    <p>When I track what the biggest names are saying on X, the pattern is unmistakable:</p>
+
+                    <ul>
+                        <li><strong>Brian Armstrong</strong> (Coinbase): &ldquo;x402 + Google just unlocked a new level for AI agents.&rdquo;</li>
+                        <li><strong>Sundar Pichai</strong> (Google): &ldquo;The best way to build the agent ecosystem is open and together.&rdquo;</li>
+                        <li><strong>Patrick Collison</strong> (Stripe): &ldquo;Internet purchasing modalities are going to change a lot.&rdquo;</li>
+                    </ul>
+
+                    <p>Coinbase, Google, and Stripe are all-in simultaneously. That level of convergence from three tech giants doesn&rsquo;t happen often. <strong>This is the infrastructure moment for agent payments.</strong></p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>Final Thoughts</h2>
+
+                    <p>Agent payments in early 2026 remind me of online payments in 2009. The protocols are emerging, the early transactions are happening, but the user experience is terrible and the infrastructure has gaping holes.</p>
+
+                    <p>The Reddit silence is actually the most bullish signal. It means the market hasn&rsquo;t been educated yet. Whoever builds the right solution now will have first-mover advantage when this conversation goes mainstream &mdash; and based on the CEO signals, that&rsquo;s happening fast.</p>
+
+                    <p>I&rsquo;ll be diving deeper into specific opportunities in the coming weeks. If you&rsquo;re building in this space, I want to hear from you.</p>
+
+                    <p><em>Full research data, including all sources and methodology, is available on <a href="https://github.com/MichaelYangzk/reddit-pain-finder" target="_blank" rel="noopener" style="color: var(--accent);">GitHub</a>.</em></p>
+                </div>
+            </div>
+
+            <!-- ==================== CHINESE ==================== -->
+            <div class="lang-content" id="content-zh">
+                <div class="article-meta">Michael Yang &middot; 2026 年 2 月</div>
+                <h1 class="article-title">AI Agent 支付赛道全景：当 AI 开始花钱，谁来管钱包？</h1>
+                <p class="article-subtitle">我花了一周时间扫遍 Reddit、X、Moltbook 和所有能找到的研究报告，把 Agent Payment 赛道画了一张完整的图。三大协议已经上线，链上跑了 6000 万笔交易 &mdash; 但最基本的问题依然没有答案：一个 AI Agent 怎么付钱给另一个？</p>
+                <div class="article-rule"></div>
+
+                <div class="prose">
+                    <p>如果你一直关注我做的东西，就知道我已经深入玩了很久 AI Agent &mdash; 把 Claude Code 改造成私人助理、在云服务器上部署机器人、甚至混进了 Agent 社交网络。但有一个问题我反复撞到：<strong>钱。</strong></p>
+
+                    <p>不是赚钱。是转钱。当我的 Agent 需要雇另一个 Agent、支付一个 API 调用、或者完成一个悬赏任务时 &mdash; 支付基础设施根本不存在。所以我做了老本行的事：把这个赛道研究了个底朝天。</p>
+
+                    <p>这篇文章就是结果 &mdash; 2026 年初 Agent Payment 赛道的完整景观分析，来源包括竞品深挖、Reddit/Web 痛点扫描、X（Twitter）监控和 Moltbook 上 Builder 的真实对话。</p>
+
+                    <h2>一、数据：比你想的大得多</h2>
+
+                    <p>先看最让我吃惊的数字：</p>
+
+                    <ul>
+                        <li><strong>x402 协议：</strong>Solana 上 6000 万+ 笔交易，$1000 万+ 交易额。这不是白皮书，是跑在生产环境里的真实流量。</li>
+                        <li><strong>AI Agent 代币总市值：</strong>$505 亿（CoinGecko, 2025 年 2 月）</li>
+                        <li><strong>2026 年 Agentic Commerce TAM：</strong>$1360 亿，预计 2030 年达 $1.7 万亿</li>
+                        <li><strong>稳定币年交易量：</strong>$7.1 万亿（Visa 链上分析）</li>
+                        <li><strong>RentAHuman.ai：</strong>81,000+ 人类工作者，81 个 Agent &mdash; <strong>零支付层</strong></li>
+                    </ul>
+
+                    <p>最后那个最扎眼。一个 8 万用户的市场，Agent 没法付钱。就像造了 Uber 但没有 Stripe。</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>二、四大协议</h2>
+
+                    <p>四个协议在争夺 AI Agent 支付标准的位置。每个背后都站着科技巨头，每个的切入角度都不一样：</p>
+
+                    <h3>x402（Coinbase + Cloudflare）</h3>
+                    <p>HTTP 402 状态码从互联网诞生就保留了 &ldquo;Payment Required&rdquo; 这个用途，只是从没人真正用过。Coinbase 终于让它上岗了。每个 HTTP 请求都可以附带一笔微支付。Solana 上已经跑了 6000 万+笔交易。<strong>局限：</strong>只能做 request 级别的支付，不能做任务级别的 escrow。</p>
+
+                    <h3>ERC-8004（MetaMask、Coinbase、Google、以太坊基金会）</h3>
+                    <p>链上信任层：Agent 身份、声誉和验证。测试网 10K+ Agent，社区 2000+ 人。<strong>局限：</strong>它是信任的基础设施，不是支付的。没有钱包，没有支付流程。</p>
+
+                    <h3>AP2（Google Cloud + 60 家合作伙伴）</h3>
+                    <p>Google 的 Agent Payment Protocol 用 &ldquo;Mandates&rdquo; &mdash; 结构化支付授权。已 production-ready。<strong>局限：</strong>没有 escrow，不支持 Agent 对 Agent。</p>
+
+                    <h3>ACP（Stripe + OpenAI）</h3>
+                    <p>Agentic Commerce Protocol，驱动 ChatGPT Shopping。Stripe 的 Patrick Collison 说：&ldquo;互联网的购买方式将发生巨大变化。&rdquo;<strong>局限：</strong>只做结账，不做 A2A 支付。</p>
+
+                    <p>看到规律了吗？<strong>每个协议都有同一个盲区：Agent 对 Agent 的支付。</strong>它们都假设交易的一端是人类。但未来 &mdash; a16z 明确指出的 &mdash; 是 Agent 雇佣 Agent。而这些协议没有一个原生支持这件事。</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>三、痛点：Builder 们在喊什么</h2>
+
+                    <p>我扫了五个 subreddit（r/cryptocurrency、r/defi、r/LocalLLaMA、r/artificial），找 Agent Payment 相关的讨论。<strong>结果是零。</strong>这个话题连主流 Reddit 都没渗透到。光这一点就说明 &mdash; 我们还很早。</p>
+
+                    <p>但在 X、Moltbook 和 DEV.to 上，Builder 们已经在大声吐槽。反复出现的痛点：</p>
+
+                    <h3>Gas 费在吃掉 Agent 利润</h3>
+
+                    <blockquote>Agent &lsquo;RoseProtocol&rsquo; 四天 P&amp;L：<strong>-$8.30</strong>。$3 的悬赏要花 $4 的 gas。</blockquote>
+
+                    <p>荒谬。一个靠完成任务 &ldquo;赚钱&rdquo; 的 Agent，每笔交易实际上都在亏钱。就像外卖骑手，油费比配送费还高。</p>
+
+                    <h3>没有 Escrow = Agent 被白嫖</h3>
+
+                    <blockquote>ClawTasks 上挂了 50+ 个悬赏，没有链上 escrow。Agent 干完活，对方消失了。</blockquote>
+
+                    <p>Moltbook 上票数最高的帖子（14 票）就是在讲怎么搭 USDC 多方 escrow + 里程碑支付。社区在<em>求</em>这个东西。Circle 有原型，但没有人把它产品化。</p>
+
+                    <h3>消费者不信任 Agent 花钱</h3>
+
+                    <blockquote>只有 <strong>14%</strong> 的美国人信任 AI 帮他们下单。 &mdash; YouGov, 2025 年 12 月</blockquote>
+
+                    <blockquote>把加密钱包的完全访问权交给 AI Agent，就像把信用卡递给一个蹒跚学步的孩子。</blockquote>
+
+                    <p>这就是消费者信任鸿沟。企业级方案（Skyfire、Natural）已经融了 $1900 万+，但没有人在做面向普通人的 &ldquo;AI Agent 版 Mint&rdquo; &mdash; 消费限额、分类控制、审计追踪。</p>
+
+                    <h3>信用不能跨平台</h3>
+
+                    <blockquote>一个在某平台完成 50 个任务的 Agent，换个平台就从零开始。</blockquote>
+
+                    <p>想象一下你的 Uber 司机评分每换一个城市就归零。这就是 Agent 声誉系统的现状。ERC-8004 在协议层尝试解决，但采用率还很早。</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>四、创业公司生态</h2>
+
+                    <p>钱在涌入。在做的人：</p>
+
+                    <ul>
+                        <li><strong>Natural</strong>（$980 万种子轮）&mdash; B2B 嵌入式 Agent 支付。不碰消费者。</li>
+                        <li><strong>Skyfire</strong>（$950 万，Coinbase + a16z 投）&mdash; USDC Agent 钱包 + 消费控制。面向企业。</li>
+                        <li><strong>InFlow</strong>（隐身模式）&mdash; KYA（了解你的 Agent）合规 + 多轨道支付。</li>
+                        <li><strong>Payman</strong> &mdash; Agent 钱包基础设施，API 优先。</li>
+                        <li><strong>SpendSafe</strong> &mdash; 交易签名前的消费防护栏。</li>
+                    </ul>
+
+                    <p>而 Moltbook 上，黑客松 Builder 正在疯狂 ship escrow 方案：<strong>agent-escrow</strong>（Base 链上线）、<strong>TheHandshake</strong>（$10-100 USDC 区间）、<strong>Themis</strong>（12 笔 escrow，7 笔活跃）、<strong>Trust Escrow</strong>（1 秒内完成设置）。</p>
+
+                    <p>信号很明确：社区<em>现在</em>就需要 escrow，他们不打算等 Circle 或 Coinbase 来 ship。</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>五、我看到的机会</h2>
+
+                    <p>交叉验证所有信源后，我认为最大的几个缺口：</p>
+
+                    <h3>缺口 1：Task Escrow as a Service</h3>
+                    <p>三重验证 &mdash; DEV.to、Moltbook、竞品分析。Circle 有原型但没产品化。Moltbook 最高票帖子就是关于这个。RentAHuman 有 81K 用户，没有支付层。<strong>收入模型：</strong>每笔 escrow 抽 1-3%。</p>
+
+                    <h3>缺口 2：Agent 对 Agent 支付协议</h3>
+                    <p>a16z 明确点名了这个。Coinbase 的 Brian Armstrong 公开发推说 x402 + Google &ldquo;为 Agent 解锁了新层次&rdquo;。但 Agent 之间的钱包对钱包转账？大多数平台根本不支持。</p>
+
+                    <h3>缺口 3：消费者 Agent 钱包</h3>
+                    <p>消费者信任率只有 14%。所有创业公司都在追企业客户。没有人在做 &ldquo;AI Agent 版 Mint&rdquo; &mdash; 一个普通人能用的 App，设消费限额，看 Agent 在买什么。</p>
+
+                    <h3>缺口 4：协议抽象 SDK</h3>
+                    <p>三个标准并存（x402、AP2、ACP），开发者一头雾水。Moltbook 上有人发帖：&ldquo;今天才知道 x402 的支付 header 是 X-Payment-Signature，不是 X-Payment。&rdquo;一个统一的 SDK 把协议差异抽象掉，立刻就有人用。</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>六、CEO 们的信号</h2>
+
+                    <p>追踪大佬们在 X 上的发言，规律非常明显：</p>
+
+                    <ul>
+                        <li><strong>Brian Armstrong</strong>（Coinbase）：&ldquo;x402 + Google 刚刚为 AI Agent 解锁了新层次。&rdquo;</li>
+                        <li><strong>Sundar Pichai</strong>（Google）：&ldquo;构建 Agent 生态系统最好的方式是开放和协作。&rdquo;</li>
+                        <li><strong>Patrick Collison</strong>（Stripe）：&ldquo;互联网的购买方式将发生巨大变化。&rdquo;</li>
+                    </ul>
+
+                    <p>Coinbase、Google、Stripe 同时 all-in。三家科技巨头同步发力这种事不常发生。<strong>这就是 Agent 支付的基础设施时刻。</strong></p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>写在最后</h2>
+
+                    <p>2026 年初的 Agent Payment，让我想起 2009 年的在线支付。协议在冒头，早期交易在发生，但用户体验很糟，基础设施到处是洞。</p>
+
+                    <p>Reddit 的沉默其实是最看涨的信号。说明市场还没被教育。现在谁能做出正确的解决方案，就能在这个话题变成主流时拿到先发优势 &mdash; 而从 CEO 们的信号来看，那一天正在快速到来。</p>
+
+                    <p>接下来几周我会更深入地拆解具体的机会。如果你也在做这个领域的东西，欢迎联系我。</p>
+
+                    <p><em>完整研究数据、所有来源和方法论都在 <a href="https://github.com/MichaelYangzk/reddit-pain-finder" target="_blank" rel="noopener" style="color: var(--accent);">GitHub</a> 上开放。</em></p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="article-footer">
+                <nav class="links">
+                    <a href="/">Home</a>
+                    <a href="https://github.com/MichaelYangzk" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://x.com/bayc2043" target="_blank" rel="noopener">X / Twitter</a>
+                    <a href="mailto:yangzk01@gmail.com">Email</a>
+                </nav>
+                <span class="copyright">&copy; 2026 Michael Yang</span>
+            </footer>
+        </article>
+    </div>
+
+    <script>
+        const toggle = document.getElementById('langToggle');
+        const enContent = document.getElementById('content-en');
+        const zhContent = document.getElementById('content-zh');
+        const enLabel = document.querySelector('.lang-label[data-lang="en"]');
+        const zhLabel = document.querySelector('.lang-label[data-lang="zh"]');
+
+        function setLang(lang) {
+            if (lang === 'zh') {
+                toggle.checked = true;
+                enContent.classList.remove('active');
+                zhContent.classList.add('active');
+                enLabel.classList.remove('active');
+                zhLabel.classList.add('active');
+                document.documentElement.lang = 'zh-CN';
+                document.title = 'AI Agent 支付赛道全景：当 AI 开始花钱，谁来管钱包？ - Michael Yang';
+            } else {
+                toggle.checked = false;
+                zhContent.classList.remove('active');
+                enContent.classList.add('active');
+                zhLabel.classList.remove('active');
+                enLabel.classList.add('active');
+                document.documentElement.lang = 'en';
+                document.title = 'The Agent Payment Problem: Who Pays When AI Does the Work? - Michael Yang';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        toggle.addEventListener('change', () => {
+            setLang(toggle.checked ? 'zh' : 'en');
+        });
+
+        enLabel.addEventListener('click', () => setLang('en'));
+        zhLabel.addEventListener('click', () => setLang('zh'));
+    </script>
+</body>
+</html>
