@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgentGate - Transaction Firewall for AI Agent Payments</title>
     <meta name="description" content="AgentGate: Unified SDK, transaction firewall, and universal escrow for AI agent payments. One API to pay via any protocol with built-in prompt injection defense.">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/agentgate/logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
@@ -849,12 +849,16 @@
     <div class="page">
         <!-- Top bar -->
         <header class="topbar">
-            <a href="/" class="logo">mkyang.ai</a>
+            <a href="/agentgate" class="logo" style="display: flex; align-items: center; gap: 0.5rem;">
+                <img src="/agentgate/logo.svg" alt="" style="width: 18px; height: 18px;">
+                AgentGate
+            </a>
             <a href="/" class="back-link">&larr; Home</a>
         </header>
 
         <!-- Hero -->
         <section class="hero">
+            <img src="/agentgate/logo.svg" alt="AgentGate" style="width: 72px; height: 72px; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;">
             <div class="hero-badge">Open Source</div>
             <h1 class="hero-title">Agent<span class="accent">Gate</span></h1>
             <p class="hero-tagline">Transaction Firewall for AI Agent Payments</p>
@@ -880,13 +884,14 @@
             <span class="section-label">The Problem</span>
             <h2 class="section-title">7 protocols. None talk to each other.<br>None assume the agent could be compromised.</h2>
             <p class="section-text">
-                The agent payment landscape is fragmenting fast. Coinbase shipped x402, Skyfire launched AP2,
-                Circle built ACP. Tens of millions in VC funding. Zero interoperability. And every single protocol
+                The agent payment landscape is fragmenting fast. Coinbase shipped x402, Google proposed AP2,
+                Stripe and OpenAI built ACP. Over $75M in VC funding across Kite, Payman, Skyfire, Natural,
+                Nevermined, and others. Zero interoperability. And every single protocol
                 assumes the AI agent executing the payment is trustworthy.
             </p>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">$80M+</div>
+                    <div class="stat-number">$75M+</div>
                     <div class="stat-label">VC funding in agent payments</div>
                 </div>
                 <div class="stat-card">
@@ -1107,7 +1112,7 @@ gate.<span class="fn">use</span>(<span class="kw">new</span> <span class="fn">X4
             <div class="footer-left">
                 Built by <a href="/">Michael Yang</a>
             </div>
-            <div class="footer-right">&copy; 2025 Michael Yang</div>
+            <div class="footer-right">&copy; 2026 Michael Yang</div>
         </footer>
     </div>
 
