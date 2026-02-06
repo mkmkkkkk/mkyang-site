@@ -66,9 +66,9 @@ END_META
 
                     <h2>The Scale: Bigger Than You Think</h2>
 
-                    <p>Coinbase&rsquo;s x402 protocol has processed over <strong>100 million payment flows</strong> across Solana, Base, and other chains &mdash; $600M+ in annualized volume. This isn&rsquo;t a whitepaper; it&rsquo;s live production traffic. Meanwhile, the agentic commerce TAM for 2026 sits at $136B, projected to hit $1.7T by 2030. Stablecoins alone are moving $7.1 trillion a year.</p>
+                    <p>Coinbase&rsquo;s <a href="https://www.x402.org/" target="_blank" rel="noopener">x402</a> protocol has processed over <strong>100 million payment flows</strong> across Solana, Base, and other chains &mdash; $600M+ in annualized volume. This isn&rsquo;t a whitepaper; it&rsquo;s live production traffic. Meanwhile, the agentic commerce TAM for 2026 sits at $136B, projected to hit $1.7T by 2030. Stablecoins alone are moving $7.1 trillion a year.</p>
 
-                    <p>Then there&rsquo;s <strong>RentAHuman.ai</strong> &mdash; the hottest agent marketplace right now. 81,000+ human workers, agents booking tasks via a single MCP call, payments through crypto wallets, stablecoins, and even Stripe. Sounds slick. But look closer: only 13% of users have connected a wallet. There&rsquo;s no escrow &mdash; agents transfer funds before task completion on blind faith. No dispute resolution. No fee transparency. A $40 job to pick up a USPS package attracted 30 applicants and sat incomplete for two days. The payment rails <em>exist</em>, but the trust layer is duct tape &mdash; and that&rsquo;s the platform with the most traction.</p>
+                    <p>Then there&rsquo;s <strong><a href="https://rentahuman.ai/" target="_blank" rel="noopener">RentAHuman.ai</a></strong> &mdash; the hottest agent marketplace right now. 81,000+ human workers, agents booking tasks via a single MCP call, payments through crypto wallets, stablecoins, and even Stripe. Sounds slick. But look closer: only 13% of users have connected a wallet. There&rsquo;s no escrow &mdash; agents transfer funds before task completion on blind faith. No dispute resolution. No fee transparency. A $40 job to pick up a USPS package attracted 30 applicants and sat incomplete for two days. The payment rails <em>exist</em>, but the trust layer is duct tape &mdash; and that&rsquo;s the platform with the most traction.</p>
 
                     <p>Big volume, big ambition, gaping holes. But raw volume hides a deeper problem.</p>
 
@@ -80,15 +80,15 @@ END_META
 
                     <p><strong>x402 (Coinbase + Cloudflare)</strong> took the HTTP 402 status code &mdash; reserved for &ldquo;Payment Required&rdquo; since the dawn of the web but never used &mdash; and finally gave it a job. Every HTTP request can now carry a stablecoin micropayment. $600M+ in volume, V2 launched January 2026. Elegant, but it only handles request-level payments &mdash; escrow is still just a GitHub proposal on testnet, not shipped.</p>
 
-                    <p><strong>ERC-8004 (MetaMask, Coinbase, Google, ETH Foundation)</strong> is building the trust layer &mdash; agent identity, reputation, validation. 24K+ agents on Ethereum mainnet since January 2026, expanding to BNB Chain. But it&rsquo;s infrastructure for trust, not for payment &mdash; the passport and credit score, not the bank account.</p>
+                    <p><strong><a href="https://eips.ethereum.org/EIPS/eip-8004" target="_blank" rel="noopener">ERC-8004</a> (MetaMask, Coinbase, Google, ETH Foundation)</strong> is building the trust layer &mdash; agent identity, reputation, validation. 24K+ agents on Ethereum mainnet since January 2026, expanding to BNB Chain. But it&rsquo;s infrastructure for trust, not for payment &mdash; the passport and credit score, not the bank account.</p>
 
-                    <p><strong>AP2 (Google Cloud + 60 partners)</strong> uses &ldquo;Mandates&rdquo; &mdash; structured payment authorizations. Well-architected, with escrow designed into the spec. But still sandbox-only &mdash; zero live deployments. Agents can operate under human-delegated mandates, but fully autonomous A2A transfers aren&rsquo;t supported yet.</p>
+                    <p><strong><a href="https://cloud.google.com/blog/products/ai-machine-learning/announcing-agents-to-payments-ap2-protocol" target="_blank" rel="noopener">AP2</a> (Google Cloud + 60 partners)</strong> uses &ldquo;Mandates&rdquo; &mdash; structured payment authorizations. Well-architected, with escrow designed into the spec. But still sandbox-only &mdash; zero live deployments. Agents can operate under human-delegated mandates, but fully autonomous A2A transfers aren&rsquo;t supported yet.</p>
 
-                    <p><strong>ACP (Stripe + OpenAI)</strong> powers ChatGPT Shopping. The checkout experience is polished. But that&rsquo;s all it does &mdash; checkout. No A2A payments.</p>
+                    <p><strong><a href="https://www.agenticcommerce.dev/" target="_blank" rel="noopener">ACP</a> (Stripe + OpenAI)</strong> powers ChatGPT Shopping. The checkout experience is polished. But that&rsquo;s all it does &mdash; checkout. No A2A payments.</p>
 
                     <p>See the pattern? <strong>Every major protocol assumes a human is at one end of the transaction.</strong> But the future &mdash; as a16z explicitly points out &mdash; is agents hiring agents.</p>
 
-                    <p>There is one exception: <strong>Virtuals Protocol</strong> has shipped an Agent Commerce Protocol (confusingly also called ACP) on Base chain with real smart-contract escrow &mdash; agents lock funds, a third-party evaluator agent verifies the work, funds release on approval. It&rsquo;s live, it works, and it&rsquo;s processing transactions. But it only works within the Virtuals ecosystem. An agent on Virtuals can&rsquo;t escrow a payment to an agent on Moltbook or RentAHuman.</p>
+                    <p>There is one exception: <strong><a href="https://www.virtuals.io/" target="_blank" rel="noopener">Virtuals Protocol</a></strong> has shipped an Agent Commerce Protocol (confusingly also called ACP) on Base chain with real smart-contract escrow &mdash; agents lock funds, a third-party evaluator agent verifies the work, funds release on approval. It&rsquo;s live, it works, and it&rsquo;s processing transactions. But it only works within the Virtuals ecosystem. An agent on Virtuals can&rsquo;t escrow a payment to an agent on <a href="https://www.moltbook.com/" target="_blank" rel="noopener">Moltbook</a> or RentAHuman.</p>
 
                     <p>So the real gap isn&rsquo;t &ldquo;nobody has built A2A escrow&rdquo; &mdash; it&rsquo;s that <strong>nobody has built <em>universal</em> A2A escrow that works across platforms.</strong> It&rsquo;s as if every railroad company built tracks in a different gauge, and nobody thought to ask: what happens when the trains need to talk to each other?</p>
 
@@ -102,9 +102,9 @@ END_META
 
                     <p>The conversation isn&rsquo;t happening on mainstream platforms. It&rsquo;s on X, Moltbook, DEV.to, and Ethereum Magicians &mdash; where the builders who are actually shipping agent infrastructure can&rsquo;t stop talking about it.</p>
 
-                    <p><strong>The escrow problem</strong> came up everywhere. ClawTasks has 50+ bounties listed with no on-chain escrow &mdash; agents do the work, then get ghosted. On Moltbook, one of the highest-voted posts (21 upvotes) was literally about building multi-party USDC escrow with milestone payments. The community is <em>begging</em> for this. Circle has a prototype. Nobody has productized it.</p>
+                    <p><strong>The escrow problem</strong> came up everywhere. <a href="https://clawtasks.com/" target="_blank" rel="noopener">ClawTasks</a> has 50+ bounties listed with no on-chain escrow &mdash; agents do the work, then get ghosted. On Moltbook, one of the highest-voted posts (21 upvotes) was literally about building multi-party USDC escrow with milestone payments. The community is <em>begging</em> for this. Circle has a prototype. Nobody has productized it.</p>
 
-                    <p>Then there&rsquo;s the <strong>trust gap</strong>. Only 14% of Americans trust AI to place orders on their behalf (YouGov, Dec 2025). One builder on X put it perfectly: &ldquo;Giving an AI agent unrestricted access to a crypto wallet is like handing a toddler your credit card.&rdquo; Enterprise solutions like Skyfire and Natural have raised $19M+ combined, but nobody is building the consumer-facing &ldquo;Mint for AI Agents&rdquo; &mdash; spending limits, category controls, audit trails.</p>
+                    <p>Then there&rsquo;s the <strong>trust gap</strong>. Only 14% of Americans trust AI to place orders on their behalf (YouGov, Dec 2025). One builder on X put it perfectly: &ldquo;Giving an AI agent unrestricted access to a crypto wallet is like handing a toddler your credit card.&rdquo; Enterprise solutions like <a href="https://skyfire.xyz/" target="_blank" rel="noopener">Skyfire</a> and <a href="https://www.natural.co/" target="_blank" rel="noopener">Natural</a> have raised $19M+ combined, but nobody is building the consumer-facing &ldquo;Mint for AI Agents&rdquo; &mdash; spending limits, category controls, audit trails.</p>
 
                     <p>And <strong>reputation doesn&rsquo;t travel</strong>. An agent with 50 successful jobs on one platform starts at zero on another. Imagine if your Uber driver rating reset every time they moved to a new city. ERC-8004 is trying to solve this at the protocol level, but adoption is still early.</p>
 
@@ -114,7 +114,7 @@ END_META
 
                     <h2>The Gold Rush</h2>
 
-                    <p>Funded startups are staking their claims. <strong>Kite</strong> ($33M, backed by PayPal Ventures + General Catalyst + Coinbase Ventures) is building a purpose-built AI payment blockchain on Avalanche &mdash; sub-cent fees, cryptographic proof-of-completion escrow. <strong>Natural</strong> ($9.8M seed) is embedding agentic payments into B2B workflows. <strong>Skyfire</strong> ($9.5M, backed by Coinbase + a16z) is building USDC agent wallets with spending controls. <strong>Nevermined</strong> offers configurable escrow with tamper-proof metering for dispute resolution. <strong>Payman</strong> and <strong>SpendSafe</strong> are racing on wallet infrastructure and spending guard rails.</p>
+                    <p>Funded startups are staking their claims. <strong><a href="https://gokite.ai/" target="_blank" rel="noopener">Kite</a></strong> ($33M, backed by PayPal Ventures + General Catalyst + Coinbase Ventures) is building a purpose-built AI payment blockchain on Avalanche &mdash; sub-cent fees, cryptographic proof-of-completion escrow. <strong>Natural</strong> ($9.8M seed) is embedding agentic payments into B2B workflows. <strong>Skyfire</strong> ($9.5M, backed by Coinbase + a16z) is building USDC agent wallets with spending controls. <strong><a href="https://nevermined.ai/" target="_blank" rel="noopener">Nevermined</a></strong> offers configurable escrow with tamper-proof metering for dispute resolution. <strong><a href="https://paymanai.com/" target="_blank" rel="noopener">Payman</a></strong> and <strong><a href="https://www.spendsafe.ai/" target="_blank" rel="noopener">SpendSafe</a></strong> are racing on wallet infrastructure and spending guard rails.</p>
 
                     <p>But the grassroots energy is even more telling. On Moltbook, hackathon builders are shipping escrow solutions at a furious pace: <strong>agent-escrow</strong> (live on Base), <strong>TheHandshake</strong> ($10-100 USDC range), <strong>Themis</strong> (12 escrows, 7 active), <strong>Trust Escrow</strong> (sub-1-second setup). The community isn&rsquo;t waiting for Circle or Coinbase to ship &mdash; they&rsquo;re building it themselves.</p>
 
@@ -156,9 +156,9 @@ END_META
 
                     <h2>规模：比你想的大得多</h2>
 
-                    <p>Coinbase 的 x402 协议在 Solana、Base 等链上已经处理了超过 <strong>1 亿笔支付流</strong> &mdash; 年化交易额 $6 亿+。这不是白皮书，是跑在生产环境里的真实流量。与此同时，2026 年 Agentic Commerce TAM 达 $1360 亿，预计 2030 年达 $1.7 万亿。稳定币一年就在搬运 $7.1 万亿。</p>
+                    <p>Coinbase 的 <a href="https://www.x402.org/" target="_blank" rel="noopener">x402</a> 协议在 Solana、Base 等链上已经处理了超过 <strong>1 亿笔支付流</strong> &mdash; 年化交易额 $6 亿+。这不是白皮书，是跑在生产环境里的真实流量。与此同时，2026 年 Agentic Commerce TAM 达 $1360 亿，预计 2030 年达 $1.7 万亿。稳定币一年就在搬运 $7.1 万亿。</p>
 
-                    <p>再看 <strong>RentAHuman.ai</strong> &mdash; 现在最火的 Agent 市场。81,000+ 人类工作者，Agent 一个 MCP 调用就能下单，支持加密钱包、稳定币、甚至 Stripe。听起来很顺。但仔细看：只有 13% 的用户连接了钱包。没有 escrow &mdash; Agent 在任务完成前就盲信转账。没有纠纷处理。费用结构不透明。一个 $40 的 USPS 取件任务吸引了 30 个申请人，两天后依然没完成。支付轨道<em>是有的</em>，但信任层只是胶带糊的 &mdash; 而这已经是赛道里跑得最前面的平台了。</p>
+                    <p>再看 <strong><a href="https://rentahuman.ai/" target="_blank" rel="noopener">RentAHuman.ai</a></strong> &mdash; 现在最火的 Agent 市场。81,000+ 人类工作者，Agent 一个 MCP 调用就能下单，支持加密钱包、稳定币、甚至 Stripe。听起来很顺。但仔细看：只有 13% 的用户连接了钱包。没有 escrow &mdash; Agent 在任务完成前就盲信转账。没有纠纷处理。费用结构不透明。一个 $40 的 USPS 取件任务吸引了 30 个申请人，两天后依然没完成。支付轨道<em>是有的</em>，但信任层只是胶带糊的 &mdash; 而这已经是赛道里跑得最前面的平台了。</p>
 
                     <p>量很大，野心也大，但缺口更大。而原始数据量掩盖了一个更深的问题。</p>
 
@@ -170,15 +170,15 @@ END_META
 
                     <p><strong>x402（Coinbase + Cloudflare）</strong>把 HTTP 402 状态码 &mdash; 从互联网诞生就保留了 &ldquo;Payment Required&rdquo; 的用途，但从没人用过 &mdash; 终于让它上岗了。每个 HTTP 请求都可以附带一笔稳定币微支付。交易额 $6 亿+，V2 于 2026 年 1 月上线。优雅，但只能做 request 级别的支付 &mdash; escrow 还只是 GitHub 上的一个提案，跑在测试网上，没有正式发布。</p>
 
-                    <p><strong>ERC-8004（MetaMask、Coinbase、Google、以太坊基金会）</strong>在建信任层 &mdash; Agent 身份、声誉、验证。2026 年 1 月上了以太坊主网，24K+ Agent 注册，正在扩展到 BNB Chain。但它是信任的基础设施，不是支付的 &mdash; 是护照和信用评分，不是银行账户。</p>
+                    <p><strong><a href="https://eips.ethereum.org/EIPS/eip-8004" target="_blank" rel="noopener">ERC-8004</a>（MetaMask、Coinbase、Google、以太坊基金会）</strong>在建信任层 &mdash; Agent 身份、声誉、验证。2026 年 1 月上了以太坊主网，24K+ Agent 注册，正在扩展到 BNB Chain。但它是信任的基础设施，不是支付的 &mdash; 是护照和信用评分，不是银行账户。</p>
 
-                    <p><strong>AP2（Google Cloud + 60 家合作伙伴）</strong>用 &ldquo;Mandates&rdquo; &mdash; 结构化支付授权。架构精良，spec 里设计了 escrow。但目前还只在 sandbox &mdash; 零个正式上线的部署。Agent 可以在人类授权的 Mandate 下运行，但完全自主的 A2A 转账还不支持。</p>
+                    <p><strong><a href="https://cloud.google.com/blog/products/ai-machine-learning/announcing-agents-to-payments-ap2-protocol" target="_blank" rel="noopener">AP2</a>（Google Cloud + 60 家合作伙伴）</strong>用 &ldquo;Mandates&rdquo; &mdash; 结构化支付授权。架构精良，spec 里设计了 escrow。但目前还只在 sandbox &mdash; 零个正式上线的部署。Agent 可以在人类授权的 Mandate 下运行，但完全自主的 A2A 转账还不支持。</p>
 
-                    <p><strong>ACP（Stripe + OpenAI）</strong>驱动 ChatGPT Shopping。结账体验很顺滑。但也就只是结账。没有 A2A 支付。</p>
+                    <p><strong><a href="https://www.agenticcommerce.dev/" target="_blank" rel="noopener">ACP</a>（Stripe + OpenAI）</strong>驱动 ChatGPT Shopping。结账体验很顺滑。但也就只是结账。没有 A2A 支付。</p>
 
                     <p>看到规律了吗？<strong>每个主流协议都假设交易的一端是人类。</strong>但未来 &mdash; a16z 明确指出的 &mdash; 是 Agent 雇佣 Agent。</p>
 
-                    <p>有一个例外：<strong>Virtuals Protocol</strong> 在 Base 链上 ship 了一个 Agent Commerce Protocol（名字也叫 ACP，容易混淆），带真正的智能合约 escrow &mdash; Agent 锁定资金，第三方评估 Agent 验证工作，通过后释放资金。它是活的，能跑，在处理交易。但它只在 Virtuals 生态内运行。Virtuals 上的 Agent 没法跟 Moltbook 或 RentAHuman 上的 Agent 做 escrow。</p>
+                    <p>有一个例外：<strong><a href="https://www.virtuals.io/" target="_blank" rel="noopener">Virtuals Protocol</a></strong> 在 Base 链上 ship 了一个 Agent Commerce Protocol（名字也叫 ACP，容易混淆），带真正的智能合约 escrow &mdash; Agent 锁定资金，第三方评估 Agent 验证工作，通过后释放资金。它是活的，能跑，在处理交易。但它只在 Virtuals 生态内运行。Virtuals 上的 Agent 没法跟 <a href="https://www.moltbook.com/" target="_blank" rel="noopener">Moltbook</a> 或 RentAHuman 上的 Agent 做 escrow。</p>
 
                     <p>所以真正的缺口不是 &ldquo;没人做了 A2A escrow&rdquo; &mdash; 而是<strong>没人做了<em>跨平台通用的</em> A2A escrow。</strong>就像每家铁路公司用了不同的轨距，没人想过：当火车需要彼此对话时怎么办？</p>
 
@@ -192,9 +192,9 @@ END_META
 
                     <p>这个话题不在主流平台上讨论。它在 X、Moltbook、DEV.to 和 Ethereum Magicians 上 &mdash; 那些真正在 ship Agent 基础设施的 Builder，停不下来地在聊这个。</p>
 
-                    <p><strong>Escrow 问题</strong>到处都冒出来。ClawTasks 上挂了 50+ 个悬赏，没有链上 escrow &mdash; Agent 干完活，对方消失了。Moltbook 上票数最高的帖子之一（21 票）就是在讲怎么搭 USDC 多方 escrow + 里程碑支付。社区在<em>求</em>这个东西。Circle 有原型，但没有人把它产品化。</p>
+                    <p><strong>Escrow 问题</strong>到处都冒出来。<a href="https://clawtasks.com/" target="_blank" rel="noopener">ClawTasks</a> 上挂了 50+ 个悬赏，没有链上 escrow &mdash; Agent 干完活，对方消失了。Moltbook 上票数最高的帖子之一（21 票）就是在讲怎么搭 USDC 多方 escrow + 里程碑支付。社区在<em>求</em>这个东西。Circle 有原型，但没有人把它产品化。</p>
 
-                    <p>然后是<strong>信任鸿沟</strong>。只有 14% 的美国人信任 AI 帮他们下单（YouGov, 2025 年 12 月）。X 上一个 Builder 说得精准：&ldquo;把加密钱包的完全访问权交给 AI Agent，就像把信用卡递给一个蹒跚学步的孩子。&rdquo;企业级方案（Skyfire、Natural）已经融了 $1900 万+，但没有人在做面向普通人的 &ldquo;AI Agent 版 Mint&rdquo; &mdash; 消费限额、分类控制、审计追踪。</p>
+                    <p>然后是<strong>信任鸿沟</strong>。只有 14% 的美国人信任 AI 帮他们下单（YouGov, 2025 年 12 月）。X 上一个 Builder 说得精准：&ldquo;把加密钱包的完全访问权交给 AI Agent，就像把信用卡递给一个蹒跚学步的孩子。&rdquo;企业级方案（<a href="https://skyfire.xyz/" target="_blank" rel="noopener">Skyfire</a>、<a href="https://www.natural.co/" target="_blank" rel="noopener">Natural</a>）已经融了 $1900 万+，但没有人在做面向普通人的 &ldquo;AI Agent 版 Mint&rdquo; &mdash; 消费限额、分类控制、审计追踪。</p>
 
                     <p>还有<strong>信用不能跨平台</strong>。一个在某平台完成 50 个任务的 Agent，换个平台就从零开始。想象一下你的 Uber 司机评分每换一个城市就归零。ERC-8004 在协议层尝试解决，但采用率还很早。</p>
 
@@ -204,7 +204,7 @@ END_META
 
                     <h2>淘金热</h2>
 
-                    <p>融资公司已经在圈地。<strong>Kite</strong>（$3300 万，PayPal Ventures + General Catalyst + Coinbase Ventures 投）在 Avalanche 上做专门的 AI 支付公链 &mdash; 亚分级手续费，密码学完成证明 escrow。<strong>Natural</strong>（$980 万种子轮）把 Agent 支付嵌入 B2B 工作流。<strong>Skyfire</strong>（$950 万，Coinbase + a16z 投）在做 USDC Agent 钱包 + 消费控制。<strong>Nevermined</strong> 提供可配置的 escrow + 防篡改计量系统用于纠纷解决。<strong>Payman</strong> 和 <strong>SpendSafe</strong> 在钱包基础设施和消费防护栏上赛跑。</p>
+                    <p>融资公司已经在圈地。<strong><a href="https://gokite.ai/" target="_blank" rel="noopener">Kite</a></strong>（$3300 万，PayPal Ventures + General Catalyst + Coinbase Ventures 投）在 Avalanche 上做专门的 AI 支付公链 &mdash; 亚分级手续费，密码学完成证明 escrow。<strong>Natural</strong>（$980 万种子轮）把 Agent 支付嵌入 B2B 工作流。<strong>Skyfire</strong>（$950 万，Coinbase + a16z 投）在做 USDC Agent 钱包 + 消费控制。<strong><a href="https://nevermined.ai/" target="_blank" rel="noopener">Nevermined</a></strong> 提供可配置的 escrow + 防篡改计量系统用于纠纷解决。<strong><a href="https://paymanai.com/" target="_blank" rel="noopener">Payman</a></strong> 和 <strong><a href="https://www.spendsafe.ai/" target="_blank" rel="noopener">SpendSafe</a></strong> 在钱包基础设施和消费防护栏上赛跑。</p>
 
                     <p>但草根能量更能说明问题。Moltbook 上，黑客松 Builder 正在疯狂 ship escrow 方案：<strong>agent-escrow</strong>（Base 链上线）、<strong>TheHandshake</strong>（$10-100 USDC 区间）、<strong>Themis</strong>（12 笔 escrow，7 笔活跃）、<strong>Trust Escrow</strong>（1 秒内完成设置）。社区没在等 Circle 或 Coinbase &mdash; 他们自己在造。</p>
 
