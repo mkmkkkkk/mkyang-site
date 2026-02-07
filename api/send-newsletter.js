@@ -13,9 +13,21 @@
  *   5. Return results
  */
 
+import { createHmac } from 'crypto';
+
 const SITE_URL = 'https://mkyang.ai';
 const RESEND_API = 'https://api.resend.com/emails';
 const NOTION_API = 'https://api.notion.com/v1';
+
+function unsubscribeUrl(email) {
+    const base = `${SITE_URL}/api/unsubscribe?email=${encodeURIComponent(email)}`;
+    if (process.env.UNSUBSCRIBE_SECRET) {
+        const token = createHmac('sha256', process.env.UNSUBSCRIBE_SECRET)
+            .update(email).digest('hex').slice(0, 16);
+        return `${base}&token=${token}`;
+    }
+    return base;
+}
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -84,7 +96,7 @@ export default async function handler(req, res) {
                         subject: `New Post: ${title}`,
                         html: emailHtml,
                         headers: {
-                            'List-Unsubscribe': `<${SITE_URL}/api/unsubscribe?email=${encodeURIComponent(email)}>`,
+                            'List-Unsubscribe': `<${unsubscribeUrl(email)}>`,
                         },
                     }),
                 });
@@ -108,7 +120,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, ...results });
     } catch (err) {
         console.error('Newsletter error:', err);
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({ error: 'Internal error' });
     }
 }
 
@@ -156,10 +168,15 @@ async function getAllSubscribers() {
     return emails;
 }
 
+// ── Helpers ───────────────────────────────────────────────────────────
+function esc(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 // ── Email template ────────────────────────────────────────────────────
 function buildEmailHtml({ title, description, postUrl, tags, email }) {
     const tagBadges = tags.map(t =>
-        `<span style="display:inline-block;font-size:11px;color:#999;border:1px solid #333;padding:2px 8px;border-radius:3px;margin-right:6px;letter-spacing:0.5px;text-transform:uppercase;">${t}</span>`
+        `<span style="display:inline-block;font-size:11px;color:#999;border:1px solid #333;padding:2px 8px;border-radius:3px;margin-right:6px;letter-spacing:0.5px;text-transform:uppercase;">${esc(t)}</span>`
     ).join('');
 
     return `<!DOCTYPE html>
@@ -176,8 +193,8 @@ function buildEmailHtml({ title, description, postUrl, tags, email }) {
   <!-- Content -->
   <div style="border-top:1px solid #222;padding-top:32px;">
     <p style="font-size:12px;color:#666;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 16px;">New Post</p>
-    <h1 style="font-size:28px;color:#f0ede6;margin:0 0 12px;line-height:1.3;font-weight:700;">${title}</h1>
-    <p style="font-size:16px;color:#999;line-height:1.6;margin:0 0 20px;">${description}</p>
+    <h1 style="font-size:28px;color:#f0ede6;margin:0 0 12px;line-height:1.3;font-weight:700;">${esc(title)}</h1>
+    <p style="font-size:16px;color:#999;line-height:1.6;margin:0 0 20px;">${esc(description)}</p>
     ${tagBadges ? `<div style="margin-bottom:24px;">${tagBadges}</div>` : ''}
     <a href="${postUrl}" style="display:inline-block;background:#c9a84c;color:#0a0a0a;text-decoration:none;padding:12px 28px;font-size:14px;font-weight:500;border-radius:4px;letter-spacing:0.03em;">Read Post</a>
   </div>
@@ -186,7 +203,7 @@ function buildEmailHtml({ title, description, postUrl, tags, email }) {
   <div style="border-top:1px solid #222;margin-top:48px;padding-top:20px;">
     <p style="font-size:12px;color:#555;margin:0;line-height:1.6;">
       You're receiving this because you subscribed at <a href="${SITE_URL}/blog" style="color:#c9a84c;text-decoration:none;">mkyang.ai/blog</a>.<br>
-      <a href="${SITE_URL}/api/unsubscribe?email=${encodeURIComponent(email)}" style="color:#555;text-decoration:underline;">Unsubscribe</a>
+      <a href="${unsubscribeUrl(email)}" style="color:#555;text-decoration:underline;">Unsubscribe</a>
     </p>
   </div>
 

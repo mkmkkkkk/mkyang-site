@@ -8,9 +8,27 @@
 const NOTION_API = 'https://api.notion.com/v1';
 
 export default async function handler(req, res) {
-    const email = req.query.email;
-    if (!email) {
+    const rawEmail = req.query.email;
+    const token = req.query.token;
+
+    if (!rawEmail) {
         return res.status(400).send(page('Missing email parameter.', false));
+    }
+
+    // Validate & normalize email
+    const email = rawEmail.trim().toLowerCase();
+    if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).send(page('Invalid email.', false));
+    }
+
+    // HMAC token verification (if UNSUBSCRIBE_SECRET is configured)
+    if (process.env.UNSUBSCRIBE_SECRET) {
+        const crypto = await import('crypto');
+        const expected = crypto.createHmac('sha256', process.env.UNSUBSCRIBE_SECRET)
+            .update(email).digest('hex').slice(0, 16);
+        if (!token || token !== expected) {
+            return res.status(403).send(page('Invalid unsubscribe link.', false));
+        }
     }
 
     try {
