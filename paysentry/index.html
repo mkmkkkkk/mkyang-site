@@ -675,22 +675,36 @@
             overflow: hidden;
         }
 
-        /* Plane labels */
+        /* Plane labels — capsule style for visibility */
         .arch-plane-label {
-            font-size: 0.5rem;
-            font-weight: 500;
+            font-size: 0.48rem;
+            font-weight: 600;
             letter-spacing: 0.25em;
             text-transform: uppercase;
             text-align: center;
-            padding: 0.4rem 0;
+            padding: 0.25rem 0.8rem;
+            display: inline-block;
+            margin: 0.3rem auto;
+            border-radius: 3px;
+        }
+
+        .arch-diagram > .arch-plane-label {
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .arch-plane-label.data {
-            color: rgba(240, 237, 230, 0.2);
+            color: rgba(240, 237, 230, 0.45);
+            border: 1px solid rgba(240, 237, 230, 0.08);
+            background: rgba(240, 237, 230, 0.02);
         }
 
         .arch-plane-label.control {
-            color: rgba(201, 168, 76, 0.4);
+            color: rgba(201, 168, 76, 0.65);
+            border: 1px solid rgba(201, 168, 76, 0.12);
+            background: rgba(201, 168, 76, 0.03);
         }
 
         .arch-plane-divider {
@@ -820,11 +834,23 @@
         }
 
         .arch-state-label.raw {
-            color: rgba(240, 237, 230, 0.25);
+            color: rgba(240, 237, 230, 0.35);
         }
 
         .arch-state-label.verified {
-            color: rgba(201, 168, 76, 0.45);
+            color: rgba(201, 168, 76, 0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        .arch-state-label.verified svg {
+            width: 10px;
+            height: 10px;
+            stroke: rgba(201, 168, 76, 0.55);
+            fill: none;
+            stroke-width: 2;
         }
 
         /* PaySentry Control Plane — glassmorphism + "brain" */
@@ -962,28 +988,111 @@
             line-height: 1.2;
         }
 
-        /* Reject indicator on Protect gate */
-        .arch-gate-reject {
+        /* Reject path — red dashed branch from Protect */
+        .arch-gate-reject-path {
             position: absolute;
-            bottom: -2px;
-            right: 8px;
+            right: -4px;
+            top: 50%;
             display: flex;
             align-items: center;
-            gap: 2px;
-            font-size: 0.4rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: rgba(239, 68, 68, 0.5);
-            opacity: 0.7;
+            gap: 3px;
+            transform: translateY(-50%);
+            opacity: 0.55;
             transition: opacity 0.3s ease;
         }
 
-        .arch-gate:hover .arch-gate-reject { opacity: 1; }
+        .arch-gate:hover .arch-gate-reject-path { opacity: 1; }
 
-        .arch-gate-reject svg {
+        .arch-gate-reject-line {
+            width: 18px;
+            height: 0;
+            border-top: 1.5px dashed rgba(239, 68, 68, 0.5);
+        }
+
+        .arch-gate-reject-label {
+            font-size: 0.4rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(239, 68, 68, 0.65);
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 0.1rem 0.3rem;
+            border-radius: 2px;
+            white-space: nowrap;
+        }
+
+        /* Sandbox mode badge — top-right of PaySentry box */
+        .arch-sandbox-badge {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.4rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(74, 222, 128, 0.5);
+            border: 1px solid rgba(74, 222, 128, 0.15);
+            padding: 0.15rem 0.45rem;
+            border-radius: 3px;
+            background: rgba(74, 222, 128, 0.03);
+        }
+
+        .arch-sandbox-badge svg {
             width: 8px;
             height: 8px;
+            stroke: rgba(74, 222, 128, 0.5);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* Latency badge — bottom-left of PaySentry box */
+        .arch-latency-badge {
+            position: absolute;
+            bottom: 8px;
+            left: 10px;
+            font-size: 0.4rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: rgba(240, 237, 230, 0.25);
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+
+        /* Settlement Network wrapper */
+        .arch-settlement-network {
+            border: 1px solid rgba(240, 237, 230, 0.04);
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            background: rgba(240, 237, 230, 0.01);
+        }
+
+        .arch-settlement-network-label {
+            font-size: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(240, 237, 230, 0.2);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .arch-settlement-sublabel {
+            font-size: 0.42rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(240, 237, 230, 0.18);
+            text-align: center;
+            margin-bottom: 0.3rem;
+        }
+
+        .arch-settlement-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(240, 237, 230, 0.05), transparent);
+            margin: 0.5rem 0;
         }
 
         /* Flow arrow between gates — shows state transformation */
@@ -998,16 +1107,17 @@
         }
 
         .arch-flow-arrow {
-            font-size: 0.9rem;
-            color: rgba(201, 168, 76, 0.25);
+            font-size: 1.1rem;
+            color: rgba(201, 168, 76, 0.45);
             line-height: 1;
+            text-shadow: 0 0 8px rgba(201, 168, 76, 0.15);
         }
 
         .arch-flow-label {
-            font-size: 0.35rem;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            color: rgba(201, 168, 76, 0.25);
+            font-size: 0.38rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: rgba(201, 168, 76, 0.4);
             white-space: nowrap;
             margin-top: 1px;
         }
@@ -1396,6 +1506,13 @@ console.<span class="fn">log</span>(stats.<span class="prop">totalSpend</span>, 
                         <div class="arch-paysentry-badge">Middleware Chain</div>
                     </div>
                     <div class="arch-paysentry-box">
+                        <!-- Sandbox mode badge — global switch, not a pipeline stage -->
+                        <div class="arch-sandbox-badge">
+                            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            Sandbox Mode
+                        </div>
+                        <!-- Latency metadata -->
+                        <div class="arch-latency-badge">&lt; 50ms p99</div>
                         <div class="arch-pipeline">
                             <!-- Gate 1: Observe -->
                             <div class="arch-gate">
@@ -1427,17 +1544,17 @@ console.<span class="fn">log</span>(stats.<span class="prop">totalSpend</span>, 
                                 <div class="arch-flow-label">auth'd</div>
                             </div>
 
-                            <!-- Gate 3: Protect -->
-                            <div class="arch-gate">
+                            <!-- Gate 3: Protect — with reject/circuit-break path -->
+                            <div class="arch-gate" style="overflow: visible;">
                                 <svg class="arch-gate-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                                 </svg>
                                 <div class="arch-gate-name">Protect</div>
                                 <div class="arch-gate-desc">Fraud check</div>
-                                <!-- Reject / circuit-break indicator -->
-                                <div class="arch-gate-reject">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                                    reject
+                                <!-- Reject path: dashed red line branching out -->
+                                <div class="arch-gate-reject-path">
+                                    <div class="arch-gate-reject-line"></div>
+                                    <div class="arch-gate-reject-label">Reject</div>
                                 </div>
                             </div>
 
@@ -1447,13 +1564,13 @@ console.<span class="fn">log</span>(stats.<span class="prop">totalSpend</span>, 
                                 <div class="arch-flow-label">verified</div>
                             </div>
 
-                            <!-- Gate 4: Test -->
+                            <!-- Gate 4: Audit (was Test — logically correct as final pipeline step) -->
                             <div class="arch-gate">
                                 <svg class="arch-gate-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
                                 </svg>
-                                <div class="arch-gate-name">Test</div>
-                                <div class="arch-gate-desc">Sandbox</div>
+                                <div class="arch-gate-name">Audit</div>
+                                <div class="arch-gate-desc">Record</div>
                             </div>
                         </div>
                     </div>
@@ -1464,31 +1581,30 @@ console.<span class="fn">log</span>(stats.<span class="prop">totalSpend</span>, 
 
                 <!-- Egress flow -->
                 <div class="arch-plane-label data">Data Plane &mdash; Egress</div>
-                <div class="arch-state-label verified">Signed &amp; Verified Transaction</div>
+                <div class="arch-state-label verified">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    Signed &amp; Verified Transaction
+                </div>
                 <div class="arch-connector">
                     <div class="arch-connector-line egress"></div>
                     <div class="arch-connector-arrow egress"></div>
                 </div>
 
-                <!-- Payment Protocols -->
-                <div class="arch-layer">
-                    <div class="arch-layer-label">Protocols</div>
+                <!-- Settlement Network: Protocols + Settlement merged -->
+                <div class="arch-settlement-network">
+                    <div class="arch-settlement-network-label">Settlement Network</div>
+
+                    <div class="arch-settlement-sublabel">Method</div>
                     <div class="arch-protocols">
                         <div class="arch-node protocol">x402</div>
                         <div class="arch-node protocol">ACP</div>
                         <div class="arch-node protocol">AP2</div>
                         <div class="arch-node protocol">Visa TAP</div>
                     </div>
-                </div>
 
-                <div class="arch-connector">
-                    <div class="arch-connector-line egress"></div>
-                    <div class="arch-connector-arrow egress"></div>
-                </div>
+                    <div class="arch-settlement-divider"></div>
 
-                <!-- Settlement Layer -->
-                <div class="arch-layer">
-                    <div class="arch-layer-label">Settlement</div>
+                    <div class="arch-settlement-sublabel">Destination</div>
                     <div class="arch-protocols">
                         <div class="arch-node settlement">Stripe</div>
                         <div class="arch-node settlement">Circle</div>
