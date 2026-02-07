@@ -103,6 +103,17 @@
     opacity: 0.6;
 }
 
+.prose a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+    transition: border-color 0.3s ease;
+}
+
+.prose a:hover {
+    border-color: var(--accent);
+}
+
 .prose blockquote {
     border-left: 2px solid var(--accent);
     padding-left: 1.5rem;
