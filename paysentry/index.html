@@ -666,91 +666,115 @@
         /* === ARCHITECTURE SECTION === */
         .arch-diagram {
             margin-top: 3rem;
-            padding: 2.5rem 2rem;
+            padding: 2.5rem 2rem 2rem;
             border: 1px solid rgba(240, 237, 230, 0.06);
             border-radius: 12px;
-            background: rgba(8, 8, 10, 0.8);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            background: rgba(8, 8, 10, 0.85);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Plane labels */
+        .arch-plane-label {
+            font-size: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 0.4rem 0;
+        }
+
+        .arch-plane-label.data {
+            color: rgba(240, 237, 230, 0.2);
+        }
+
+        .arch-plane-label.control {
+            color: rgba(201, 168, 76, 0.4);
+        }
+
+        .arch-plane-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.15), transparent);
+            margin: 0.3rem 0;
+        }
+
+        /* Agent / Protocol / Settlement layers */
         .arch-layer {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0.3rem 0;
+            padding: 0.5rem 0;
         }
 
         .arch-layer-label {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             font-weight: 500;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: rgba(240, 237, 230, 0.4);
-            margin-bottom: 0.6rem;
+            color: rgba(240, 237, 230, 0.3);
+            margin-bottom: 0.5rem;
         }
 
         .arch-node {
             display: inline-flex;
             align-items: center;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
             white-space: nowrap;
             font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             font-weight: 500;
             transition: all 0.3s ease;
         }
 
         .arch-node.agent {
-            background: rgba(240, 237, 230, 0.04);
-            border: 1px solid rgba(240, 237, 230, 0.1);
-            color: rgba(240, 237, 230, 0.6);
+            background: rgba(240, 237, 230, 0.03);
+            border: 1px solid rgba(240, 237, 230, 0.08);
+            color: rgba(240, 237, 230, 0.5);
         }
 
         .arch-node.agent:hover {
-            border-color: rgba(240, 237, 230, 0.25);
-            color: rgba(240, 237, 230, 0.9);
-            transform: scale(1.05);
+            border-color: rgba(240, 237, 230, 0.2);
+            color: rgba(240, 237, 230, 0.8);
         }
 
         .arch-node.protocol {
-            background: rgba(74, 222, 128, 0.05);
-            border: 1px solid rgba(74, 222, 128, 0.2);
-            color: rgba(74, 222, 128, 0.7);
+            background: rgba(74, 222, 128, 0.04);
+            border: 1px solid rgba(74, 222, 128, 0.15);
+            color: rgba(74, 222, 128, 0.6);
         }
 
         .arch-node.protocol:hover {
-            border-color: rgba(74, 222, 128, 0.4);
+            border-color: rgba(74, 222, 128, 0.35);
             color: #4ade80;
-            transform: scale(1.05);
         }
 
         .arch-node.settlement {
-            background: rgba(129, 140, 248, 0.05);
-            border: 1px solid rgba(129, 140, 248, 0.2);
-            color: rgba(129, 140, 248, 0.7);
+            background: rgba(129, 140, 248, 0.04);
+            border: 1px solid rgba(129, 140, 248, 0.15);
+            color: rgba(129, 140, 248, 0.6);
         }
 
         .arch-node.settlement:hover {
-            border-color: rgba(129, 140, 248, 0.4);
+            border-color: rgba(129, 140, 248, 0.35);
             color: #818cf8;
-            transform: scale(1.05);
         }
 
         .arch-protocols {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.4rem;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        /* Connector: arrow lines between layers */
+        /* Vertical connector between layers */
         .arch-connector {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0.25rem 0;
-            height: 36px;
+            padding: 0.15rem 0;
+            height: 28px;
         }
 
         .arch-connector-line {
@@ -758,127 +782,234 @@
             flex: 1;
         }
 
-        .arch-connector-line.raw {
+        .arch-connector-line.ingress {
             background: linear-gradient(to bottom,
-                rgba(240, 237, 230, 0.1),
-                rgba(240, 237, 230, 0.3));
+                rgba(240, 237, 230, 0.08),
+                rgba(240, 237, 230, 0.2));
         }
 
-        .arch-connector-line.processed {
+        .arch-connector-line.egress {
             background: linear-gradient(to bottom,
-                rgba(201, 168, 76, 0.5),
-                rgba(74, 222, 128, 0.4));
+                rgba(201, 168, 76, 0.4),
+                rgba(74, 222, 128, 0.3));
         }
 
         .arch-connector-arrow {
             width: 0;
             height: 0;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
         }
 
-        .arch-connector-arrow.raw {
-            border-top: 6px solid rgba(240, 237, 230, 0.3);
+        .arch-connector-arrow.ingress {
+            border-top: 5px solid rgba(240, 237, 230, 0.2);
         }
 
-        .arch-connector-arrow.processed {
-            border-top: 6px solid rgba(201, 168, 76, 0.5);
+        .arch-connector-arrow.egress {
+            border-top: 5px solid rgba(201, 168, 76, 0.4);
         }
 
-        /* PaySentry control plane - glassmorphism hero */
+        /* State label on connectors */
+        .arch-state-label {
+            font-size: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 0.15rem 0;
+        }
+
+        .arch-state-label.raw {
+            color: rgba(240, 237, 230, 0.25);
+        }
+
+        .arch-state-label.verified {
+            color: rgba(201, 168, 76, 0.45);
+        }
+
+        /* PaySentry Control Plane — glassmorphism + "brain" */
         .arch-paysentry-layer {
-            padding: 1rem 0;
+            padding: 0.6rem 0;
             width: 100%;
         }
 
+        .arch-paysentry-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
         .arch-paysentry-title {
-            text-align: center;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 600;
             letter-spacing: 0.25em;
             text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 0.6rem;
+        }
+
+        .arch-paysentry-badge {
+            font-size: 0.45rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(201, 168, 76, 0.5);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
         }
 
         .arch-paysentry-box {
-            border: 1px solid rgba(201, 168, 76, 0.35);
-            border-radius: 14px;
-            background: rgba(201, 168, 76, 0.04);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            border-radius: 12px;
+            background: rgba(201, 168, 76, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             box-shadow:
-                0 0 20px rgba(201, 168, 76, 0.12),
-                0 0 60px rgba(201, 168, 76, 0.05),
-                inset 0 1px 0 rgba(201, 168, 76, 0.1);
-            padding: 1.2rem 1rem;
+                0 0 25px rgba(201, 168, 76, 0.1),
+                0 0 60px rgba(201, 168, 76, 0.04),
+                inset 0 1px 0 rgba(201, 168, 76, 0.08);
+            padding: 1rem 0.75rem;
             transition: all 0.4s ease;
+            position: relative;
         }
 
         .arch-paysentry-box:hover {
-            border-color: rgba(201, 168, 76, 0.5);
+            border-color: rgba(201, 168, 76, 0.45);
             box-shadow:
-                0 0 30px rgba(201, 168, 76, 0.2),
-                0 0 80px rgba(201, 168, 76, 0.08),
-                inset 0 1px 0 rgba(201, 168, 76, 0.15);
+                0 0 35px rgba(201, 168, 76, 0.18),
+                0 0 80px rgba(201, 168, 76, 0.06),
+                inset 0 1px 0 rgba(201, 168, 76, 0.12);
         }
 
-        /* Pipeline: horizontal flow inside PaySentry */
+        /* Pipeline: horizontal gate chain */
         .arch-pipeline {
             display: flex;
-            align-items: center;
+            align-items: stretch;
             justify-content: center;
             gap: 0;
         }
 
-        .arch-pillar {
+        /* Each gate (filter) */
+        .arch-gate {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0.6rem 0.5rem;
+            padding: 0.8rem 0.4rem 0.6rem;
             text-align: center;
             position: relative;
             transition: all 0.3s ease;
             border-radius: 8px;
         }
 
-        .arch-pillar:hover {
-            background: rgba(201, 168, 76, 0.06);
+        .arch-gate:hover {
+            background: rgba(201, 168, 76, 0.05);
         }
 
-        .arch-pillar-icon {
-            width: 28px;
-            height: 28px;
-            margin-bottom: 0.4rem;
-            opacity: 0.7;
+        /* Port dots on gates */
+        .arch-gate::before,
+        .arch-gate::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
         }
 
-        .arch-pillar:hover .arch-pillar-icon {
-            opacity: 1;
+        .arch-gate::before {
+            left: -2px;
+            background: rgba(240, 237, 230, 0.15);
+            box-shadow: 0 0 4px rgba(240, 237, 230, 0.1);
         }
 
-        .arch-pillar-name {
-            font-size: 0.75rem;
+        .arch-gate::after {
+            right: -2px;
+            background: rgba(201, 168, 76, 0.25);
+            box-shadow: 0 0 4px rgba(201, 168, 76, 0.15);
+        }
+
+        .arch-gate:first-child::before { display: none; }
+        .arch-gate:last-child::after { display: none; }
+
+        .arch-gate:hover::before { background: rgba(240, 237, 230, 0.4); }
+        .arch-gate:hover::after { background: rgba(201, 168, 76, 0.5); }
+
+        .arch-gate-icon {
+            width: 26px;
+            height: 26px;
+            margin-bottom: 0.35rem;
+            opacity: 0.65;
+            transition: opacity 0.3s ease;
+        }
+
+        .arch-gate:hover .arch-gate-icon { opacity: 1; }
+
+        .arch-gate-name {
+            font-size: 0.7rem;
             font-weight: 600;
-            color: rgba(240, 237, 230, 0.8);
-            margin-bottom: 0.2rem;
+            color: rgba(240, 237, 230, 0.75);
+            margin-bottom: 0.15rem;
         }
 
-        .arch-pillar-desc {
-            font-size: 0.55rem;
-            color: rgba(240, 237, 230, 0.35);
-            line-height: 1.3;
+        .arch-gate-desc {
+            font-size: 0.5rem;
+            color: rgba(240, 237, 230, 0.3);
+            line-height: 1.2;
         }
 
-        /* Arrow between pillars */
-        .arch-flow-arrow {
+        /* Reject indicator on Protect gate */
+        .arch-gate-reject {
+            position: absolute;
+            bottom: -2px;
+            right: 8px;
             display: flex;
             align-items: center;
-            padding: 0 0.15rem;
-            color: rgba(201, 168, 76, 0.3);
-            font-size: 0.7rem;
+            gap: 2px;
+            font-size: 0.4rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(239, 68, 68, 0.5);
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .arch-gate:hover .arch-gate-reject { opacity: 1; }
+
+        .arch-gate-reject svg {
+            width: 8px;
+            height: 8px;
+        }
+
+        /* Flow arrow between gates — shows state transformation */
+        .arch-flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 0.1rem;
             flex-shrink: 0;
+            min-width: 28px;
+        }
+
+        .arch-flow-arrow {
+            font-size: 0.9rem;
+            color: rgba(201, 168, 76, 0.25);
+            line-height: 1;
+        }
+
+        .arch-flow-label {
+            font-size: 0.35rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: rgba(201, 168, 76, 0.25);
+            white-space: nowrap;
+            margin-top: 1px;
         }
 
         /* === PACKAGES SECTION === */
@@ -993,9 +1124,9 @@
 
             .pillars-grid { grid-template-columns: 1fr; gap: 1.5rem; }
 
-            .arch-box-label { font-size: 0.55rem; padding: 0.6rem 0.4rem; }
-            .arch-box-items { flex-wrap: wrap; }
-            .arch-box-item { border-right: none; border-bottom: 1px solid rgba(201, 168, 76, 0.1); min-width: 50%; }
+            .arch-pipeline { flex-wrap: wrap; gap: 0.25rem; }
+            .arch-gate { min-width: 40%; flex: 1 1 40%; }
+            .arch-flow-step { display: none; }
 
             .packages-grid { grid-template-columns: 1fr; }
 
@@ -1016,10 +1147,9 @@
 
             .install-bar { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
 
-            .arch-box { flex-direction: column; }
-            .arch-box-label { writing-mode: horizontal-tb; padding: 0.5rem 1rem; border-right: none; border-bottom: 1px solid rgba(201, 168, 76, 0.15); }
-            .arch-box-items { flex-wrap: wrap; }
-            .arch-box-item { min-width: 100%; border-right: none; }
+            .arch-pipeline { flex-direction: column; gap: 0.5rem; }
+            .arch-gate { min-width: 100%; }
+            .arch-gate::before, .arch-gate::after { display: none; }
 
             .code-body { padding: 1rem; }
             .code-body pre { font-size: 0.72rem; }
@@ -1237,7 +1367,8 @@ console.<span class="fn">log</span>(stats.<span class="prop">totalSpend</span>, 
             </p>
 
             <div class="arch-diagram">
-                <!-- Layer 1: Agent Frameworks -->
+                <!-- DATA PLANE: Agents -->
+                <div class="arch-plane-label data">Data Plane &mdash; Ingress</div>
                 <div class="arch-layer">
                     <div class="arch-layer-label">Your Agents</div>
                     <div class="arch-protocols">
@@ -1247,61 +1378,99 @@ console.<span class="fn">log</span>(stats.<span class="prop">totalSpend</span>, 
                     </div>
                 </div>
 
-                <!-- Raw request flow (gray) -->
+                <!-- Ingress flow -->
+                <div class="arch-state-label raw">Unverified Payload</div>
                 <div class="arch-connector">
-                    <div class="arch-connector-line raw"></div>
-                    <div class="arch-connector-arrow raw"></div>
+                    <div class="arch-connector-line ingress"></div>
+                    <div class="arch-connector-arrow ingress"></div>
                 </div>
 
-                <!-- Layer 2: PaySentry Control Plane -->
+                <!-- Divider -->
+                <div class="arch-plane-divider"></div>
+
+                <!-- CONTROL PLANE: PaySentry -->
+                <div class="arch-plane-label control">Control Plane</div>
                 <div class="arch-paysentry-layer">
-                    <div class="arch-paysentry-title">PaySentry Control Plane</div>
+                    <div class="arch-paysentry-header">
+                        <div class="arch-paysentry-title">PaySentry</div>
+                        <div class="arch-paysentry-badge">Middleware Chain</div>
+                    </div>
                     <div class="arch-paysentry-box">
                         <div class="arch-pipeline">
-                            <div class="arch-pillar">
-                                <svg class="arch-pillar-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                            <!-- Gate 1: Observe -->
+                            <div class="arch-gate">
+                                <svg class="arch-gate-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
                                 </svg>
-                                <div class="arch-pillar-name">Observe</div>
-                                <div class="arch-pillar-desc">Track spend</div>
+                                <div class="arch-gate-name">Observe</div>
+                                <div class="arch-gate-desc">Log &amp; track</div>
                             </div>
-                            <div class="arch-flow-arrow">&rsaquo;</div>
-                            <div class="arch-pillar">
-                                <svg class="arch-pillar-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+
+                            <!-- Arrow: logged -->
+                            <div class="arch-flow-step">
+                                <div class="arch-flow-arrow">&rsaquo;</div>
+                                <div class="arch-flow-label">logged</div>
+                            </div>
+
+                            <!-- Gate 2: Control -->
+                            <div class="arch-gate">
+                                <svg class="arch-gate-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
                                 </svg>
-                                <div class="arch-pillar-name">Control</div>
-                                <div class="arch-pillar-desc">Enforce policy</div>
+                                <div class="arch-gate-name">Control</div>
+                                <div class="arch-gate-desc">Authorize</div>
                             </div>
-                            <div class="arch-flow-arrow">&rsaquo;</div>
-                            <div class="arch-pillar">
-                                <svg class="arch-pillar-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+
+                            <!-- Arrow: authorized -->
+                            <div class="arch-flow-step">
+                                <div class="arch-flow-arrow">&rsaquo;</div>
+                                <div class="arch-flow-label">auth'd</div>
+                            </div>
+
+                            <!-- Gate 3: Protect -->
+                            <div class="arch-gate">
+                                <svg class="arch-gate-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                                 </svg>
-                                <div class="arch-pillar-name">Protect</div>
-                                <div class="arch-pillar-desc">Fraud check</div>
+                                <div class="arch-gate-name">Protect</div>
+                                <div class="arch-gate-desc">Fraud check</div>
+                                <!-- Reject / circuit-break indicator -->
+                                <div class="arch-gate-reject">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                                    reject
+                                </div>
                             </div>
-                            <div class="arch-flow-arrow">&rsaquo;</div>
-                            <div class="arch-pillar">
-                                <svg class="arch-pillar-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.6-3.6a8 8 0 01-11.5 11.5L3.4 23.6a1 1 0 01-1.4 0l-1.6-1.6a1 1 0 010-1.4l6.3-6.3A8 8 0 0114.7 6.3z"/>
-                                    <path d="M8 14l-2 2"/><path d="M12 10l-2 2"/>
+
+                            <!-- Arrow: verified -->
+                            <div class="arch-flow-step">
+                                <div class="arch-flow-arrow">&rsaquo;</div>
+                                <div class="arch-flow-label">verified</div>
+                            </div>
+
+                            <!-- Gate 4: Test -->
+                            <div class="arch-gate">
+                                <svg class="arch-gate-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
                                 </svg>
-                                <div class="arch-pillar-name">Test</div>
-                                <div class="arch-pillar-desc">Sandbox</div>
+                                <div class="arch-gate-name">Test</div>
+                                <div class="arch-gate-desc">Sandbox</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Processed/verified flow (gold) -->
+                <!-- Divider -->
+                <div class="arch-plane-divider"></div>
+
+                <!-- Egress flow -->
+                <div class="arch-plane-label data">Data Plane &mdash; Egress</div>
+                <div class="arch-state-label verified">Signed &amp; Verified Transaction</div>
                 <div class="arch-connector">
-                    <div class="arch-connector-arrow processed" style="transform: rotate(0)"></div>
-                    <div class="arch-connector-line processed"></div>
-                    <div class="arch-connector-arrow processed"></div>
+                    <div class="arch-connector-line egress"></div>
+                    <div class="arch-connector-arrow egress"></div>
                 </div>
 
-                <!-- Layer 3: Payment Protocols -->
+                <!-- Payment Protocols -->
                 <div class="arch-layer">
                     <div class="arch-layer-label">Protocols</div>
                     <div class="arch-protocols">
@@ -1312,13 +1481,12 @@ console.<span class="fn">log</span>(stats.<span class="prop">totalSpend</span>, 
                     </div>
                 </div>
 
-                <!-- Settlement flow (green/blue gradient) -->
                 <div class="arch-connector">
-                    <div class="arch-connector-line processed"></div>
-                    <div class="arch-connector-arrow processed"></div>
+                    <div class="arch-connector-line egress"></div>
+                    <div class="arch-connector-arrow egress"></div>
                 </div>
 
-                <!-- Layer 4: Settlement -->
+                <!-- Settlement Layer -->
                 <div class="arch-layer">
                     <div class="arch-layer-label">Settlement</div>
                     <div class="arch-protocols">
