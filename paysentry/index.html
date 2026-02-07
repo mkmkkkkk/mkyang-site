@@ -988,45 +988,52 @@
             line-height: 1.2;
         }
 
-        /* Reject path — red dashed branch from Protect */
+        /* Reject path — curves upward back toward agents */
         .arch-gate-reject-path {
             position: absolute;
-            right: -4px;
-            top: 50%;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 3px;
-            transform: translateY(-50%);
             opacity: 0.55;
             transition: opacity 0.3s ease;
         }
 
         .arch-gate:hover .arch-gate-reject-path { opacity: 1; }
 
-        .arch-gate-reject-line {
-            width: 18px;
+        .arch-gate-reject-arrow {
+            width: 0;
             height: 0;
-            border-top: 1.5px dashed rgba(239, 68, 68, 0.5);
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-bottom: 4px solid rgba(239, 68, 68, 0.5);
+        }
+
+        .arch-gate-reject-line {
+            width: 0;
+            height: 8px;
+            border-left: 1.5px dashed rgba(239, 68, 68, 0.45);
         }
 
         .arch-gate-reject-label {
-            font-size: 0.4rem;
+            font-size: 0.38rem;
             font-weight: 700;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: rgba(239, 68, 68, 0.65);
-            background: rgba(239, 68, 68, 0.06);
-            border: 1px solid rgba(239, 68, 68, 0.15);
+            color: rgba(239, 68, 68, 0.6);
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.12);
             padding: 0.1rem 0.3rem;
             border-radius: 2px;
             white-space: nowrap;
+            margin-top: 1px;
         }
 
-        /* Sandbox mode badge — top-right of PaySentry box */
+        /* Sandbox mode badge — inline in header, global switch */
         .arch-sandbox-badge {
-            position: absolute;
-            top: 8px;
-            right: 10px;
+            margin-left: auto;
             display: flex;
             align-items: center;
             gap: 4px;
@@ -1059,20 +1066,20 @@
 
         .arch-settlement-network-label {
             font-size: 0.5rem;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: rgba(240, 237, 230, 0.2);
+            color: rgba(240, 237, 230, 0.4);
             text-align: center;
             margin-bottom: 0.5rem;
         }
 
         .arch-settlement-sublabel {
             font-size: 0.42rem;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: rgba(240, 237, 230, 0.18);
+            color: rgba(240, 237, 230, 0.32);
             text-align: center;
             margin-bottom: 0.3rem;
         }
@@ -1470,6 +1477,7 @@ console.<span class="fn">log</span>(stats.<span class="prop">totalSpend</span>, 
                 <div class="arch-layer">
                     <div class="arch-layer-label">Your Agents</div>
                     <div class="arch-protocols">
+                        <div class="arch-node agent">OpenClaw</div>
                         <div class="arch-node agent">LangChain</div>
                         <div class="arch-node agent">CrewAI</div>
                         <div class="arch-node agent">AutoGen</div>
@@ -1492,13 +1500,12 @@ console.<span class="fn">log</span>(stats.<span class="prop">totalSpend</span>, 
                     <div class="arch-paysentry-header">
                         <div class="arch-paysentry-title">PaySentry</div>
                         <div class="arch-paysentry-badge">Middleware Chain</div>
-                    </div>
-                    <div class="arch-paysentry-box">
-                        <!-- Sandbox mode badge — global switch, not a pipeline stage -->
                         <div class="arch-sandbox-badge">
                             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                             Sandbox Mode
                         </div>
+                    </div>
+                    <div class="arch-paysentry-box">
                         <div class="arch-pipeline">
                             <!-- Gate 1: Observe -->
                             <div class="arch-gate">
@@ -1537,8 +1544,9 @@ console.<span class="fn">log</span>(stats.<span class="prop">totalSpend</span>, 
                                 </svg>
                                 <div class="arch-gate-name">Protect</div>
                                 <div class="arch-gate-desc">Fraud check</div>
-                                <!-- Reject path: dashed red line branching out -->
+                                <!-- Reject path: points upward back to agents -->
                                 <div class="arch-gate-reject-path">
+                                    <div class="arch-gate-reject-arrow"></div>
                                     <div class="arch-gate-reject-line"></div>
                                     <div class="arch-gate-reject-label">Reject</div>
                                 </div>
