@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - PaySentry</title>
+    <meta name="description" content="PaySentry documentation: API reference, quick start guide, and examples for the AI agent payment control plane.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --accent: #C9A84C;
+            --accent-dim: rgba(201, 168, 76, 0.12);
+            --bg: #08080A;
+            --text: #F0EDE6;
+            --muted: rgba(240, 237, 230, 0.4);
+            --code-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.06);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* === LAYOUT === */
+        .page {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 260px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
+            padding: 2rem 1.5rem;
+            background: rgba(8, 8, 10, 0.95);
+            z-index: 10;
+        }
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            margin-bottom: 2.5rem;
+        }
+        .sidebar-logo img { width: 28px; height: 28px; }
+        .sidebar-logo span {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .sidebar-section {
+            margin-bottom: 1.8rem;
+        }
+        .sidebar-section-title {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+        .sidebar-link {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: rgba(240, 237, 230, 0.6);
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 0.15rem;
+            transition: all 0.2s ease;
+        }
+        .sidebar-link:hover { color: var(--text); background: var(--accent-dim); }
+        .sidebar-link.active { color: var(--accent); background: var(--accent-dim); font-weight: 500; }
+        .main {
+            margin-left: 260px;
+            flex: 1;
+            max-width: 820px;
+            padding: 3rem 4rem 6rem;
+        }
+
+        /* === TYPOGRAPHY === */
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .subtitle {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: rgba(240, 237, 230, 0.55);
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 4rem;
+            margin-bottom: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        h2:first-of-type { border-top: none; padding-top: 0; }
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent);
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.02em;
+        }
+        p {
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(240, 237, 230, 0.78);
+            margin-bottom: 1rem;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* === CODE === */
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+        }
+        code {
+            font-family: 'Fira Code', 'SF Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.7;
+        }
+        pre code { color: rgba(240, 237, 230, 0.75); }
+        p code, li code {
+            background: rgba(201, 168, 76, 0.1);
+            color: var(--accent);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .install-cmd {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin: 1rem 0 1.5rem;
+        }
+        .install-cmd .prompt { color: var(--muted); margin-right: 0.5rem; }
+
+        /* === TABLE === */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 1.5rem;
+            font-size: 0.88rem;
+        }
+        th {
+            text-align: left;
+            font-weight: 500;
+            color: var(--accent);
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        td {
+            padding: 0.55rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: rgba(240, 237, 230, 0.78);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        td code { font-size: 0.82em; }
+
+        /* === BADGES === */
+        .badge {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.2em 0.6em;
+            border-radius: 3px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+        .badge-observe { color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.25); }
+        .badge-control { color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.25); }
+        .badge-protect { color: #f97316; border: 1px solid rgba(249, 115, 22, 0.25); }
+        .badge-sandbox { color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.25); }
+        .badge-core { color: var(--accent); border: 1px solid rgba(201, 168, 76, 0.25); }
+
+        /* === PARAMS LIST === */
+        .params { margin: 0.5rem 0 1.5rem; }
+        .param {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .param:last-child { border-bottom: none; }
+        .param-name {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: var(--accent);
+        }
+        .param-type {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-left: 0.5rem;
+        }
+        .param-desc {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(240, 237, 230, 0.65);
+            margin-top: 0.2rem;
+        }
+        .param-optional {
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-left: 0.4rem;
+        }
+
+        /* === MOBILE === */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 20;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.open { transform: translateX(0); }
+            .mobile-menu-btn { display: block; }
+            .main { margin-left: 0; padding: 4rem 1.5rem 4rem; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('open')">Menu</button>
+
+    <div class="page">
+        <nav class="sidebar">
+            <a href="/paysentry" class="sidebar-logo">
+                <img src="/paysentry/logo.svg" alt="PaySentry">
+                <span>PaySentry</span>
+            </a>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Getting Started</div>
+                <a href="#overview" class="sidebar-link active">Overview</a>
+                <a href="#installation" class="sidebar-link">Installation</a>
+                <a href="#quick-start" class="sidebar-link">Quick Start</a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Packages</div>
+                <a href="#core" class="sidebar-link">@paysentry/core</a>
+                <a href="#observe" class="sidebar-link">@paysentry/observe</a>
+                <a href="#control" class="sidebar-link">@paysentry/control</a>
+                <a href="#protect" class="sidebar-link">@paysentry/protect</a>
+                <a href="#sandbox" class="sidebar-link">@paysentry/sandbox</a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Guides</div>
+                <a href="#policy-guide" class="sidebar-link">Writing Policies</a>
+                <a href="#alerts-guide" class="sidebar-link">Alert Rules</a>
+                <a href="#sandbox-guide" class="sidebar-link">Testing with Sandbox</a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Links</div>
+                <a href="https://github.com/MichaelYangzk/paysentry" class="sidebar-link" target="_blank">GitHub</a>
+                <a href="https://www.npmjs.com/package/@paysentry/core" class="sidebar-link" target="_blank">npm</a>
+                <a href="/blog/agentgate-whitepaper" class="sidebar-link" target="_blank">Whitepaper</a>
+            </div>
+        </nav>
+
+        <main class="main">
+            <h1 id="overview">PaySentry Documentation</h1>
+            <p class="subtitle">The missing control plane for AI agent payments. Observe what agents spend. Control how they spend it. Protect when things go wrong. Test without real money.</p>
+
+            <!-- ============================== -->
+            <h2 id="installation">Installation</h2>
+            <p>Install the packages you need. All packages are independent — use one or all.</p>
+
+            <div class="install-cmd"><span class="prompt">$</span> npm install @paysentry/core @paysentry/observe @paysentry/control</div>
+
+            <table>
+                <thead><tr><th>Package</th><th>Purpose</th></tr></thead>
+                <tbody>
+                    <tr><td><code>@paysentry/core</code></td><td>Shared types, utilities, transaction factory</td></tr>
+                    <tr><td><code>@paysentry/observe</code></td><td>Transaction tracking, analytics, alerts</td></tr>
+                    <tr><td><code>@paysentry/control</code></td><td>Policy engine, spending rules, middleware</td></tr>
+                    <tr><td><code>@paysentry/protect</code></td><td>Provenance tracking, disputes, recovery</td></tr>
+                    <tr><td><code>@paysentry/sandbox</code></td><td>Mock x402/ACP/AP2 for testing</td></tr>
+                </tbody>
+            </table>
+
+            <!-- ============================== -->
+            <h2 id="quick-start">Quick Start</h2>
+            <p>Set up a spend tracker and policy engine in under 10 lines:</p>
+
+<pre><code>import { createTransaction } from '@paysentry/core';
+import { SpendTracker } from '@paysentry/observe';
+import { PolicyEngine, blockAbove, requireApprovalAbove, allowAll } from '@paysentry/control';
+
+// 1. Create tracker and policy engine
+const tracker = new SpendTracker();
+const engine = new PolicyEngine();
+
+// 2. Load a policy
+engine.loadPolicy({
+  id: 'production',
+  name: 'Production Policy',
+  enabled: true,
+  rules: [
+    blockAbove(1000, 'USDC'),           // Hard block above $1000
+    requireApprovalAbove(100, 'USDC'),  // Human approval above $100
+    allowAll(),                          // Allow everything else
+  ],
+  budgets: [
+    { window: 'daily', maxAmount: 500, currency: 'USDC' },
+    { window: 'monthly', maxAmount: 5000, currency: 'USDC' },
+  ],
+});
+
+// 3. Create and evaluate a transaction
+const tx = createTransaction({
+  agentId: 'agent-001',
+  amount: 25.00,
+  currency: 'USDC',
+  recipient: 'api.openai.com',
+  protocol: 'x402',
+});
+
+const result = engine.evaluate(tx);
+if (result.allowed) {
+  tracker.record(tx);  // Record after successful payment
+}
+</code></pre>
+
+            <!-- ============================== -->
+            <h2 id="core">@paysentry/core <span class="badge badge-core">Core</span></h2>
+            <p>Shared types, ID generation, and transaction factory used by all other packages.</p>
+
+            <h3>createTransaction(input)</h3>
+            <p>Creates a fully-formed <code>AgentTransaction</code> with auto-generated ID and timestamp.</p>
+            <div class="params">
+                <div class="param">
+                    <span class="param-name">agentId</span><span class="param-type">string</span>
+                    <div class="param-desc">The agent making the payment</div>
+                </div>
+                <div class="param">
+                    <span class="param-name">amount</span><span class="param-type">number</span>
+                    <div class="param-desc">Payment amount</div>
+                </div>
+                <div class="param">
+                    <span class="param-name">currency</span><span class="param-type">string</span>
+                    <div class="param-desc">Currency code (e.g., 'USDC', 'USD')</div>
+                </div>
+                <div class="param">
+                    <span class="param-name">recipient</span><span class="param-type">string</span>
+                    <div class="param-desc">Payment recipient (address, domain, etc.)</div>
+                </div>
+                <div class="param">
+                    <span class="param-name">protocol</span><span class="param-type">'x402' | 'acp' | 'ap2' | 'visa_tap' | 'other'</span>
+                    <div class="param-desc">Payment protocol</div>
+                </div>
+                <div class="param">
+                    <span class="param-name">service</span><span class="param-type">string</span><span class="param-optional">optional</span>
+                    <div class="param-desc">Service identifier</div>
+                </div>
+                <div class="param">
+                    <span class="param-name">description</span><span class="param-type">string</span><span class="param-optional">optional</span>
+                    <div class="param-desc">Human-readable description</div>
+                </div>
+            </div>
+
+            <h3>Key Types</h3>
+            <table>
+                <thead><tr><th>Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>AgentTransaction</code></td><td>Core transaction record with ID, agent, amount, recipient, protocol, status, timestamps</td></tr>
+                    <tr><td><code>SpendPolicy</code></td><td>Policy definition with rules and budget limits</td></tr>
+                    <tr><td><code>PolicyRule</code></td><td>Single rule within a policy (condition + action)</td></tr>
+                    <tr><td><code>PolicyEvaluation</code></td><td>Result of evaluating a transaction against policies</td></tr>
+                    <tr><td><code>BudgetLimit</code></td><td>Time-windowed spending cap (daily, weekly, monthly)</td></tr>
+                    <tr><td><code>DisputeCase</code></td><td>Dispute record with evidence and resolution</td></tr>
+                    <tr><td><code>SpendAlert</code></td><td>Alert fired by the observability layer</td></tr>
+                    <tr><td><code>PaymentProtocol</code></td><td><code>'x402' | 'acp' | 'ap2' | 'visa_tap' | 'other'</code></td></tr>
+                </tbody>
+            </table>
+
+            <!-- ============================== -->
+            <h2 id="observe">@paysentry/observe <span class="badge badge-observe">Observe</span></h2>
+            <p>Transaction tracking, spend analytics, and alert system. The foundation of payment observability.</p>
+
+            <h3>SpendTracker</h3>
+            <p>Records and indexes all agent transactions. Supports filtering by agent, service, protocol, time range, and amount.</p>
+
+<pre><code>import { SpendTracker } from '@paysentry/observe';
+
+const tracker = new SpendTracker();
+
+// Record a transaction
+tracker.record(transaction);
+
+// Query transactions
+const txns = tracker.query({
+  agentId: 'agent-001',
+  protocol: 'x402',
+  after: '2026-02-01T00:00:00Z',
+  minAmount: 10,
+  limit: 50,
+});
+
+// Get a specific transaction
+const tx = tracker.get(transactionId);
+</code></pre>
+
+            <h3>SpendAnalytics</h3>
+            <p>Aggregated spend analytics across agents, services, and time periods.</p>
+
+<pre><code>import { SpendAnalytics } from '@paysentry/observe';
+
+const analytics = new SpendAnalytics(tracker);
+
+// Get summary for an agent
+const summary = analytics.getSummary('agent-001', {
+  period: '24h',    // '1h' | '24h' | '7d' | '30d'
+  currency: 'USDC',
+});
+// { totalSpend, txCount, avgAmount, topRecipients, byProtocol }
+</code></pre>
+
+            <h3>SpendAlerts</h3>
+            <p>Threshold-based alerts and anomaly detection. Fires callbacks when conditions are met.</p>
+
+<pre><code>import { SpendAlerts } from '@paysentry/observe';
+
+const alerts = new SpendAlerts(tracker);
+
+// Budget threshold: alert at 80% of $500/day
+alerts.addRule({
+  id: 'daily-budget',
+  name: 'Daily Budget Alert',
+  type: 'budget_threshold',
+  severity: 'warning',
+  enabled: true,
+  config: {
+    type: 'budget_threshold',
+    threshold: 500,
+    currency: 'USDC',
+    windowMs: 86_400_000,
+    alertAtPercent: 0.8,
+  },
+});
+
+// Large single transaction
+alerts.addRule({
+  id: 'large-tx',
+  name: 'Large Transaction Alert',
+  type: 'large_transaction',
+  severity: 'critical',
+  enabled: true,
+  config: {
+    type: 'large_transaction',
+    threshold: 200,
+    currency: 'USDC',
+  },
+});
+
+// Rate spike detection
+alerts.addRule({
+  id: 'rate-spike',
+  name: 'Rate Spike Alert',
+  type: 'rate_spike',
+  severity: 'critical',
+  enabled: true,
+  config: {
+    type: 'rate_spike',
+    windowMs: 60_000,      // 1 minute window
+    maxTransactions: 5,
+  },
+});
+
+alerts.onAlert((alert) => {
+  console.log(`[${alert.severity}] ${alert.message}`);
+});
+</code></pre>
+
+            <h3 id="alerts-guide">Alert Types</h3>
+            <table>
+                <thead><tr><th>Type</th><th>Config</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>budget_threshold</code></td><td><code>threshold</code>, <code>currency</code>, <code>windowMs</code>, <code>alertAtPercent</code></td><td>Fires when cumulative spend reaches % of threshold in time window</td></tr>
+                    <tr><td><code>large_transaction</code></td><td><code>threshold</code>, <code>currency</code></td><td>Fires on any single transaction above threshold</td></tr>
+                    <tr><td><code>rate_spike</code></td><td><code>windowMs</code>, <code>maxTransactions</code></td><td>Fires when transaction rate exceeds limit in window</td></tr>
+                    <tr><td><code>new_recipient</code></td><td><code>agentId</code></td><td>Fires when an agent pays a never-before-seen recipient</td></tr>
+                    <tr><td><code>anomaly</code></td><td><code>sensitivity</code></td><td>Statistical anomaly detection on amount/frequency patterns</td></tr>
+                </tbody>
+            </table>
+
+            <!-- ============================== -->
+            <h2 id="control">@paysentry/control <span class="badge badge-control">Control</span></h2>
+            <p>Deterministic policy engine for AI agent payments. No LLM, no AI, no probabilistic reasoning. If the policy says no, it's no.</p>
+
+            <h3>PolicyEngine</h3>
+            <p>Evaluates transactions against declarative spending policies.</p>
+
+<pre><code>import { PolicyEngine } from '@paysentry/control';
+
+const engine = new PolicyEngine({ logger: console });
+
+// Load a policy
+engine.loadPolicy({
+  id: 'production',
+  name: 'Production Policy',
+  enabled: true,
+  rules: [/* ... */],
+  budgets: [/* ... */],
+});
+
+// Evaluate a transaction
+const result = engine.evaluate(transaction);
+// { allowed: boolean, action: 'allow'|'block'|'require_approval', reason?: string }
+
+// Update spend tracking (call after successful payment)
+engine.recordSpend(transaction);
+</code></pre>
+
+            <h3 id="policy-guide">Rule Builders</h3>
+            <p>Helper functions for creating common policy rules:</p>
+
+<pre><code>import {
+  blockAbove,
+  requireApprovalAbove,
+  blockRecipient,
+  allowOnlyRecipients,
+  allowAll,
+  denyAll,
+} from '@paysentry/control';
+
+const rules = [
+  blockAbove(1000, 'USDC'),                      // Hard block
+  requireApprovalAbove(100, 'USDC'),              // Human-in-the-loop
+  blockRecipient('malicious-service.com'),        // Blocklist
+  allowOnlyRecipients(['api.openai.com', '*.anthropic.com']),  // Allowlist
+  allowAll(),                                     // Default allow
+  denyAll(),                                      // Default deny
+];
+</code></pre>
+
+            <table>
+                <thead><tr><th>Builder</th><th>Action</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>blockAbove(amount, currency)</code></td><td>block</td><td>Block any transaction above the amount</td></tr>
+                    <tr><td><code>requireApprovalAbove(amount, currency)</code></td><td>require_approval</td><td>Require human approval above amount</td></tr>
+                    <tr><td><code>blockRecipient(pattern)</code></td><td>block</td><td>Block payments to matching recipients (glob)</td></tr>
+                    <tr><td><code>allowOnlyRecipients(patterns)</code></td><td>block</td><td>Block payments to non-matching recipients</td></tr>
+                    <tr><td><code>allowAll()</code></td><td>allow</td><td>Allow everything (catch-all)</td></tr>
+                    <tr><td><code>denyAll()</code></td><td>block</td><td>Block everything (catch-all)</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Budget Limits</h3>
+            <p>Time-windowed spending caps. Evaluated independently from rules.</p>
+
+<pre><code>const budgets = [
+  { window: 'daily', maxAmount: 500, currency: 'USDC' },
+  { window: 'weekly', maxAmount: 2000, currency: 'USDC' },
+  { window: 'monthly', maxAmount: 5000, currency: 'USDC' },
+];
+</code></pre>
+
+            <h3>Middleware</h3>
+            <p>Express-style middleware for automatic policy enforcement:</p>
+
+<pre><code>import { createPolicyMiddleware } from '@paysentry/control';
+
+const middleware = createPolicyMiddleware({
+  engine,
+  tracker,
+  onBlocked: (tx, reason) => console.log(`Blocked: ${reason}`),
+  onApprovalRequired: async (tx) => {
+    // Implement your approval flow (Slack, email, etc.)
+    return true; // or false to deny
+  },
+});
+</code></pre>
+
+            <!-- ============================== -->
+            <h2 id="protect">@paysentry/protect <span class="badge badge-protect">Protect</span></h2>
+            <p>Transaction provenance, dispute resolution, and automated recovery.</p>
+
+            <h3>TransactionProvenance</h3>
+            <p>Records the full chain of custody for every transaction: which agent initiated it, what prompt triggered it, which policy approved it.</p>
+
+<pre><code>import { TransactionProvenance } from '@paysentry/protect';
+
+const provenance = new TransactionProvenance();
+
+provenance.record(transaction, {
+  prompt: 'User asked to purchase API credits',
+  policyId: 'production',
+  approvedBy: 'policy-engine',
+});
+
+// Query provenance
+const chain = provenance.getChain(transactionId);
+</code></pre>
+
+            <h3>DisputeManager</h3>
+            <p>File and manage disputes for failed or unauthorized transactions.</p>
+
+<pre><code>import { DisputeManager } from '@paysentry/protect';
+
+const disputes = new DisputeManager();
+
+// File a dispute
+const dispute = disputes.file({
+  transactionId: tx.id,
+  reason: 'duplicate_charge',
+  description: 'Payment retried after timeout — charged twice',
+  evidence: [{ type: 'transaction_log', data: tx }],
+});
+
+// List open disputes
+const open = disputes.query({ status: 'open' });
+</code></pre>
+
+            <h3>RecoveryEngine</h3>
+            <p>Automated recovery actions for dispute resolution.</p>
+
+<pre><code>import { RecoveryEngine } from '@paysentry/protect';
+
+const recovery = new RecoveryEngine({
+  refundExecutor: async (tx) => {
+    // Implement refund via payment protocol
+    return { success: true, refundId: '...' };
+  },
+});
+
+const result = await recovery.execute(dispute);
+// { status: 'completed', action: 'refund', ... }
+</code></pre>
+
+            <!-- ============================== -->
+            <h2 id="sandbox">@paysentry/sandbox <span class="badge badge-sandbox">Sandbox</span></h2>
+            <p>Mock payment environment for testing. Simulates x402, ACP, and AP2 protocols without spending real money.</p>
+
+            <h3>MockX402</h3>
+<pre><code>import { MockX402 } from '@paysentry/sandbox';
+
+const mock = new MockX402({
+  latencyMs: 50,           // Simulate network latency
+  failureRate: 0,          // 0-1, probability of random failures
+  balances: {
+    'agent-001': 1000,     // Starting balance
+  },
+});
+
+const result = await mock.processPayment({
+  from: 'agent-001',
+  to: 'api.openai.com',
+  amount: 25,
+  currency: 'USDC',
+});
+</code></pre>
+
+            <h3>MockACP / MockAP2</h3>
+<pre><code>import { MockACP } from '@paysentry/sandbox';
+import { MockAP2 } from '@paysentry/sandbox';
+
+const acp = new MockACP({ latencyMs: 30 });
+const ap2 = new MockAP2({ latencyMs: 30 });
+</code></pre>
+
+            <h3 id="sandbox-guide">Test Scenarios</h3>
+            <p>Pre-built scenarios for common test patterns:</p>
+
+<pre><code>import {
+  SCENARIO_BASIC_PAYMENT,
+  SCENARIO_OVERSPEND,
+  SCENARIO_APPROVAL_REQUIRED,
+  SCENARIO_BLOCKED_RECIPIENT,
+  SCENARIO_MULTI_PROTOCOL,
+  SCENARIO_DISPUTE,
+  SCENARIO_RATE_SPIKE,
+  SCENARIO_TIMEOUT,
+  SCENARIO_MULTI_AGENT,
+  ALL_SCENARIOS,
+} from '@paysentry/sandbox';
+</code></pre>
+
+            <table>
+                <thead><tr><th>Scenario</th><th>What It Tests</th></tr></thead>
+                <tbody>
+                    <tr><td><code>SCENARIO_BASIC_PAYMENT</code></td><td>Simple successful payment flow</td></tr>
+                    <tr><td><code>SCENARIO_OVERSPEND</code></td><td>Agent exceeding budget limits</td></tr>
+                    <tr><td><code>SCENARIO_APPROVAL_REQUIRED</code></td><td>Human-in-the-loop approval flow</td></tr>
+                    <tr><td><code>SCENARIO_BLOCKED_RECIPIENT</code></td><td>Payment to blocklisted recipient</td></tr>
+                    <tr><td><code>SCENARIO_MULTI_PROTOCOL</code></td><td>Agent using x402 + ACP simultaneously</td></tr>
+                    <tr><td><code>SCENARIO_DISPUTE</code></td><td>Filing and resolving a dispute</td></tr>
+                    <tr><td><code>SCENARIO_RATE_SPIKE</code></td><td>Rapid payment burst triggering circuit breaker</td></tr>
+                    <tr><td><code>SCENARIO_TIMEOUT</code></td><td>Payment timeout and retry handling</td></tr>
+                    <tr><td><code>SCENARIO_MULTI_AGENT</code></td><td>Multiple agents with independent policies</td></tr>
+                </tbody>
+            </table>
+
+            <!-- ============================== -->
+            <h2>Architecture</h2>
+            <p>PaySentry is a <strong>control plane</strong>, not a data plane. It doesn't touch the money. It controls the flow.</p>
+
+<pre><code>┌─────────────────────────────────────────────────────┐
+│                    AI Agent                          │
+│  (Claude, GPT, custom)                              │
+└──────────────────────┬──────────────────────────────┘
+                       │  payment request
+                       ▼
+┌─────────────────────────────────────────────────────┐
+│               PaySentry Control Plane                │
+│                                                      │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
+│  │ Observe  │  │ Control  │  │ Protect  │          │
+│  │ tracker  │  │ policy   │  │ provenance│          │
+│  │ analytics│  │ rules    │  │ disputes │          │
+│  │ alerts   │  │ budgets  │  │ recovery │          │
+│  └──────────┘  └──────────┘  └──────────┘          │
+│                                                      │
+│  ┌──────────────────────────────────────────────┐   │
+│  │               Sandbox (Test)                  │   │
+│  │  MockX402  |  MockACP  |  MockAP2            │   │
+│  └──────────────────────────────────────────────┘   │
+└──────────────────────┬──────────────────────────────┘
+                       │  approved payment
+                       ▼
+┌─────────────────────────────────────────────────────┐
+│             Payment Protocol Layer                    │
+│  x402  |  ACP  |  AP2  |  Visa TAP                  │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+
+            <!-- ============================== -->
+            <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                <p style="color: var(--muted); font-size: 0.85rem;">
+                    PaySentry v1.0.0 &mdash; MIT License &mdash;
+                    <a href="https://github.com/MichaelYangzk/paysentry">GitHub</a> &middot;
+                    <a href="/paysentry">Home</a> &middot;
+                    <a href="/blog/agentgate-whitepaper">Whitepaper</a>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Highlight active sidebar link on scroll
+        const links = document.querySelectorAll('.sidebar-link[href^="#"]');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    links.forEach(l => l.classList.remove('active'));
+                    const active = document.querySelector(`.sidebar-link[href="#${entry.target.id}"]`);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-20% 0px -70% 0px' });
+
+        document.querySelectorAll('h2[id], h1[id]').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
