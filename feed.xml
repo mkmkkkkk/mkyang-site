@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Thu, 12 Feb 2026 18:11:36 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 13 Feb 2026 07:18:55 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -16,17 +16,17 @@
       <link>https://mkyang.ai/blog</link>
     </image>
     <item>
-      <title>Why I Built an Information Antenna</title>
-      <link>https://mkyang.ai/blog/why-i-built-an-information-antenna.html</link>
-      <guid isPermaLink="true">https://mkyang.ai/blog/why-i-built-an-information-antenna.html</guid>
+      <title>My Personal Palantir</title>
+      <link>https://mkyang.ai/blog/my-personal-palantir.html</link>
+      <guid isPermaLink="true">https://mkyang.ai/blog/my-personal-palantir.html</guid>
       <pubDate>Thu, 12 Feb 2026 00:00:00 GMT</pubDate>
       <author>yangzk2001@gmail.com (Michael Yang)</author>
       <description>Most people monitor 5 sources. I built a system that monitors 100+ and tells me what everyone else is missing.</description>
       <content:encoded><![CDATA[<!-- ==================== ENGLISH ==================== -->
             <div class="lang-content active" id="content-en">
                 <div class="article-meta">Michael Yang &middot; February 12, 2026</div>
-                <h1 class="article-title">Why I Built an Information Antenna</h1>
-                <p class="article-subtitle">The problem with getting your worldview from five sources.</p>
+                <h1 class="article-title">My Personal Palantir</h1>
+                <p class="article-subtitle">Why I built a system that monitors 100+ sources so I never have to rely on Reddit&rsquo;s taste again.</p>
                 <div class="article-rule"></div>
 
                 <div class="prose">
@@ -67,8 +67,8 @@
             <!-- ==================== CHINESE ==================== -->
             <div class="lang-content" id="content-zh">
                 <div class="article-meta">Michael Yang &middot; 2026 年 2 月 12 日</div>
-                <h1 class="article-title">为什么我造了一根「收音天线」</h1>
-                <p class="article-subtitle">靠五个信息源理解世界，够吗？</p>
+                <h1 class="article-title">我的私人 Palantir</h1>
+                <p class="article-subtitle">为什么我造了一个监听 100+ 信息源的系统，不再靠 Reddit 的品味理解世界。</p>
                 <div class="article-rule"></div>
 
                 <div class="prose">
