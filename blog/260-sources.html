@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>260 Sources In, Here's What I Learned - Michael Yang</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/article.css">
+    <link rel="alternate" type="application/rss+xml" title="Michael Yang's Blog" href="/feed.xml">
+<!--
+BLOG_META
+title: 260 Sources In, Here's What I Learned
+title_zh: 260 个信息源接入后，我学到了什么
+date: 2026-02-18
+description: Scaling a personal intelligence system from 30 scrapers to 260, and why it already beats most "deep research" tools.
+tags: engineering, information, strategy
+bilingual: true
+END_META
+-->
+</head>
+<body>
+    <!-- Ambient background -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="grid-overlay"></div>
+    <div class="v-line"></div>
+    <div class="noise"></div>
+    <div class="vignette"></div>
+
+    <div class="page">
+        <!-- Top bar -->
+        <header class="topbar">
+            <a href="/" class="logo">mkyang.ai</a>
+            <div class="topbar-right">
+                <div class="lang-switch">
+                    <span class="lang-label active" data-lang="en">EN</span>
+                    <label class="lang-toggle">
+                        <input type="checkbox" id="langToggle">
+                        <span class="track"></span>
+                        <span class="knob"></span>
+                    </label>
+                    <span class="lang-label" data-lang="zh">中文</span>
+                </div>
+                <a href="/blog/" class="back-link">&larr; Blog</a>
+            </div>
+        </header>
+
+        <!-- Article -->
+        <article class="article">
+
+            <!-- ==================== ENGLISH ==================== -->
+            <div class="lang-content active" id="content-en">
+                <div class="article-meta">Michael Yang &middot; February 18, 2026</div>
+                <h1 class="article-title">260 Sources In, Here&rsquo;s What I Learned</h1>
+                <p class="article-subtitle">Scaling a personal intelligence system from 30 scrapers to 260, and why it already beats most &ldquo;deep research&rdquo; tools.</p>
+                <div class="article-rule"></div>
+
+                <div class="prose">
+                    <p>Six weeks ago I started building a system to monitor the internet for me. Not just Reddit and Twitter &mdash; government filings, patent offices, dark pool data, academic preprints, software registries, climate feeds, flight tracking. The kind of sources that individually mean nothing, but together paint a picture that no single platform can give you.</p>
+
+                    <p>It started with 30 scrapers. Now it is at <strong>260 active sources</strong>, processing around 40,000 signals per day into a single daily briefing. The briefing tells me what is unusual, what multiple sources are converging on, and &mdash; most importantly &mdash; what the niche sources are seeing that mainstream platforms have not picked up yet.</p>
+
+                    <h2>The Registration Problem</h2>
+
+                    <p>Scaling to 260 sources means registering for a lot of APIs. Many of them have CAPTCHA walls, email verification, OAuth flows, and other friction designed to keep bots out. Doing this manually for hundreds of services is not realistic.</p>
+
+                    <p>So I built a tool that handles API registration automatically &mdash; creating accounts, receiving verification emails through my own mail server, solving CAPTCHAs, and extracting API keys. For services with particularly aggressive bot detection, I use an anti-detection browser with C++ level fingerprint spoofing to get past Cloudflare and similar systems.</p>
+
+                    <p>In the end, about half the sources I wanted did not even need authentication &mdash; open government datasets, academic APIs, and community-maintained feeds. The best data is often the most accessible. The other half required creative workarounds, and 13 of the original scrapers were replaced entirely with zero-auth alternatives that provided the same or better data.</p>
+
+                    <h2>Better Than Most &ldquo;Deep Research&rdquo;</h2>
+
+                    <p>Let me be honest about where this sits. This is not Bloomberg. It is not Palantir&rsquo;s enterprise platform. It does not have institutional-grade data pipes or real-time streaming from exchanges.</p>
+
+                    <p>But it is deeper than what most companies offer when they say &ldquo;deep research.&rdquo; Most AI research tools search 5&ndash;10 public sources, summarize them, and call it analysis. This system pulls from 260 sources across every layer of the internet &mdash; from FINRA filings that maybe a few hundred analysts read, to Reddit posts that millions see &mdash; and mathematically identifies the gap between what insiders know and what the public knows.</p>
+
+                    <p>For a personal decision-making tool, that is more than enough. For a small business trying to stay ahead of market shifts, it is genuinely useful. You do not need Bloomberg-tier infrastructure to make better decisions &mdash; you need breadth of information and a filter that separates signal from noise.</p>
+
+                    <h2>What Is Next</h2>
+
+                    <p>The system now logs its own predictions. The next phase is verification &mdash; grading whether the asymmetry windows it identifies actually play out as the signals suggest. This takes time. You need weeks and months of data to know if your predictions were right or just noise.</p>
+
+                    <p>But honestly, prediction accuracy is not the main point. As long as you are not using this for financial trading &mdash; where milliseconds and precision matter &mdash; directional awareness is what counts. Knowing that something is happening before everyone else knows is valuable whether you are running a company, evaluating a market, or just trying to understand the world better.</p>
+
+                    <div class="section-divider"></div>
+
+                    <p>The gap between this and an institutional system is real. But the gap between this and reading the news is enormous.</p>
+                </div>
+            </div>
+
+            <!-- ==================== CHINESE ==================== -->
+            <div class="lang-content" id="content-zh">
+                <div class="article-meta">Michael Yang &middot; 2026 年 2 月 18 日</div>
+                <h1 class="article-title">260 个信息源接入后，我学到了什么</h1>
+                <p class="article-subtitle">从 30 个爬虫扩展到 260 个的个人情报系统，为什么它已经比大部分「深度研究」工具更深。</p>
+                <div class="article-rule"></div>
+
+                <div class="prose">
+                    <p>六周前我开始搭建一个替我监听互联网的系统。不只是 Reddit 和 Twitter &mdash; 还有政府公开文件、专利局、暗池数据、学术预印本、软件包注册表、气候数据、航班追踪。单独看每个信息源都不起眼，但合在一起能拼出任何单一平台给不了的全景。</p>
+
+                    <p>从 30 个爬虫起步，现在有 <strong>260 个活跃信息源</strong>，每天处理约 4 万条信号，浓缩成一份每日情报简报。简报告诉我什么是异常的、多个信息源在哪些方向上收敛，以及 &mdash; 最重要的 &mdash; 小众信源看到了什么而主流平台还没反应过来。</p>
+
+                    <h2>注册问题</h2>
+
+                    <p>接入 260 个信息源意味着要注册大量 API。很多都有 CAPTCHA 墙、邮箱验证、OAuth 流程和各种防机器人机制。手动注册几百个服务不现实。</p>
+
+                    <p>所以我建了一个自动注册工具 &mdash; 自动创建账号、通过自建邮件服务器接收验证邮件、解决 CAPTCHA、提取 API 密钥。对于有特别激进的机器人检测的服务，我用一个带 C++ 级指纹伪装的反检测浏览器来绕过 Cloudflare 之类的系统。</p>
+
+                    <p>最后发现，大约一半的信息源根本不需要认证 &mdash; 开放的政府数据集、学术 API、社区维护的信息流。最好的数据往往是最容易获取的。另一半需要一些创造性的变通方案，其中 13 个原始爬虫被零认证替代品完全取代，数据质量相同甚至更好。</p>
+
+                    <h2>比大部分「深度研究」更深</h2>
+
+                    <p>客观地说一下这套系统的定位。这不是彭博终端，不是 Palantir 的企业级平台，没有机构级的数据通道，也没有交易所的实时数据流。</p>
+
+                    <p>但它比大部分公司挂着「深度研究」标签卖的东西更深。大多数 AI 研究工具搜 5&ndash;10 个公开信息源，做个摘要，就叫分析了。这套系统从互联网的每一层拉取 260 个信源的数据 &mdash; 从只有几百个分析师在读的 FINRA 暗池报告，到几百万人看到的 Reddit 帖子 &mdash; 用数学方法识别内部人知道和公众知道之间的差距。</p>
+
+                    <p>作为个人决策工具，这已经绰绰有余。对一个想提前感知市场变化的小企业来说，这是实实在在有用的。做出更好的决策不需要彭博级别的基础设施 &mdash; 需要的是信息广度加上一个能把信号从噪音里分离出来的过滤器。</p>
+
+                    <h2>下一步</h2>
+
+                    <p>系统现在会记录自己的预测。下一阶段是验证 &mdash; 给这些预测打分，看它识别出的信息不对称窗口是否真的按信号暗示的方式演变。这需要时间，需要几周甚至几个月的数据积累才能知道预测是对的还是噪音。</p>
+
+                    <p>但说实话，预测准确率不是重点。只要不拿这套系统做金融交易 &mdash; 那种对毫秒和精度有要求的场景 &mdash; 方向性的感知才是核心价值。在所有人知道之前就知道某件事正在发生，无论你是在经营公司、评估市场、还是只是想更好地理解世界，这都是有价值的。</p>
+
+                    <div class="section-divider"></div>
+
+                    <p>这套系统和机构级系统之间的差距是真实存在的。但它和「看新闻」之间的差距是巨大的。</p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="article-footer">
+                <nav class="links">
+                    <a href="/">Home</a>
+                    <a href="https://github.com/mkmkkkkk" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://x.com/bayc2043" target="_blank" rel="noopener">X / Twitter</a>
+                    <a href="mailto:yangzk01@gmail.com">Email</a>
+                </nav>
+                <span class="copyright">&copy; 2025 Michael Yang</span>
+            </footer>
+        </article>
+    </div>
+
+    <script>
+        const toggle = document.getElementById('langToggle');
+        const enContent = document.getElementById('content-en');
+        const zhContent = document.getElementById('content-zh');
+        const enLabel = document.querySelector('.lang-label[data-lang="en"]');
+        const zhLabel = document.querySelector('.lang-label[data-lang="zh"]');
+
+        function setLang(lang) {
+            if (lang === 'zh') {
+                toggle.checked = true;
+                enContent.classList.remove('active');
+                zhContent.classList.add('active');
+                enLabel.classList.remove('active');
+                zhLabel.classList.add('active');
+                document.documentElement.lang = 'zh-CN';
+                document.title = '260 个信息源接入后，我学到了什么 - Michael Yang';
+            } else {
+                toggle.checked = false;
+                zhContent.classList.remove('active');
+                enContent.classList.add('active');
+                zhLabel.classList.remove('active');
+                enLabel.classList.add('active');
+                document.documentElement.lang = 'en';
+                document.title = '260 Sources In, Here\'s What I Learned - Michael Yang';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        toggle.addEventListener('change', () => {
+            setLang(toggle.checked ? 'zh' : 'en');
+        });
+
+        enLabel.addEventListener('click', () => setLang('en'));
+        zhLabel.addEventListener('click', () => setLang('zh'));
+    </script>
+</body>
+</html>
