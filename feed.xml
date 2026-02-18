@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Wed, 18 Feb 2026 05:48:34 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 18 Feb 2026 10:09:05 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -42,13 +42,13 @@
 
                     <p>In the end, about half the sources I wanted did not even need authentication &mdash; open government datasets, academic APIs, and community-maintained feeds. The best data is often the most accessible. The other half required creative workarounds, and 13 of the original scrapers were replaced entirely with zero-auth alternatives that provided the same or better data.</p>
 
-                    <h2>Better Than Most &ldquo;Deep Research&rdquo;</h2>
+                    <h2>Bottom-Up vs. Top-Down</h2>
 
-                    <p>Let me be honest about where this sits. This is not Bloomberg. It is not Palantir&rsquo;s enterprise platform. It does not have institutional-grade data pipes or real-time streaming from exchanges.</p>
+                    <p>Most AI deep research tools work top-down &mdash; you give them a question, and the model decides where to look, what to follow up on, and when to stop. Every step involves the model making judgment calls about which direction to pursue. The output depends heavily on the search path, which means the same question asked twice can produce meaningfully different results.</p>
 
-                    <p>But it is deeper than what most companies offer when they say &ldquo;deep research.&rdquo; Most AI research tools search 5&ndash;10 public sources, summarize them, and call it analysis. This system pulls from 260 sources across every layer of the internet &mdash; from FINRA filings that maybe a few hundred analysts read, to Reddit posts that millions see &mdash; and mathematically identifies the gap between what insiders know and what the public knows.</p>
+                    <p>This system works bottom-up. 260 sources feed data in continuously, math filters surface what is anomalous and where multiple sources converge, and conclusions emerge from the data itself. There is no model deciding where to look &mdash; the data arrives whether anyone asked for it or not. The output is stable because the underlying signals do not change based on how you frame the question.</p>
 
-                    <p>For a personal decision-making tool, that is more than enough. For a small business trying to stay ahead of market shifts, it is genuinely useful. You do not need Bloomberg-tier infrastructure to make better decisions &mdash; you need breadth of information and a filter that separates signal from noise.</p>
+                    <p>This is not Bloomberg. It is not Palantir&rsquo;s enterprise platform. It does not have institutional-grade data pipes or real-time streaming from exchanges. But for personal decision-making or a small business trying to stay ahead of market shifts, it is more than enough. The stability alone &mdash; getting consistent conclusions rather than model-dependent narratives &mdash; makes it a genuinely useful tool.</p>
 
                     <h2>What Is Next</h2>
 
@@ -82,13 +82,13 @@
 
                     <p>最后发现，大约一半的信息源根本不需要认证 &mdash; 开放的政府数据集、学术 API、社区维护的信息流。最好的数据往往是最容易获取的。另一半需要一些创造性的变通方案，其中 13 个原始爬虫被零认证替代品完全取代，数据质量相同甚至更好。</p>
 
-                    <h2>比大部分「深度研究」更深</h2>
+                    <h2>自下而上 vs. 自上而下</h2>
 
-                    <p>客观地说一下这套系统的定位。这不是彭博终端，不是 Palantir 的企业级平台，没有机构级的数据通道，也没有交易所的实时数据流。</p>
+                    <p>大部分 AI 深度研究工具是自上而下的 &mdash; 你给一个问题，模型决定去哪搜、跟进什么、什么时候停。每一步都有模型在做主观判断，往哪个方向走。输出高度依赖搜索路径，同一个问题问两遍，结果可能差很远。</p>
 
-                    <p>但它比大部分公司挂着「深度研究」标签卖的东西更深。大多数 AI 研究工具搜 5&ndash;10 个公开信息源，做个摘要，就叫分析了。这套系统从互联网的每一层拉取 260 个信源的数据 &mdash; 从只有几百个分析师在读的 FINRA 暗池报告，到几百万人看到的 Reddit 帖子 &mdash; 用数学方法识别内部人知道和公众知道之间的差距。</p>
+                    <p>这套系统是自下而上的。260 个信息源持续灌入数据，数学层筛出异常信号和多源收敛，结论从数据本身浮现。没有模型在决定往哪看 &mdash; 数据不管有没有人问都会到。输出是稳定的，因为底层信号不会因为你怎么提问而改变。</p>
 
-                    <p>作为个人决策工具，这已经绰绰有余。对一个想提前感知市场变化的小企业来说，这是实实在在有用的。做出更好的决策不需要彭博级别的基础设施 &mdash; 需要的是信息广度加上一个能把信号从噪音里分离出来的过滤器。</p>
+                    <p>这不是彭博终端，不是 Palantir 的企业级平台，没有机构级的数据通道，也没有交易所的实时数据流。但作为个人决策工具，或者一个想提前感知市场变化的小企业来说，这已经绰绰有余。光是输出的稳定性 &mdash; 得到一致的结论而不是依赖模型路径的叙事 &mdash; 就已经让它成为一个实实在在有用的工具。</p>
 
                     <h2>下一步</h2>
 
