@@ -8,13 +8,58 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Wed, 18 Feb 2026 10:09:05 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 21 Feb 2026 04:50:28 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
       <title>Michael Yang's Blog</title>
       <link>https://mkyang.ai/blog</link>
     </image>
+    <item>
+      <title>The Bottleneck Moved</title>
+      <link>https://mkyang.ai/blog/the-bottleneck-moved.html</link>
+      <guid isPermaLink="true">https://mkyang.ai/blog/the-bottleneck-moved.html</guid>
+      <pubDate>Sat, 21 Feb 2026 00:00:00 GMT</pubDate>
+      <author>yangzk2001@gmail.com (Michael Yang)</author>
+      <description>When answers become cheap, the hard part is knowing what to ask.</description>
+      <content:encoded><![CDATA[<!-- ==================== ENGLISH ==================== -->
+            <div class="lang-content active" id="content-en">
+                <div class="article-meta">Michael Yang &middot; February 21, 2026</div>
+                <h1 class="article-title">The Bottleneck Moved</h1>
+                <p class="article-subtitle">When answers become cheap, the hard part is knowing what to ask.</p>
+                <div class="article-rule"></div>
+
+                <div class="prose">
+                    <p>After using the ultra-deep research system for a while &mdash; the one I wrote about in previous posts &mdash; I realized my bottleneck is no longer answers. It is questions. What should I even be asking? What am I not thinking about?</p>
+
+                    <p>So I built a council. Elon, Charlie Munger, Naval, and a few others. I throw a direction question at them, and they argue with each other, poke holes in my thinking, and point out what I am missing. Then I decide.</p>
+
+                    <p>This is not a new idea. People were talking about AI advisory councils on Twitter maybe a year ago. I saw those posts and did not think much of it. But now that I actually have more information than I know what to do with, I get it. I genuinely need something like this.</p>
+
+                    <p>Paul Graham wrote recently: &ldquo;When anyone can make anything, the big differentiator is what you choose to make.&rdquo; Greg Brockman called taste &ldquo;a new core skill.&rdquo; They are talking about the same thing I ran into &mdash; when execution gets cheap, judgment becomes the bottleneck. The council is my attempt at scaling judgment.</p>
+                </div>
+            </div>
+
+            <!-- ==================== CHINESE ==================== -->
+            <div class="lang-content" id="content-zh">
+                <div class="article-meta">Michael Yang &middot; 2026 年 2 月 21 日</div>
+                <h1 class="article-title">瓶颈转移了</h1>
+                <p class="article-subtitle">当答案变得廉价，难的是知道该问什么。</p>
+                <div class="article-rule"></div>
+
+                <div class="prose">
+                    <p>用了一段时间超深度研究系统 &mdash; 就是之前博客写的那个 &mdash; 我发现我的瓶颈不再是答案了，而是变成了该问什么问题、该怎么问问题。</p>
+
+                    <p>所以我搭了一个顾问团。Elon、查理芒格、纳瓦尔，还有几个人。我把方向性的问题丢进去，他们互相吵，戳我思维的漏洞，指出我没看到的东西。然后我来拍板。</p>
+
+                    <p>这不是个新概念，大概一年前 Twitter 上就有人在讨论了。我当时看了没当回事。但现在手里的信息多到不知道该拿它们怎么办的时候，我才理解了。我是真的需要这个东西。</p>
+
+                    <p>Paul Graham 最近写到：&ldquo;当任何人都能做出任何东西的时候，真正的差异化是你选择做什么。&rdquo; Greg Brockman 说品味是&ldquo;一项新的核心技能&rdquo;。他们说的和我撞上的是同一件事 &mdash; 当执行变得廉价，判断力就变成了瓶颈。顾问团是我扩展判断力的尝试。</p>
+                </div>
+            </div>
+
+            <!-- Footer -->]]></content:encoded>
+    </item>
     <item>
       <title>260 Sources In, Here's What I Learned</title>
       <link>https://mkyang.ai/blog/260-sources.html</link>
