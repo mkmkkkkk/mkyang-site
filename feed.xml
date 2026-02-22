@@ -8,13 +8,62 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Sat, 21 Feb 2026 04:50:28 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 22 Feb 2026 06:51:49 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
       <title>Michael Yang's Blog</title>
       <link>https://mkyang.ai/blog</link>
     </image>
+    <item>
+      <title>Token Is Class</title>
+      <link>https://mkyang.ai/blog/token-is-class.html</link>
+      <guid isPermaLink="true">https://mkyang.ai/blog/token-is-class.html</guid>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 GMT</pubDate>
+      <author>yangzk2001@gmail.com (Michael Yang)</author>
+      <description>When your token quota drops, you feel what class really means.</description>
+      <content:encoded><![CDATA[<!-- ==================== ENGLISH ==================== -->
+            <div class="lang-content active" id="content-en">
+                <div class="article-meta">Michael Yang &middot; February 22, 2026</div>
+                <h1 class="article-title">Token Is Class</h1>
+                <p class="article-subtitle">When your token quota drops, you feel what class really means.</p>
+                <div class="article-rule"></div>
+
+                <div class="prose">
+                    <p>I accidentally switched to the Claude Code Plus plan &mdash; the low-bandwidth version. A single conversation burned 10% of my quota. One oversized task wiped out five hours of quota in one shot, and after that I could do nothing. I spent a full day living the &ldquo;low-bandwidth life&rdquo; &mdash; every move had to be calculated, trial and error became prohibitive, impossible to produce anything of value.</p>
+
+                    <p>This experience reminded me of a concept from the animated series <em>Pantheon</em>: after human consciousness is uploaded into a digital world, your processing speed depends on the compute you&rsquo;re allocated. The rich run blazingly fast &mdash; three weeks in the real world is five years for them. The poor? They crawl. In a purely digital world, compute is time, time is the speed of evolution, and the speed of evolution is class.</p>
+
+                    <p>This is no longer sci-fi. Cognitive bandwidth and class are already tightly coupled. If your tokens aren&rsquo;t enough, you simply cannot do what someone with 20x or 100x your tokens can do. The progress and economic output you can generate approaches zero. There is almost no way to compete with that gap. The only difference from <em>Pantheon</em> &mdash; we haven&rsquo;t uploaded our consciousness yet, but we&rsquo;ve already uploaded our productivity.</p>
+
+                    <p>And these are two different worlds. If you&rsquo;ve never experienced the high-speed version, you&rsquo;d think slower is fine &mdash; ChatGPT or whatever works just as well. But once you&rsquo;ve tasted it, there&rsquo;s no going back. That&rsquo;s when I realized how deep my dependency goes. If Anthropic shuts down tomorrow, or the power grid goes out, that&rsquo;s gonna be a freaking disaster. Orange AI wrote a story on X called <a href="https://x.com/oran_ge/status/2022819159906877781" target="_blank" rel="noopener"><em>Eternal Burn</em></a> about exactly this world.</p>
+
+                    <p>We&rsquo;re already living in it.</p>
+                </div>
+            </div>
+
+            <!-- ==================== CHINESE ==================== -->
+            <div class="lang-content" id="content-zh">
+                <div class="article-meta">Michael Yang &middot; 2026 年 2 月 22 日</div>
+                <h1 class="article-title">Token 即阶级</h1>
+                <p class="article-subtitle">当你的 token 配额降下来，你才感受到阶级的含义。</p>
+                <div class="article-rule"></div>
+
+                <div class="prose">
+                    <p>意外切到了 Claude Code Plus 版本&mdash;&mdash;也就是低流量版。一个对话消耗 10% 的用量，一旦发起一个太大的任务，直接把 5 个小时的额度干没了，之后啥都干不了。花了一天体验这种&ldquo;低流量生活&rdquo;，每一步都要精打细算，试错成本极高，实在做不出任何有价值的东西。</p>
+
+                    <p>这种体验让我想到美漫《Pantheon》里的一个设定：人类意识上传到数字世界后，不同人的运行速度取决于分配到的算力。有钱人跑得飞快，现实世界三周等于他们的五年。穷人呢？慢得像蜗牛。在一个纯数字的世界里，算力就是时间，时间就是进化速度，进化速度就是阶级。</p>
+
+                    <p>这不再是科幻了。智力流量和阶级已经强绑定。一个人的 Token 不够，他就没办法做那些拥有 20 倍、百倍 Token 的人能做的事情。他能产生的进步和经济效益几乎为零。这种差距，几乎没办法抗衡。和《Pantheon》唯一的区别是&mdash;&mdash;我们还没上传意识，但我们的生产力已经上传了。</p>
+
+                    <p>而且这是两个世界。如果你没体验过高速版本，你会觉得慢点也无所谓，用 ChatGPT 或者任何东西都行。但你一旦体验过，就回不去了。我也才意识到自己对这个东西的依赖有多深&mdash;&mdash;如果哪天 Anthropic 倒闭了，或者电网停电了，that&rsquo;s gonna be a freaking disaster。Orange AI 在 X 上写过一篇小说<a href="https://x.com/oran_ge/status/2022819159906877781" target="_blank" rel="noopener">《永恒的燃烧》</a>，讲的就是这个世界。</p>
+
+                    <p>我们已经活在里面了。</p>
+                </div>
+            </div>
+
+            <!-- Footer -->]]></content:encoded>
+    </item>
     <item>
       <title>The Bottleneck Moved</title>
       <link>https://mkyang.ai/blog/the-bottleneck-moved.html</link>
