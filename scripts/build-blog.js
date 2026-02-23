@@ -39,6 +39,7 @@ const posts = fs.readdirSync(BLOG_DIR)
     .filter(f => f.endsWith('.html') && f !== 'index.html')
     .map(f => parseMeta(path.join(BLOG_DIR, f)))
     .filter(Boolean)
+    .filter(p => p.hidden !== 'true')
     .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
 // ── Format date ────────────────────────────────────────────────────────
