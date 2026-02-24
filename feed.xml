@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Tue, 24 Feb 2026 12:30:26 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 24 Feb 2026 12:37:23 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -153,6 +153,8 @@
                     <div class="section-divider"></div>
 
                     <p>The gap between this and an institutional system is real. But the gap between this and reading the news is enormous.</p>
+
+                    <p>Here is the <a href="https://gist.github.com/mkmkkkkk/7d0a78d482850f9cdea8e76af606cc49" target="_blank" rel="noopener">full list of all 260 sources</a>.</p>
                 </div>
             </div>
 
@@ -193,6 +195,8 @@
                     <div class="section-divider"></div>
 
                     <p>这套系统和机构级系统之间的差距是真实存在的。但它和「看新闻」之间的差距是巨大的。</p>
+
+                    <p>这是<a href="https://gist.github.com/mkmkkkkk/7d0a78d482850f9cdea8e76af606cc49" target="_blank" rel="noopener">完整的 260 个数据源清单</a>。</p>
                 </div>
             </div>
 
