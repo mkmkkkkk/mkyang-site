@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Mon, 23 Feb 2026 08:28:45 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 24 Feb 2026 12:30:26 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -124,7 +124,7 @@
                 <div class="article-rule"></div>
 
                 <div class="prose">
-                    <p>Six weeks ago I started building a system to monitor the internet for me. Not just Reddit and Twitter &mdash; government filings, patent offices, dark pool data, academic preprints, software registries, climate feeds, flight tracking. The kind of sources that individually mean nothing, but together paint a picture that no single platform can give you.</p>
+                    <p>Six days ago I started building a system to monitor the internet for me. Not just Reddit and Twitter &mdash; government filings, patent offices, dark pool data, academic preprints, software registries, climate feeds, flight tracking. The kind of sources that individually mean nothing, but together paint a picture that no single platform can give you.</p>
 
                     <p>It started with 30 scrapers, passed 100 within a week, and now sits at <strong>260 active sources</strong>, processing around 40,000 signals per day into a single daily briefing. The briefing tells me what is unusual, what multiple sources are converging on, and &mdash; most importantly &mdash; what the niche sources are seeing that mainstream platforms have not picked up yet.</p>
 
@@ -164,7 +164,7 @@
                 <div class="article-rule"></div>
 
                 <div class="prose">
-                    <p>六周前我开始搭建一个替我监听互联网的系统。不只是 Reddit 和 Twitter &mdash; 还有政府公开文件、专利局、暗池数据、学术预印本、软件包注册表、气候数据、航班追踪。单独看每个信息源都不起眼，但合在一起能拼出任何单一平台给不了的全景。</p>
+                    <p>六天前我开始搭建一个替我监听互联网的系统。不只是 Reddit 和 Twitter &mdash; 还有政府公开文件、专利局、暗池数据、学术预印本、软件包注册表、气候数据、航班追踪。单独看每个信息源都不起眼，但合在一起能拼出任何单一平台给不了的全景。</p>
 
                     <p>从 30 个爬虫起步，一周内突破 100 个，现在有 <strong>260 个活跃信息源</strong>，每天处理约 4 万条信号，浓缩成一份每日情报简报。简报告诉我什么是异常的、多个信息源在哪些方向上收敛，以及 &mdash; 最重要的 &mdash; 小众信源看到了什么而主流平台还没反应过来。</p>
 
