@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Tue, 24 Feb 2026 12:58:27 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 24 Feb 2026 13:02:28 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -36,7 +36,7 @@
 
                     <p>This is no longer sci-fi. AI bandwidth and class are already tightly coupled. If your tokens aren&rsquo;t enough, you simply cannot do what someone with 20x or 100x your tokens can do. Your iteration speed doesn&rsquo;t drop to zero &mdash; the base of the exponent just gets smaller. The progress curves of these two groups can never converge; over time, the gap diverges to infinity. The only difference from <em>Pantheon</em> &mdash; we haven&rsquo;t uploaded our consciousness yet, but we&rsquo;ve already uploaded our productivity.</p>
 
-                    <p>People who don&rsquo;t use AI and people who use it deeply are living in two different worlds. If you&rsquo;ve never experienced the high-speed version, you&rsquo;d think slower is fine &mdash; ChatGPT or whatever works just as well. But once you&rsquo;ve tasted it, there&rsquo;s no going back. That&rsquo;s when I realized how deep my dependency goes. If Anthropic shuts down tomorrow, or the power grid goes out, that&rsquo;s gonna be a freaking disaster. Orange AI wrote a story on X called <a href="https://x.com/oran_ge/status/2022819159906877781" target="_blank" rel="noopener"><em>Eternal Burn</em></a> about exactly this world.</p>
+                    <p>People who don&rsquo;t use AI and people who use it deeply are living in two different worlds. If you&rsquo;ve never experienced the high-speed version, you&rsquo;d think slower is fine &mdash; ChatGPT or whatever works just as well. But once you&rsquo;ve tasted it, there&rsquo;s no going back. That&rsquo;s when I realized how deep my dependency goes. If Anthropic shuts down tomorrow, or the power grid goes out, it would feel like losing part of your brain. Orange AI wrote a story on X called <a href="https://x.com/oran_ge/status/2022819159906877781" target="_blank" rel="noopener"><em>Eternal Burn</em></a> about exactly this world.</p>
 
                     <p>We&rsquo;re already living in it.</p>
                 </div>
@@ -56,7 +56,7 @@
 
                     <p>这不再是科幻了。智力流量和阶级已经强绑定。一个人的 Token 不够，他就没办法做那些拥有 20 倍、百倍 Token 的人能做的事情。他的迭代速度不是不存在，只是指数级的底数变小了。这两种人的进步曲线不可能收敛，长期看差距是无限扩大的。和《Pantheon》唯一的区别是&mdash;&mdash;我们还没上传意识，但我们的生产力已经上传了。</p>
 
-                    <p>不用 AI 的人和深度使用 AI 的人，活在两个世界里。如果你没体验过高速版本，你会觉得慢点也无所谓，用 ChatGPT 或者任何东西都行。但你一旦体验过，就回不去了。我也才意识到自己对这个东西的依赖有多深&mdash;&mdash;如果哪天 Anthropic 倒闭了，或者电网停电了，that&rsquo;s gonna be a freaking disaster。Orange AI 在 X 上写过一篇小说<a href="https://x.com/oran_ge/status/2022819159906877781" target="_blank" rel="noopener">《永恒的燃烧》</a>，讲的就是这个世界。</p>
+                    <p>不用 AI 的人和深度使用 AI 的人，活在两个世界里。如果你没体验过高速版本，你会觉得慢点也无所谓，用 ChatGPT 或者任何东西都行。但你一旦体验过，就回不去了。我也才意识到自己对这个东西的依赖有多深&mdash;&mdash;如果哪天 Anthropic 倒闭了，或者电网停电了，那会很糟糕，像少了一块电子脑子。Orange AI 在 X 上写过一篇小说<a href="https://x.com/oran_ge/status/2022819159906877781" target="_blank" rel="noopener">《永恒的燃烧》</a>，讲的就是这个世界。</p>
 
                     <p>我们已经活在里面了。</p>
                 </div>
