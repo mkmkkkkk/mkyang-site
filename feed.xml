@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Tue, 24 Feb 2026 13:04:40 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 24 Feb 2026 13:07:15 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -36,7 +36,7 @@
 
                     <p>This is no longer sci-fi. AI bandwidth and class are already tightly coupled. If your tokens aren&rsquo;t enough, you simply cannot do what someone with 20x or 100x your tokens can do. Your iteration speed doesn&rsquo;t drop to zero &mdash; the base of the exponent just gets smaller. The progress curves of these two groups can never converge; over time, the gap diverges to infinity. The only difference from <em>Pantheon</em> &mdash; we haven&rsquo;t uploaded our consciousness yet, but we&rsquo;ve already uploaded our productivity.</p>
 
-                    <p>People who don&rsquo;t use AI and people who use it deeply are living in two different worlds. If you&rsquo;ve never experienced the high-speed version, you&rsquo;d think slower is fine &mdash; ChatGPT or whatever works just as well. But once you&rsquo;ve tasted it, there&rsquo;s no going back. That&rsquo;s when I realized how deep my dependency goes. If Anthropic shuts down tomorrow, or the power grid goes out, it would feel like losing a chunk of your electronic brain. Orange AI wrote a story on X called <a href="https://x.com/oran_ge/status/2022819159906877781" target="_blank" rel="noopener"><em>Eternal Burn</em></a> about exactly this world.</p>
+                    <p>People who don&rsquo;t use AI and people who use it deeply are living in two different worlds. If you&rsquo;ve never experienced the high-speed version, you&rsquo;d think slower is fine &mdash; ChatGPT or whatever works just as well. But once you&rsquo;ve tasted it, there&rsquo;s no going back. That&rsquo;s when I realized how deep my dependency on this thing goes. If Anthropic shuts down tomorrow, or the power grid goes out, it would feel like losing a chunk of your electronic brain. Orange AI wrote a story on X called <a href="https://x.com/oran_ge/status/2022819159906877781" target="_blank" rel="noopener"><em>Eternal Burn</em></a> about exactly this world.</p>
 
                     <p>We&rsquo;re already living in it.</p>
                 </div>
@@ -79,7 +79,7 @@
                 <div class="article-rule"></div>
 
                 <div class="prose">
-                    <p>After using the ultra-deep research system for a while &mdash; the one I wrote about in previous posts &mdash; I realized my bottleneck is no longer answers. It is questions. What should I even be asking? What am I not thinking about?</p>
+                    <p>After using the ultra-deep research system for a while &mdash; the one I wrote about in previous posts &mdash; I realized my bottleneck is no longer answers. It is questions. What should I even be asking, and how should I be asking it?</p>
 
                     <p>So I built a council. Elon, Charlie Munger, Naval, and a few others. I throw a direction question at them, and they argue with each other, poke holes in my thinking, and point out what I am missing. They don&rsquo;t decide for me, but they crack open my thinking so I know what to ask next.</p>
 
@@ -124,7 +124,7 @@
                 <div class="article-rule"></div>
 
                 <div class="prose">
-                    <p>Six days ago I started building a system to monitor the internet for me. Not just Reddit and Twitter &mdash; government filings, patent offices, dark pool data, academic preprints, software registries, climate feeds, flight tracking. The kind of sources that individually mean nothing, but together paint a picture that no single platform can give you.</p>
+                    <p>Six days ago I started building a system to monitor the internet for me. Not just Reddit and Twitter &mdash; government filings, patent offices, dark pool data, academic preprints, software registries, climate feeds, flight tracking. The kind of sources that individually seem unremarkable, but together paint a picture that no single platform can give you.</p>
 
                     <p>It started with 30 scrapers, passed 100 within a week, and now sits at <strong>260 active sources</strong>, processing around 40,000 signals per day into a single daily briefing. The briefing tells me what is unusual, what multiple sources are converging on, and &mdash; most importantly &mdash; what the niche sources are seeing that mainstream platforms have not picked up yet.</p>
 
@@ -138,7 +138,7 @@
 
                     <h2>Bottom-Up vs. Top-Down</h2>
 
-                    <p>Most AI deep research tools work top-down &mdash; you give them a question, and the model decides where to look, what to follow up on, and when to stop. Every step involves the model making judgment calls about which direction to pursue. The output depends heavily on the search path, which means the same question asked twice can produce meaningfully different results.</p>
+                    <p>Most AI deep research tools work top-down &mdash; you give them a question, and the model decides where to look, what to follow up on, and when to stop. Every step involves the model making subjective judgment calls about which direction to pursue. The output depends heavily on the search path, which means the same question asked twice can produce meaningfully different results.</p>
 
                     <p>This system works bottom-up. 260 sources feed data in continuously, math filters surface what is anomalous and where multiple sources converge, and conclusions emerge from the data itself. There is no model deciding where to look &mdash; the data arrives whether anyone asked for it or not. The output is stable because the underlying signals do not change based on how you frame the question.</p>
 
@@ -148,7 +148,7 @@
 
                     <p>The system now logs its own predictions. The next phase is verification &mdash; grading whether the asymmetry windows it identifies actually play out as the signals suggest. This takes time. You need weeks and months of data to know if your predictions were right or just noise.</p>
 
-                    <p>But honestly, prediction accuracy is not the main point. As long as you are not using this for financial trading &mdash; where milliseconds and precision matter &mdash; directional awareness is what counts. Knowing that something is happening before everyone else knows is valuable whether you are running a company, evaluating a market, or just trying to understand the world better.</p>
+                    <p>But honestly, prediction accuracy is not the main point. As long as you are not using this for financial trading &mdash; where milliseconds and precision matter &mdash; directional awareness is the core value. Knowing that something is happening before everyone else knows is valuable whether you are running a company, evaluating a market, or just trying to understand the world better.</p>
 
                     <div class="section-divider"></div>
 
