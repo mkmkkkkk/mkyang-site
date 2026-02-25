@@ -1,0 +1,453 @@
+# PaySentry — Full API Reference
+
+> Payment control plane for AI agents — spending limits, circuit breakers, and audit trails for x402, MCP, and autonomous agent payments.
+
+npm: @paysentry/core | GitHub: mkmkkkkk/paysentry | License: MIT
+
+---
+
+## The Problem
+
+AI agents are spending real money with zero governance:
+- x402 settlement failures drain wallets silently — facilitator takes payment, service returns 500
+- No spending limits — one prompt injection = unlimited spend
+- No audit trail — "which agent spent $2,400 last Tuesday?"
+- Retry storms cause duplicate payments — failed settlements trigger retries with no dedup
+- No circuit breakers — one flaky facilitator cascades into system-wide failures
+
+---
+
+## Packages
+
+| Package | Description |
+|---------|-------------|
+| `@paysentry/core` | Core types, utilities, transaction factory, ID generation |
+| `@paysentry/control` | Policy engine — rules, budgets, approval chains, middleware |
+| `@paysentry/observe` | Spend tracking, analytics, budget alerts, anomaly detection |
+| `@paysentry/protect` | Dispute resolution — provenance, disputes, automated recovery |
+| `@paysentry/sandbox` | Mock payment environment — x402, ACP, AP2 with 9 test scenarios |
+| `@paysentry/x402` | x402 protocol adapter — lifecycle hooks, circuit breakers |
+| `@paysentry/wallet` | Wallet abstraction layer |
+
+Install all:
+```bash
+npm install @paysentry/core @paysentry/control @paysentry/observe @paysentry/protect @paysentry/sandbox @paysentry/x402
+```
+
+---
+
+## @paysentry/core
+
+Shared types, ID generation, and transaction factory.
+
+### createTransaction(input) → AgentTransaction
+
+Creates a fully-formed transaction with auto-generated ID and timestamp.
+
+Parameters:
+- `agentId` (AgentId, required) — The agent making the payment
+- `amount` (number, required) — Payment amount
+- `currency` (string, required) — Currency code (e.g., 'USDC', 'USD')
+- `recipient` (string, required) — Payment recipient (address, domain, etc.)
+- `protocol` ('x402' | 'acp' | 'ap2' | 'visa_tap' | 'other', required) — Payment protocol
+- `purpose` (string, optional) — Human-readable purpose
+- `service` (string, optional) — Service identifier
+- `description` (string, optional) — Description
+
+### Key Types
+
+- `AgentTransaction` — Core transaction record: id, agentId, amount, currency, recipient, protocol, status, timestamps
+- `SpendPolicy` — Policy definition with rules and budget limits
+- `PolicyRule` — Single rule within a policy (condition + action)
+- `PolicyEvaluation` — Result of evaluating a transaction: { allowed, action, reason }
+- `BudgetLimit` — Time-windowed spending cap: { window: 'daily'|'weekly'|'monthly', maxAmount, currency }
+- `DisputeCase` — Dispute record with evidence and resolution
+- `SpendAlert` — Alert fired by the observability layer
+- `PaymentProtocol` — 'x402' | 'acp' | 'ap2' | 'visa_tap' | 'other'
+- `AgentId` — Branded string type for agent identifiers
+- `PolicyId` — Branded string type for policy identifiers
+
+---
+
+## @paysentry/control
+
+Deterministic policy engine. No LLM, no AI, no probabilistic reasoning.
+
+### PolicyEngine
+
+```typescript
+import { PolicyEngine } from '@paysentry/control';
+
+const engine = new PolicyEngine({ logger: console });
+```
+
+Methods:
+- `loadPolicy(policy: SpendPolicy)` — Load a policy into the engine
+- `evaluate(tx: AgentTransaction) → PolicyEvaluation` — Evaluate transaction against all policies
+- `recordSpend(tx: AgentTransaction)` — Update spend tracking after successful payment
+
+### Rule Builders
+
+```typescript
+import {
+  blockAbove,
+  requireApprovalAbove,
+  blockRecipient,
+  allowOnlyRecipients,
+  allowAll,
+  denyAll,
+} from '@paysentry/control';
+```
+
+| Builder | Action | Description |
+|---------|--------|-------------|
+| `blockAbove(amount, currency)` | block | Block any transaction above the amount |
+| `requireApprovalAbove(amount, currency)` | require_approval | Require human approval above amount |
+| `blockRecipient(pattern)` | block | Block payments to matching recipients (glob) |
+| `allowOnlyRecipients(patterns[])` | block | Block payments to non-matching recipients |
+| `allowAll()` | allow | Allow everything (catch-all) |
+| `denyAll()` | block | Block everything (catch-all) |
+
+### Policy Example
+
+```typescript
+engine.loadPolicy({
+  id: 'production' as PolicyId,
+  name: 'Production Controls',
+  enabled: true,
+  rules: [
+    blockAbove(1000, 'USDC'),
+    requireApprovalAbove(100, 'USDC'),
+    blockRecipient('malicious-service.com'),
+    allowOnlyRecipients(['api.openai.com', '*.anthropic.com']),
+    allowAll(),
+  ],
+  budgets: [
+    { window: 'daily', maxAmount: 500, currency: 'USDC' },
+    { window: 'weekly', maxAmount: 2000, currency: 'USDC' },
+    { window: 'monthly', maxAmount: 5000, currency: 'USDC' },
+  ],
+});
+
+const result = engine.evaluate(tx);
+// { allowed: boolean, action: 'allow'|'deny'|'require_approval'|'flag', reason?: string }
+```
+
+### Middleware (Express/Fastify)
+
+```typescript
+import { createPolicyMiddleware } from '@paysentry/control';
+
+app.use('/pay', createPolicyMiddleware({
+  engine,
+  approvalHandler: async (tx) => {
+    return await slack.requestApproval(tx);
+  },
+}));
+```
+
+---
+
+## @paysentry/observe
+
+Transaction tracking, spend analytics, and alert system.
+
+### SpendTracker
+
+```typescript
+import { SpendTracker } from '@paysentry/observe';
+
+const tracker = new SpendTracker();
+
+tracker.record(transaction);
+
+const txns = tracker.query({
+  agentId: 'agent-001',
+  protocol: 'x402',
+  after: '2026-02-01T00:00:00Z',
+  minAmount: 10,
+  limit: 50,
+});
+
+const tx = tracker.get(transactionId);
+```
+
+### SpendAnalytics
+
+```typescript
+import { SpendAnalytics } from '@paysentry/observe';
+
+const analytics = new SpendAnalytics(tracker);
+
+const summary = analytics.getSummary('agent-001', {
+  period: '24h',    // '1h' | '24h' | '7d' | '30d'
+  currency: 'USDC',
+});
+// { totalSpend, txCount, avgAmount, topRecipients, byProtocol }
+
+const report = analytics.getAgentAnalytics('agent-001' as AgentId);
+// report.spendByCurrency, report.topRecipients, report.anomalies
+```
+
+### SpendAlerts
+
+```typescript
+import { SpendAlerts } from '@paysentry/observe';
+
+const alerts = new SpendAlerts(tracker);
+
+alerts.addRule({
+  id: 'daily-budget',
+  name: 'Daily Budget Alert',
+  type: 'budget_threshold',
+  severity: 'warning',
+  enabled: true,
+  config: {
+    type: 'budget_threshold',
+    threshold: 500,
+    currency: 'USDC',
+    windowMs: 86_400_000,
+    alertAtPercent: 0.8,
+  },
+});
+
+alerts.addRule({
+  id: 'large-tx',
+  name: 'Large Transaction Alert',
+  type: 'large_transaction',
+  severity: 'critical',
+  enabled: true,
+  config: {
+    type: 'large_transaction',
+    threshold: 200,
+    currency: 'USDC',
+  },
+});
+
+alerts.addRule({
+  id: 'rate-spike',
+  name: 'Rate Spike Alert',
+  type: 'rate_spike',
+  severity: 'critical',
+  enabled: true,
+  config: {
+    type: 'rate_spike',
+    windowMs: 60_000,
+    maxTransactions: 5,
+  },
+});
+
+alerts.onAlert((alert) => {
+  console.log(`[${alert.severity}] ${alert.message}`);
+});
+```
+
+### Alert Types
+
+| Type | Config | Description |
+|------|--------|-------------|
+| `budget_threshold` | threshold, currency, windowMs, alertAtPercent | Fires when cumulative spend reaches % of threshold |
+| `large_transaction` | threshold, currency | Fires on any single transaction above threshold |
+| `rate_spike` | windowMs, maxTransactions | Fires when transaction rate exceeds limit |
+| `new_recipient` | agentId | Fires when agent pays a never-before-seen recipient |
+| `anomaly` | sensitivity | Statistical anomaly detection on amount/frequency |
+
+---
+
+## @paysentry/protect
+
+Transaction provenance, dispute resolution, and automated recovery.
+
+### TransactionProvenance
+
+```typescript
+import { TransactionProvenance } from '@paysentry/protect';
+
+const provenance = new TransactionProvenance();
+
+provenance.record(transaction, {
+  prompt: 'User asked to purchase API credits',
+  policyId: 'production',
+  approvedBy: 'policy-engine',
+});
+
+const chain = provenance.getChain(transactionId);
+```
+
+### DisputeManager
+
+```typescript
+import { DisputeManager } from '@paysentry/protect';
+
+const disputes = new DisputeManager();
+
+const dispute = disputes.file({
+  transactionId: tx.id,
+  reason: 'duplicate_charge',
+  description: 'Payment retried after timeout — charged twice',
+  evidence: [{ type: 'transaction_log', data: tx }],
+});
+
+const open = disputes.query({ status: 'open' });
+```
+
+### RecoveryEngine
+
+```typescript
+import { RecoveryEngine } from '@paysentry/protect';
+
+const recovery = new RecoveryEngine({
+  refundExecutor: async (tx) => {
+    return { success: true, refundId: '...' };
+  },
+});
+
+const result = await recovery.execute(dispute);
+// { status: 'completed', action: 'refund', ... }
+```
+
+---
+
+## @paysentry/sandbox
+
+Mock payment environment for testing. No real money.
+
+### MockX402
+
+```typescript
+import { MockX402 } from '@paysentry/sandbox';
+
+const mock = new MockX402({
+  latencyMs: 50,
+  failureRate: 0,
+  balances: { 'agent-001': 1000 },
+});
+
+const result = await mock.processPayment({
+  from: 'agent-001',
+  to: 'api.openai.com',
+  amount: 25,
+  currency: 'USDC',
+});
+```
+
+### MockACP / MockAP2
+
+```typescript
+import { MockACP, MockAP2 } from '@paysentry/sandbox';
+
+const acp = new MockACP({ latencyMs: 30 });
+const ap2 = new MockAP2({ latencyMs: 30 });
+```
+
+### Test Scenarios
+
+```typescript
+import {
+  SCENARIO_BASIC_PAYMENT,
+  SCENARIO_OVERSPEND,
+  SCENARIO_APPROVAL_REQUIRED,
+  SCENARIO_BLOCKED_RECIPIENT,
+  SCENARIO_MULTI_PROTOCOL,
+  SCENARIO_DISPUTE,
+  SCENARIO_RATE_SPIKE,
+  SCENARIO_TIMEOUT,
+  SCENARIO_MULTI_AGENT,
+  ALL_SCENARIOS,
+} from '@paysentry/sandbox';
+```
+
+| Scenario | What It Tests |
+|----------|---------------|
+| `SCENARIO_BASIC_PAYMENT` | Simple successful payment flow |
+| `SCENARIO_OVERSPEND` | Agent exceeding budget limits |
+| `SCENARIO_APPROVAL_REQUIRED` | Human-in-the-loop approval flow |
+| `SCENARIO_BLOCKED_RECIPIENT` | Payment to blocklisted recipient |
+| `SCENARIO_MULTI_PROTOCOL` | Agent using x402 + ACP simultaneously |
+| `SCENARIO_DISPUTE` | Filing and resolving a dispute |
+| `SCENARIO_RATE_SPIKE` | Rapid payment burst triggering circuit breaker |
+| `SCENARIO_TIMEOUT` | Payment timeout and retry handling |
+| `SCENARIO_MULTI_AGENT` | Multiple agents with independent policies |
+
+---
+
+## @paysentry/x402
+
+x402 protocol adapter with lifecycle hooks and circuit breakers.
+
+```typescript
+import { PaySentryX402Adapter } from '@paysentry/x402';
+import { PolicyEngine } from '@paysentry/control';
+import { SpendTracker } from '@paysentry/observe';
+
+const adapter = new PaySentryX402Adapter(
+  { policyEngine: new PolicyEngine(), spendTracker: new SpendTracker() },
+  { circuitBreaker: { failureThreshold: 5, recoveryTimeoutMs: 30_000 } },
+);
+
+// Registers all 6 lifecycle hooks:
+// onBeforeVerify, onAfterVerify, onVerifyFailure,
+// onBeforeSettle, onAfterSettle, onSettleFailure
+adapter.withLifecycleHooks(yourX402Server);
+```
+
+---
+
+## Architecture
+
+```
+                    ┌─────────────────────────────────┐
+                    │         Your AI Agent            │
+                    └───────────────┬─────────────────┘
+                                    │
+                    ┌───────────────v─────────────────┐
+                    │     PaySentry Control Plane      │
+                    │                                  │
+                    │  OBSERVE   CONTROL   PROTECT     │
+                    │  tracking  policies  provenance  │
+                    │  alerts    budgets   disputes    │
+                    │  analytics approval  recovery    │
+                    └───────┬───────┬───────┬─────────┘
+                            │       │       │
+                    ┌───────v──┐ ┌──v────┐ ┌v────────┐
+                    │   x402   │ │  ACP  │ │   AP2   │
+                    │ HTTP 402 │ │Stripe/│ │Agent-to-│
+                    │ Protocol │ │Commrc │ │ Agent   │
+                    └──────────┘ └───────┘ └─────────┘
+```
+
+---
+
+## Demo
+
+```bash
+npx paysentry-demo
+```
+
+Output:
+```
+  PaySentry Demo — AI Agent Payment Controls
+  ══════════════════════════════════════════════════
+
+  Policy: Max $100/tx | Approval above $40 | Daily $500 | 5 tx/min
+  Agent:  agent-research-01  |  Balance: $10000.00
+
+  [1/5] $25.00  → api.openai.com      ✅ ALLOWED
+  [2/5] $45.00  → anthropic.com       ⚠️  REQUIRES APPROVAL
+  [3/5] $150.00 → sketchy-api.xyz     ❌ BLOCKED (above $100 limit)
+  [4/5] $30.00  → api.openai.com      ✅ ALLOWED + repeat recipient alert
+  [5/5] 6 rapid payments              ❌ RATE LIMITED (5 tx/min)
+```
+
+---
+
+## Roadmap
+
+- [x] Core spending policies and budget enforcement
+- [x] Real-time spend tracking and anomaly detection
+- [x] Dispute resolution and automated recovery
+- [x] Multi-protocol payment sandbox (x402, ACP, AP2)
+- [x] x402 protocol adapter with circuit breakers
+- [ ] MCP payment server (reference implementation)
+- [ ] Dashboard UI for spend visualization
+- [ ] AP2 / Visa TAP protocol adapters

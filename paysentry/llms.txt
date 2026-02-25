@@ -1,0 +1,59 @@
+# PaySentry
+
+> Payment control plane for AI agents — spending limits, circuit breakers, and audit trails for x402, MCP, and autonomous agent payments.
+
+- npm: [@paysentry/core](https://www.npmjs.com/package/@paysentry/core)
+- GitHub: [mkmkkkkk/paysentry](https://github.com/mkmkkkkk/paysentry)
+- License: MIT
+
+## Docs
+
+- [Full API Reference](https://mkyang.ai/paysentry/llms-full.txt): Complete types, classes, methods, and examples for all 7 packages
+- [GitHub README](https://github.com/mkmkkkkk/paysentry/blob/main/README.md): Latest documentation, architecture, and roadmap
+- [npm @paysentry/core](https://www.npmjs.com/package/@paysentry/core): Core types and utilities
+- [npm @paysentry/control](https://www.npmjs.com/package/@paysentry/control): Policy engine — rules, budgets, approval chains
+- [npm @paysentry/observe](https://www.npmjs.com/package/@paysentry/observe): Spend tracking, analytics, anomaly detection
+- [npm @paysentry/protect](https://www.npmjs.com/package/@paysentry/protect): Dispute resolution, provenance, recovery
+- [npm @paysentry/sandbox](https://www.npmjs.com/package/@paysentry/sandbox): Mock x402/ACP/AP2 for testing
+- [npm @paysentry/x402](https://www.npmjs.com/package/@paysentry/x402): x402 protocol adapter with circuit breakers
+- [npm @paysentry/wallet](https://www.npmjs.com/package/@paysentry/wallet): Wallet abstraction layer
+
+## Install
+
+```bash
+npm install @paysentry/core @paysentry/control @paysentry/observe
+```
+
+## Quick Start
+
+```typescript
+import { PolicyEngine, blockAbove, requireApprovalAbove, allowAll } from '@paysentry/control';
+import { createTransaction, type AgentId, type PolicyId } from '@paysentry/core';
+
+const engine = new PolicyEngine();
+
+engine.loadPolicy({
+  id: 'production' as PolicyId,
+  name: 'Production Controls',
+  enabled: true,
+  rules: [
+    blockAbove(1000, 'USDC'),
+    requireApprovalAbove(100, 'USDC'),
+    allowAll(),
+  ],
+  budgets: [
+    { window: 'daily', maxAmount: 500, currency: 'USDC' },
+  ],
+});
+
+const tx = createTransaction({
+  agentId: 'agent-001' as AgentId,
+  amount: 25.00,
+  currency: 'USDC',
+  recipient: 'api.openai.com',
+  protocol: 'x402',
+});
+
+const result = engine.evaluate(tx);
+// result.action: 'allow' | 'deny' | 'require_approval' | 'flag'
+```
