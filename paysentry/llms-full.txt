@@ -28,10 +28,13 @@ AI agents are spending real money with zero governance:
 | `@paysentry/sandbox` | Mock payment environment — x402, ACP, AP2 with 9 test scenarios |
 | `@paysentry/x402` | x402 protocol adapter — lifecycle hooks, circuit breakers |
 | `@paysentry/wallet` | Wallet abstraction layer |
+| `@paysentry/mcp` | MCP server — 10 tools for AI agent payment control |
+| `@paysentry/a2a` | Agent-to-agent payments — intents, mandates, escrow |
+| `@paysentry/dashboard` | JSON API + SSE event stream for monitoring |
 
 Install all:
 ```bash
-npm install @paysentry/core @paysentry/control @paysentry/observe @paysentry/protect @paysentry/sandbox @paysentry/x402
+npm install @paysentry/core @paysentry/control @paysentry/observe @paysentry/protect @paysentry/sandbox @paysentry/x402 @paysentry/mcp @paysentry/a2a @paysentry/dashboard
 ```
 
 ---
@@ -393,27 +396,192 @@ adapter.withLifecycleHooks(yourX402Server);
 
 ---
 
+## @paysentry/mcp
+
+MCP server exposing 10 tools for AI agent payment control. Primary interface for agents.
+
+### Setup
+
+```bash
+npm install @paysentry/mcp
+npx paysentry-mcp  # Start standalone MCP server
+```
+
+Claude Desktop config:
+```json
+{ "mcpServers": { "paysentry": { "command": "npx", "args": ["paysentry-mcp"] } } }
+```
+
+### Programmatic Usage
+
+```typescript
+import { createPaySentryMcpServer } from '@paysentry/mcp';
+
+const { server } = createPaySentryMcpServer({
+  agentId: 'my-agent',
+  dailyBudget: 500,
+  perTransactionLimit: 100,
+});
+```
+
+### Tools
+
+| Tool | Description |
+|------|-------------|
+| `pay` | Execute a payment through the control plane |
+| `check_balance` | Check wallet balance and budget utilization |
+| `transaction_history` | Query transaction history with filters |
+| `discover_capabilities` | Returns full capability manifest (tools, policies, budgets, protocols) |
+| `list_policies` | List all active spending policies |
+| `create_policy` | Create a new spending policy |
+| `evaluate_payment` | Dry-run payment evaluation against policies (no execution) |
+| `file_dispute` | File a dispute for a transaction |
+| `get_audit_trail` | Get provenance chain for a transaction |
+| `get_alerts` | Get recent alerts |
+
+---
+
+## @paysentry/a2a
+
+Agent-to-agent payment primitives — intents, mandates, escrow, and agent registry.
+
+### PaymentIntentManager
+
+```typescript
+import { PaymentIntentManager } from '@paysentry/a2a';
+import { MemoryStorage } from '@paysentry/core';
+
+const intents = new PaymentIntentManager(new MemoryStorage());
+
+// Agent A proposes payment to Agent B
+const intent = intents.propose({
+  fromAgent: 'agent-a' as AgentId,
+  toAgent: 'agent-b' as AgentId,
+  amount: 50, currency: 'USDC', purpose: 'data analysis',
+});
+
+intents.accept(intent.id, 'agent-b' as AgentId);  // Accept
+intents.reject(intent.id, 'agent-b' as AgentId);  // Reject
+intents.counter(intent.id, 'agent-b' as AgentId, 40);  // Counter-offer
+```
+
+### MandateManager — Standing Payment Authorizations
+
+```typescript
+import { MandateManager } from '@paysentry/a2a';
+
+const mandates = new MandateManager(new MemoryStorage());
+
+const mandate = mandates.create({
+  grantorAgent: 'agent-a' as AgentId,
+  granteeAgent: 'agent-b' as AgentId,
+  maxAmount: 100, currency: 'USDC',
+  maxFrequency: 10, windowMs: 86400000,
+  expiresAt: new Date(Date.now() + 30 * 86400000).toISOString(),
+});
+
+mandates.validate(mandate.id, 25);   // Check if amount is within mandate
+mandates.recordSpend(mandate.id, 25); // Record actual spend against mandate
+```
+
+### EscrowManager — Conditional Payments
+
+```typescript
+import { EscrowManager } from '@paysentry/a2a';
+
+const escrow = new EscrowManager(new MemoryStorage());
+
+const contract = escrow.create({
+  payerAgent: 'agent-a' as AgentId,
+  payeeAgent: 'agent-b' as AgentId,
+  amount: 200, currency: 'USDC',
+  conditions: [
+    { id: 'cond-1', description: 'Data delivered', type: 'manual', satisfied: false },
+    { id: 'cond-2', description: 'Quality verified', type: 'manual', satisfied: false },
+  ],
+  expiresAt: new Date(Date.now() + 7 * 86400000).toISOString(),
+});
+
+escrow.satisfyCondition(contract.id, 'cond-1');  // Mark condition met
+escrow.release(contract.id);     // Release funds (all conditions must be met)
+escrow.refund(contract.id);      // Refund to payer
+```
+
+### AgentRegistry
+
+```typescript
+import { AgentRegistry } from '@paysentry/a2a';
+
+const registry = new AgentRegistry(new MemoryStorage());
+
+registry.register({
+  agentId: 'agent-a' as AgentId,
+  name: 'Research Agent',
+  capabilities: ['web-search', 'analysis'],
+  protocols: ['x402', 'a2a'],
+  trustScore: 1.0,
+});
+
+registry.updateTrustScore('agent-a' as AgentId, 0.95);
+registry.hasCapability('agent-a' as AgentId, 'web-search'); // true
+```
+
+---
+
+## @paysentry/dashboard
+
+JSON API + SSE event stream for real-time monitoring. No HTML UI — designed for agent consumption.
+
+```typescript
+import { createDashboardServer } from '@paysentry/dashboard';
+
+const server = createDashboardServer({
+  tracker, engine, alerts, disputes, provenance, eventBus, registry,
+  port: 3001,
+});
+```
+
+### Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/status` | GET | System status, uptime, transaction count |
+| `/transactions` | GET | Transaction list (supports ?agent, ?limit filters) |
+| `/policies` | GET | Active policies |
+| `/alerts` | GET | Recent alerts |
+| `/disputes` | GET | Open disputes |
+| `/agents` | GET | Registered agents |
+| `/events` | GET | SSE stream of real-time events |
+
+---
+
 ## Architecture
 
 ```
-                    ┌─────────────────────────────────┐
-                    │         Your AI Agent            │
-                    └───────────────┬─────────────────┘
-                                    │
-                    ┌───────────────v─────────────────┐
-                    │     PaySentry Control Plane      │
-                    │                                  │
-                    │  OBSERVE   CONTROL   PROTECT     │
-                    │  tracking  policies  provenance  │
-                    │  alerts    budgets   disputes    │
-                    │  analytics approval  recovery    │
-                    └───────┬───────┬───────┬─────────┘
-                            │       │       │
-                    ┌───────v──┐ ┌──v────┐ ┌v────────┐
-                    │   x402   │ │  ACP  │ │   AP2   │
-                    │ HTTP 402 │ │Stripe/│ │Agent-to-│
-                    │ Protocol │ │Commrc │ │ Agent   │
-                    └──────────┘ └───────┘ └─────────┘
+              ┌──────────────────────────────────────────┐
+              │            Your AI Agent                  │
+              └──────────────────┬───────────────────────┘
+                                 │
+              ┌──────────────────v───────────────────────┐
+              │          MCP Server (10 tools)            │
+              │  pay · balance · history · discover       │
+              │  policies · evaluate · disputes · alerts  │
+              └──────────────────┬───────────────────────┘
+                                 │
+              ┌──────────────────v───────────────────────┐
+              │       PaySentry Control Plane             │
+              │                                          │
+              │  OBSERVE    CONTROL    PROTECT    A2A     │
+              │  tracking   policies   provenance intents │
+              │  alerts     budgets    disputes   mandate │
+              │  analytics  approval   recovery   escrow  │
+              └────┬──────────┬──────────┬──────────┬────┘
+                   │          │          │          │
+              ┌────v───┐ ┌───v────┐ ┌───v────┐ ┌───v────┐
+              │  x402  │ │  ACP   │ │  AP2   │ │Dashboard│
+              │HTTP 402│ │Stripe/ │ │Agent-  │ │JSON API │
+              │Protocol│ │Commrc  │ │to-Agent│ │SSE Feed │
+              └────────┘ └────────┘ └────────┘ └────────┘
 ```
 
 ---
@@ -448,6 +616,7 @@ Output:
 - [x] Dispute resolution and automated recovery
 - [x] Multi-protocol payment sandbox (x402, ACP, AP2)
 - [x] x402 protocol adapter with circuit breakers
-- [ ] MCP payment server (reference implementation)
-- [ ] Dashboard UI for spend visualization
+- [x] MCP payment server (10 tools: pay, balance, history, discover, policy CRUD, disputes, provenance, alerts)
+- [x] Agent-to-agent payment primitives (intents, mandates, escrow, agent registry)
+- [x] Dashboard API + SSE event stream for real-time monitoring
 - [ ] AP2 / Visa TAP protocol adapters
