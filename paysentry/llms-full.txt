@@ -27,7 +27,7 @@ AI agents are spending real money with zero governance:
 | `@paysentry/protect` | Dispute resolution — provenance, disputes, automated recovery |
 | `@paysentry/sandbox` | Mock payment environment — x402, ACP, AP2 with 9 test scenarios |
 | `@paysentry/x402` | x402 protocol adapter — lifecycle hooks, circuit breakers |
-| `@paysentry/wallet` | Wallet abstraction layer |
+| `@paysentry/wallet` | Wallet-agnostic adapter — Coinbase, local signer, or custom. 5-line setup via `createWallet()` |
 | `@paysentry/mcp` | MCP server — 10 tools for AI agent payment control |
 | `@paysentry/a2a` | Agent-to-agent payments — intents, mandates, escrow |
 | `@paysentry/dashboard` | JSON API + SSE event stream for monitoring |
@@ -396,6 +396,71 @@ adapter.withLifecycleHooks(yourX402Server);
 
 ---
 
+## @paysentry/wallet
+
+Wallet-agnostic adapter layer. Plug any wallet backend behind PaySentry policy controls.
+
+### Quick Start (5 lines)
+
+```typescript
+import { createWallet, presets } from '@paysentry/wallet';
+
+const wallet = createWallet({
+  adapter: { type: 'coinbase', apiKey: '...', walletId: '...' },
+  limits: presets.standard, // $100/tx, $500/day, approval above $50
+});
+
+const result = await wallet.pay(25, '0xRecipient', 'API credits');
+// { status: 'completed', txHash: '0x...', network: 'base' }
+```
+
+### Adapters
+
+| Adapter | Custody | Key Management |
+|---------|---------|----------------|
+| `CoinbaseAdapter` | Managed (TEE) | Private keys never leave Coinbase |
+| `LocalSignerAdapter` | Self-custody | AES-256-GCM encrypted keystore, scrypt KDF |
+| Custom | Any | Implement `WalletAdapter` interface |
+
+### Spend Limit Presets
+
+| Preset | Per-TX | Daily | Approval Above |
+|--------|--------|-------|----------------|
+| `presets.conservative` | $25 | $100 | — |
+| `presets.standard` | $100 | $500 | $50 |
+| `presets.generous` | $1,000 | $5,000 | $500 |
+| `presets.unlimited` | — | — | — |
+
+### Advanced Usage
+
+For full control, wire engines directly:
+
+```typescript
+import { PaySentryWallet, CoinbaseAdapter } from '@paysentry/wallet';
+import { PolicyEngine } from '@paysentry/control';
+import { SpendTracker } from '@paysentry/observe';
+
+const wallet = new PaySentryWallet({
+  policyEngine: new PolicyEngine(),
+  walletAdapter: new CoinbaseAdapter({ apiKey, walletId }),
+  spendTracker: new SpendTracker(),
+});
+```
+
+### WalletAdapter Interface
+
+```typescript
+interface WalletAdapter {
+  readonly name: string;
+  getBalance(currency: string): Promise<WalletBalance>;
+  signAndSend(tx: AgentTransaction): Promise<TransactionReceipt>;
+  getTransactionStatus(txHash: string): Promise<TransactionStatus>;
+  getAddresses(): Promise<string[]>;
+}
+```
+
+---
+
 ## @paysentry/mcp
 
 MCP server exposing 10 tools for AI agent payment control. Primary interface for agents.
@@ -619,4 +684,5 @@ Output:
 - [x] MCP payment server (10 tools: pay, balance, history, discover, policy CRUD, disputes, provenance, alerts)
 - [x] Agent-to-agent payment primitives (intents, mandates, escrow, agent registry)
 - [x] Dashboard API + SSE event stream for real-time monitoring
+- [x] Wallet-agnostic adapter layer (Coinbase, local signer, custom) with `createWallet()` factory
 - [ ] AP2 / Visa TAP protocol adapters
