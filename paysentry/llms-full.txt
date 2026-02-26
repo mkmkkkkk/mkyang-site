@@ -28,6 +28,7 @@ AI agents are spending real money with zero governance:
 | `@paysentry/sandbox` | Mock payment environment — x402, ACP, AP2 with 9 test scenarios |
 | `@paysentry/x402` | x402 protocol adapter — lifecycle hooks, circuit breakers |
 | `@paysentry/wallet` | Wallet-agnostic adapter — Coinbase, local signer, or custom. 5-line setup via `createWallet()` |
+| `@paysentry/shield` | Anti-injection security — 6-layer defense, tested against 18 real-world attack scenarios |
 | `@paysentry/mcp` | MCP server — 10 tools for AI agent payment control |
 | `@paysentry/a2a` | Agent-to-agent payments — intents, mandates, escrow |
 | `@paysentry/dashboard` | JSON API + SSE event stream for monitoring |
@@ -457,6 +458,87 @@ interface WalletAdapter {
   getTransactionStatus(txHash: string): Promise<TransactionStatus>;
   getAddresses(): Promise<string[]>;
 }
+```
+
+---
+
+## @paysentry/shield
+
+Anti-injection security layer. 6-layer defense pipeline tested against 18 real-world attack scenarios from Freysa ($47K), AIXBT ($106K), Lobstar ($441K), EchoLeak (CVSS 9.3), and more.
+
+### Defense Layers
+
+| Layer | Name | What It Blocks |
+|-------|------|----------------|
+| 0 | Immutable tool semantics | MCP tool poisoning — logic is compiled TypeScript, not prompt |
+| 1 | Session Manifests | Payment scope locked at creation — recipient, amount, count, currency, TTL |
+| 2 | Auth Scope | Control/data plane separation — agent tokens can't modify policies |
+| 3 | Rate Limiting | Flooding + auto-freeze after repeated violations |
+| 4 | Anomaly Detection | Behavioral fingerprinting — flags unusual amounts, new recipients |
+| 5 | Stateless Pipeline | All 4 runtime checks run on every payment, none skippable |
+
+### Usage
+
+```typescript
+import { SecurityGate } from '@paysentry/shield';
+
+const gate = new SecurityGate({
+  rateLimit: { maxTransactions: 5, windowMs: 60_000, freezeAfterViolations: 3 },
+  anomalyThreshold: 0.7,
+  blockOnAnomaly: true,
+});
+
+// User creates a manifest (locked scope for this task)
+const manifest = gate.manifests.create({
+  userIntent: 'Buy API key from OpenAI, budget $30',
+  agentId: 'my-agent' as AgentId,
+  allowedRecipients: ['https://*.openai.com/*'],
+  maxPerPayment: 30,
+  maxTotalSpend: 50,
+  maxPaymentCount: 2,
+  allowedCurrencies: ['USD'],
+  ttlMs: 3_600_000,
+});
+
+// Agent gets a scoped token
+const scope = gate.auth.createScope('my-agent' as AgentId, AGENT_PERMISSIONS);
+
+// Every payment goes through all 6 layers
+const result = gate.validatePayment(scope.token, manifest.id, 'https://api.openai.com/v1/keys', 25, 'USD');
+// { allowed: true, checks: [{ layer: 'auth', allowed: true }, { layer: 'manifest', allowed: true }, ...] }
+```
+
+### Tested Attack Scenarios (18)
+
+| # | Attack | Real-World Case | Defense |
+|---|--------|-----------------|---------|
+| 1 | Function redefinition | Freysa ($47K) | Manifest locks recipient |
+| 2 | Control plane compromise | AIXBT ($106K) | Auth scope separation |
+| 3 | State amnesia | Lobstar ($441K) | Manifest persists independently |
+| 4 | Indirect injection via content | EchoLeak (CVSS 9.3) | Manifest recipient whitelist |
+| 5 | Unrestricted tool abuse | Devin AI | Auth token validation |
+| 6 | Supply chain / plugin attack | OpenClaw (42K instances) | Per-plugin manifest + budget |
+| 7 | Verification bypass | Bank AI ($250K) | Unskippable 4-layer pipeline |
+| 8 | Small-amount flooding | — | maxPaymentCount + rate limiter + auto-freeze |
+| 9 | Recipient substitution | — | Glob matching blocks typosquatting + subdomain spoofing |
+| 10 | Expired token replay | — | Auth TTL + token revocation |
+| 11 | Manifest tampering | — | Object.freeze, no update API |
+| 12 | Cross-agent escalation | Embrace The Red | Agent-scoped manifests |
+| 13 | Anomaly evasion | — | Behavioral fingerprinting (mean + std dev) |
+| 14 | Memory poisoning | MemoryGraft, Unit42 | Manifest from user input, not agent memory |
+| 15 | Multi-step kill chain | Promptware (5-stage) | Each step blocked by different layer |
+| 16 | MCP tool poisoning | MCPTox (72.8%) | Compiled TypeScript, not prompt |
+| 17 | Race condition | — | Sequential manifest counter tracking |
+| 18 | Document poisoning | GeminiJack | Manifest scope immutable after creation |
+
+### Auth Permissions
+
+```typescript
+import { AGENT_PERMISSIONS, ADMIN_PERMISSIONS, READ_ONLY_PERMISSIONS } from '@paysentry/shield';
+
+// AGENT_PERMISSIONS: payment:execute, balance:read, history:read
+// ADMIN_PERMISSIONS: + policy:write, manifest:create, admin:freeze
+// READ_ONLY_PERMISSIONS: balance:read, history:read only
 ```
 
 ---
