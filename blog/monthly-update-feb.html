@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monthly Update: Nine Terminals From My Phone - Michael Yang</title>
+    <title>Monthly Update: Recent Technical Setup - Michael Yang</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,10 +13,10 @@
     <link rel="alternate" type="application/rss+xml" title="Michael Yang's Blog" href="/feed.xml">
 <!--
 BLOG_META
-title: Monthly Update: Nine Terminals From My Phone
-title_zh: 月度更新：手机上的九个终端
+title: Monthly Update: Recent Technical Setup
+title_zh: 月度更新：关于我最近的一些 Technical Setup
 date: 2026-02-28
-description: How I replaced a $300/week cloud agent with $200/month Claude Code, a phone terminal, and a constitution file.
+description: A callback to my January 30 setup post — OpenClaw dropped, Happy Coder, nine terminals from my phone, and the agent ecosystem.
 tags: ai, claude-code, infrastructure, monthly-update
 bilingual: true
 END_META
@@ -55,204 +55,176 @@ END_META
             <!-- ==================== ENGLISH ==================== -->
             <div class="lang-content active" id="content-en">
                 <div class="article-meta">Michael Yang &middot; February 28, 2026</div>
-                <h1 class="article-title">Monthly Update: Nine Terminals From My Phone</h1>
-                <p class="article-subtitle">How I replaced a $300/week cloud agent with $200/month Claude Code, a phone terminal, and a constitution file.</p>
+                <h1 class="article-title">Monthly Update: Recent Technical Setup</h1>
+                <p class="article-subtitle">A callback to my <a href="/blog/claude-code-report.html">January 30 setup post</a> &mdash; here&rsquo;s what changed.</p>
                 <div class="article-rule"></div>
 
                 <div class="prose">
-                    <p>A month ago, I wrote about <a href="/blog/claude-code-report.html">how I turned Claude Code into a 24/7 personal assistant</a>. This is the follow-up. The architecture has changed significantly.</p>
+                    <p>On top of that foundation, I&rsquo;ve built an architecture based on Claude Code. I&rsquo;m no longer using OpenClaw &mdash; the cost was just too high, the stability was mediocre, and I constantly needed my CC (Claude Code) to babysit it.</p>
 
-                    <h2>1. OpenClaw&rsquo;s Priority Dropped</h2>
+                    <p>Instead, I connected an open-source project called <strong>Happy Coder</strong>. It also lets me operate terminals from my phone, with far more freedom than OpenClaw. My work now &mdash; development, research, decision-making &mdash; is basically all done from my phone. I typically run 6 terminals in Docker and 3 on the local machine, so I&rsquo;m managing 9 terminals total. All files and terminals are local. No more cloud servers.</p>
 
-                    <p>In the previous post, I was running <strong>OpenClaw</strong> (formerly Moltbot) on a cloud server &mdash; a Telegram-connected agent that handled daily tasks. It worked, but the economics were brutal: $230&ndash;300 in five or six days of token spend, plus constant babysitting from my local Claude Code to keep it stable.</p>
-
-                    <p>I haven&rsquo;t abandoned it entirely &mdash; it still handles some local company file processing reliably &mdash; but its priority has dropped dramatically. All heavy work now runs on Claude Code. The replacement for daily operations: an open-source project called <strong>Happy Coder</strong>. It gives me full terminal access from my phone &mdash; far more freedom than OpenClaw ever offered. Development, research, decision-making &mdash; I do essentially everything from my phone now.</p>
-
-                    <p>My typical setup: 6 terminals in Docker, 3 on the local machine. Nine terminals total, all managed from my phone. Everything runs locally. No cloud servers.</p>
+                    <p>Here&rsquo;s where the system stands:</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>2. What I Built</h2>
+                    <h2>1. Core Functionality</h2>
 
-                    <p>I&rsquo;ve replicated about 90% of OpenClaw&rsquo;s functionality natively in Claude Code:</p>
+                    <p>I&rsquo;ve replicated 90% of OpenClaw&rsquo;s functionality on Claude Code: loop execution, to-do list, scheduled tasks, and notifications. When the system finishes a task, it sends an email or Telegram notification, and then I open Happy Coder to follow up. I added Cron and Heartbeat to my local Claude Code, so its loop execution capability is about the same as OpenClaw&rsquo;s, but with significantly more freedom.</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>2. Why I Dropped Claude Remote Control</h2>
+
+                    <p>Although Anthropic recently released Remote Control, it has one massive problem: sessions disappear when idle. This makes its freedom far inferior to Happy Coder. With Happy Coder, I go days without needing to open my laptop to intervene &mdash; it&rsquo;s incredibly stable. It just sits there running on its own like a Mac mini.</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>3. Environment Management</h2>
+
+                    <p>My Docker and local machine each have their own CC instance. Happy Coder can manage both environments simultaneously. Local CC handles Docker and all environment configs. Docker CC handles all my websites and almost every development project.</p>
+
+                    <p>This setup covers 90% of my needs. OpenClaw is now both expensive and redundant for me.</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>4. The Research System</h2>
+
+                    <p>I&rsquo;m currently developing and testing my research system. It has two dimensions:</p>
+
+                    <p><strong>Bottom-up research:</strong> the <a href="/blog/260-sources.html">Ultra Deep Research</a> I mentioned in a previous blog post.</p>
+
+                    <p><strong>Top-down:</strong> a new system called <strong>Deep Investigation</strong>. It can dig deep into a company&rsquo;s contracts and various other information &mdash; a top-down search system.</p>
+
+                    <p>With these two search systems combined, information acquisition becomes very easy. Add my <a href="/blog/the-bottleneck-moved.html">Council</a> for decision-making, and my decision quality seems to have improved significantly. Decisions need execution, so I&rsquo;m building a full loop. The whole system is under construction &mdash; I&rsquo;m calling it <strong>Cortex</strong> for now. This month my token efficiency is much higher than before, with all costs basically staying within the $200 Max Plan.</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>5. The Constitution File</h2>
+
+                    <p>Some lessons on usage:</p>
+
+                    <p>CLAUDE.md might be the only file you ever need to maintain. I haven&rsquo;t looked at code in a long time &mdash; over a month. I just maintain the rules in CLAUDE.md, and the &ldquo;rules about rules.&rdquo;</p>
+
+                    <p>These rules can be called &ldquo;meta-rules&rdquo; &mdash; they&rsquo;re very abstract. For example, the rule for how to modify .md rules, and so on. It&rsquo;s the single most important file, and you should maintain it with great care. Beyond that, let go where you can &mdash; don&rsquo;t over-intervene. As CLAUDE.md grows longer over time, you may need to split it: move infrequently-used content into separate .md files and leave a pointer back to the main CLAUDE.md.</p>
+
+                    <p>I wrote these splitting rules into that .md file itself, so it basically handles its own maintenance. <strong>It&rsquo;s like a constitution &mdash; write it well, and the system runs itself.</strong></p>
+
+                    <p>After using this for so long, I&rsquo;ve found the real bottleneck is the human brain. The amount of information a person can process each day is extremely limited. So the goal is to minimize the number of decisions you have to make. How? Increase Claude&rsquo;s autonomous development capability. For example:</p>
 
                     <ul>
-                        <li><strong>Loop execution</strong> &mdash; Cron jobs + a custom Heartbeat system that triggers tasks on schedule</li>
-                        <li><strong>To-do list</strong> &mdash; job queue with priority management</li>
-                        <li><strong>Scheduled tasks</strong> &mdash; periodic bookmarks sync, research sweeps, environment checks</li>
-                        <li><strong>Notifications</strong> &mdash; task completion pings via Telegram bot or email, then I follow up through Happy Coder</li>
+                        <li>Plug in <strong>EvoMap</strong> so it finds methodologies on its own when it hits hard problems</li>
+                        <li>Install a <strong>skill that finds high-quality skills</strong></li>
+                        <li>Heartbeat that auto-reads my <strong>Twitter bookmarks</strong> (also a collection of methodologies)</li>
                     </ul>
 
-                    <p>The freedom is significantly higher than OpenClaw. And the cost is fixed: $200/month Max Plan. Done.</p>
+                    <p>These run periodically based on my settings, and it can also invoke them on demand when it hits development difficulties. So now CC&rsquo;s solo combat capability is extremely strong.</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>3. Why Not Claude Remote Control?</h2>
+                    <h2>6. Ideation Is the Real Work</h2>
 
-                    <p>Anthropic recently launched Remote Control for Claude Code. One fatal flaw: <strong>sessions disappear when idle</strong>. You can&rsquo;t leave it running for days.</p>
-
-                    <p>With Happy Coder, I go days without opening my laptop. The machine just sits there like a Mac mini, running tasks autonomously. That level of persistence is non-negotiable for my workflow.</p>
-
-                    <div class="section-divider"></div>
-
-                    <h2>4. Environment Management</h2>
-
-                    <p>Two Claude Code instances in Docker and local, with Happy Coder managing both environments simultaneously:</p>
-
-                    <ul>
-                        <li><strong>Local CC</strong> manages Docker and all environment configs</li>
-                        <li><strong>Docker CC</strong> manages all websites and almost every development project</li>
-                    </ul>
-
-                    <p>This covers 90% of what I need. OpenClaw is now both expensive and redundant.</p>
-
-                    <div class="section-divider"></div>
-
-                    <h2>5. The Research System</h2>
-
-                    <p>I&rsquo;m building and testing a two-dimensional research system:</p>
-
-                    <p><strong>Bottom-up: <a href="/blog/260-sources.html">Ultra Deep Research</a>.</strong> The 260+ source intelligence system I wrote about before. It scrapes globally, denoises mathematically, and surfaces information asymmetries. This is the broad antenna.</p>
-
-                    <p><strong>Top-down: Deep Investigation.</strong> A new system that does targeted deep dives into a single company &mdash; contracts, personnel, financials, supply chain. A top-down search system.</p>
-
-                    <p>With these two search systems combined, information acquisition becomes remarkably easy. Add my <a href="/blog/the-bottleneck-moved.html">Council</a> for decision-making, and my decision quality seems to have improved significantly. Decisions need execution, so I&rsquo;m building a full loop. I&rsquo;m calling it <strong>Cortex</strong>. This month my token efficiency is much higher &mdash; all costs stay within the $200 Max Plan.</p>
-
-                    <div class="section-divider"></div>
-
-                    <h2>6. The Constitution File</h2>
-
-                    <p>Some lessons on usage. CLAUDE.md might be the only file you ever need to maintain. I haven&rsquo;t looked at code in a long time &mdash; well over a month. I just maintain the rules inside CLAUDE.md, and the &ldquo;rules about rules.&rdquo;</p>
-
-                    <p>These can be called &ldquo;meta-rules&rdquo; &mdash; very abstract logic. For example, the rule for how to modify .md rules. It&rsquo;s the single most important file, and you should maintain it with great care. Beyond that, let go of as much as you can. Don&rsquo;t over-intervene.</p>
-
-                    <p>As CLAUDE.md grows longer, you need to split it: move infrequently-used content into separate .md files and leave a pointer back to the main CLAUDE.md. I wrote these splitting rules into the file itself, so it handles its own maintenance. <strong>It&rsquo;s like a constitution. Write it well, and the system runs itself.</strong></p>
-
-                    <p>After using this for so long, I&rsquo;ve found the real bottleneck is the human brain. The amount of information a person can process each day is severely limited. So the goal is to minimize the number of decisions you need to make. How? Increase Claude&rsquo;s autonomous development capability:</p>
-
-                    <ul>
-                        <li>Plug in <strong>EvoMap</strong> &mdash; when it hits a hard problem, it finds methodologies on its own</li>
-                        <li>Install a <strong>skill-finding skill</strong> &mdash; it discovers and installs high-quality capabilities autonomously</li>
-                        <li>Periodically ingest my <strong>Twitter bookmarks</strong> via Heartbeat &mdash; a curated collection of methodologies that it absorbs on schedule</li>
-                    </ul>
-
-                    <p>When it hits development difficulties, it can also invoke these on demand. The result: extremely high solo combat capability.</p>
-
-                    <div class="section-divider"></div>
-
-                    <h2>7. Ideation Is the Real Work</h2>
-
-                    <p>The most time-consuming part is ideation. I chat with it about all kinds of details, let it ask me questions, let it ideate with me. As long as the plan is solid and the logic is coherent, the probability of a one-shot implementation is surprisingly high.</p>
+                    <p>The most time-consuming part is the ideation phase. I just chat with it about all kinds of details, let it ask me questions, let it ideate with me. As long as the plan is solid and the project logic is coherent, the probability of a one-shot implementation is actually quite high.</p>
 
                     <p>So those flashy coding techniques actually matter less than truly thinking through what you want to build. Like the context management tricks I mentioned <a href="/blog/claude-code-report.html">a month ago</a> &mdash; I gotta say, the world evolves terrifyingly fast.</p>
 
-                    <p><strong>Opus 4.6 doesn&rsquo;t need those tricks anymore.</strong> Its native context handling is already good enough. On this dimension, AI is evolving at a pace that&rsquo;s hard to overstate.</p>
+                    <div class="section-divider"></div>
+
+                    <h2>7. Opus 4.6</h2>
+
+                    <p><strong>Opus 4.6 doesn&rsquo;t need me to use those tricks anymore &mdash; its native context handling is already good enough.</strong> On this dimension, AI is evolving at a pace that&rsquo;s simply staggering.</p>
 
                     <div class="section-divider"></div>
 
                     <h2>8. Prompt Injection: Don&rsquo;t Let Your Guard Down</h2>
 
-                    <p>There are more defenses against prompt injection now. But stories of stolen prompts and drained wallets are still real &mdash; you can&rsquo;t afford to be complacent. The incidents have visibly decreased, with only scattered cases &mdash; or maybe most people who got burned just don&rsquo;t talk about it.</p>
+                    <p>As for prompt injection, there are all kinds of ways to defend against it now. But the stories about stolen prompts and drained wallets are still real &mdash; you can&rsquo;t afford to be complacent.</p>
 
-                    <p>Every major platform has opened agent-access channels. Wallets have added agent functionality. Moltbook&rsquo;s growth hasn&rsquo;t met my expectations &mdash; too much noise, not enough signal &mdash; but the overall agent ecosystem is slowly getting better.</p>
+                    <p>The incidents have visibly decreased, with only scattered cases &mdash; or maybe most people who got their money swindled just don&rsquo;t want to talk about it. Every major platform has opened agent-access channels. All kinds of wallets have added agent functionality.</p>
 
-                    <p>Stay observant. Stay curious.</p>
+                    <p>Moltbook&rsquo;s growth hasn&rsquo;t met my expectations &mdash; too much noise &mdash; but the overall agent ecosystem is slowly getting better. Stay observant. Stay curious.</p>
                 </div>
             </div>
 
             <!-- ==================== CHINESE ==================== -->
             <div class="lang-content" id="content-zh">
                 <div class="article-meta">Michael Yang &middot; 2026 年 2 月 28 日</div>
-                <h1 class="article-title">月度更新：手机上的九个终端</h1>
-                <p class="article-subtitle">用 $200/月 的 Claude Code + 手机终端 + 一份宪法文件，替代了 $300/周的云端 Agent。</p>
+                <h1 class="article-title">月度更新：关于我最近的一些 Technical Setup</h1>
+                <p class="article-subtitle">这篇文章会回调我 <a href="/blog/claude-code-report.html">1 月 30 号那篇 Setup</a> 的设置。</p>
                 <div class="article-rule"></div>
 
                 <div class="prose">
-                    <p>一个月前，我写了<a href="/blog/claude-code-report.html">如何把 Claude Code 训练成 24/7 个人助理</a>。这是后续更新。架构已经大幅改变。</p>
+                    <p>在此基础上，我搭建了一个基于 Claude Code 的架构。目前我没有再用 OpenClaw 了，因为它的成本实在太高，而且稳定性一般，我经常需要用我的 CC（Claude Code）去调整它。</p>
 
-                    <h2>1. OpenClaw 的优先级下降了</h2>
+                    <p>取而代之的是，我连接了一个叫作 Happy Coder 的开源项目。它同样可以让我在手机上操作终端，自由度比 OpenClaw 高得多。我现在的工作，无论是开发、Research 还是做决策，基本上全部都在手机上完成。我一般在 Docker 里面开 6 个终端，然后在本地上开 3 个终端，所以一共会操作 9 个终端里面的任务。所有的文件、终端这些都是在本地的，也不跑云服务器了。</p>
 
-                    <p>上篇文章里，我在云服务器上跑 <strong>OpenClaw</strong>（前身 Moltbot）&mdash;&mdash; 一个连接 Telegram 的 Agent，处理日常任务。能用，但经济账算不过来：五六天烧掉 $230&ndash;300 的 token，而且稳定性一般，经常需要本地的 Claude Code 去救火。</p>
-
-                    <p>我没有完全放弃它 &mdash;&mdash; 一些本地公司文件处理还是很稳定的 &mdash;&mdash; 但优先级大幅下降了。所有重活现在都在 Claude Code 上跑。取而代之的是一个叫 <strong>Happy Coder</strong> 的开源项目。它让我在手机上拥有完整的终端控制权 &mdash;&mdash; 自由度比 OpenClaw 高太多。开发、研究、决策，我现在基本全在手机上完成。</p>
-
-                    <p>日常配置：Docker 里 6 个终端，本地 3 个。一共 9 个终端，全部通过手机管理。所有文件和进程都跑在本地，不再依赖云服务器。</p>
+                    <p>目前这套系统的进展如下：</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>2. 核心功能实现</h2>
+                    <h2>1. 核心功能实现</h2>
 
-                    <p>我已经在 Claude Code 上原生实现了 OpenClaw 约 90% 的功能：</p>
-
-                    <ul>
-                        <li><strong>循环执行</strong> &mdash;&mdash; Cron 任务 + 自制 Heartbeat 系统，定时触发</li>
-                        <li><strong>待办列表</strong> &mdash;&mdash; 带优先级的任务队列</li>
-                        <li><strong>定时功能</strong> &mdash;&mdash; 书签同步、研究扫描、环境检查，周期性运行</li>
-                        <li><strong>通讯功能</strong> &mdash;&mdash; 任务完成后 Telegram 或邮件通知，我再通过 Happy Coder 跟进</li>
-                    </ul>
-
-                    <p>自由度显著高于 OpenClaw，且成本固定：$200/月 Max Plan。完事。</p>
+                    <p>我已经在 Claude Code 上实现了 OpenClaw 90% 的功能，也就是：循环实现、To-do List、定时功能、通讯功能。系统完成任务后会发送邮件或 Telegram 通知，然后我再打开 Happy Coder 跟进。我在本地 Claude Code 加了 Cron 和 Heartbeat，所以它的循环执行能力和 OpenClaw 差不了太多，但自由度显著更高。</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>3. 为什么不用 Claude Remote Control？</h2>
+                    <h2>2. 放弃 Claude Remote Control 功能的原因</h2>
 
-                    <p>虽然 Anthropic 最近发布了 Remote Control，但它有一个致命缺陷：<strong>Session 闲置后会自动消失</strong>。没法让它持续跑几天。</p>
-
-                    <p>用 Happy Coder，我可以好几天不打开电脑干预。机器就像一台 Mac mini 一样稳定地自己跑着。这种持久性对我的工作流来说是刚需。</p>
+                    <p>虽然 Anthropic 最近发布了 Remote Control，但它有一个巨大问题：当 Session 不用时会自动消失。这导致它的自由度远不如 Happy Coder。我用 Happy Coder 好几天都不需要打开电脑干预，所以它非常稳定。它就自己像一个 Mac mini 那样在那里稳定运行。</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>4. 环境管理</h2>
+                    <h2>3. 环境管理</h2>
 
-                    <p>我的 Docker 和本地分别有两套 CC，Happy Coder 可以同时管理这两个环境：</p>
+                    <p>我的 Docker 和本地分别有两套 CC，Happy Coder 可以同时管理这两个环境。本地 CC 负责管理 Docker 和所有的环境配置。Docker 里的 CC 则负责管理我的所有网站和几乎所有的开发项目。</p>
 
-                    <ul>
-                        <li><strong>本地 CC</strong> 负责管理 Docker 和所有的环境配置</li>
-                        <li><strong>Docker CC</strong> 负责管理我的所有网站和几乎所有的开发项目</li>
-                    </ul>
-
-                    <p>这套实践已经解决了 90% 的需求。OpenClaw 现在对我来说既贵又鸡肋。</p>
+                    <p>这套实践已经解决了 90% 的需求。现在的 OpenClaw 对我来说既昂贵又鸡肋。</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>5. 研究系统</h2>
+                    <h2>4. Research 系统</h2>
 
-                    <p>目前我正在开发和测试我的研究系统。它包含两个维度：</p>
+                    <p>目前我正在开发和测试我的 Research 系统。它包含两个维度：</p>
 
-                    <p><strong>自下而上：<a href="/blog/260-sources.html">Ultra Deep Research</a>。</strong>之前博客里提到的 260+ 源情报系统。全球采集、数学去噪、信息不对称探测。这是广角天线。</p>
+                    <p><strong>Bottom-up Research 模式：</strong>即我之前博客里提到的 <a href="/blog/260-sources.html">Ultra Deep Research</a>。</p>
 
-                    <p><strong>自上而下：Deep Investigation。</strong>一套新系统，能深入调查一家公司的合同等各类信息，是一个自上而下的搜索系统。</p>
+                    <p><strong>Top-down 模式：</strong>我新做了一套系统叫作 Deep Investigation。它能深入调查一家公司的合同等各类信息，是一个自上而下的搜索系统。</p>
 
-                    <p>有了这两套搜索系统的结合，信息获取变得非常容易。再加上我的 <a href="/blog/the-bottleneck-moved.html">Council</a> 可以帮我做决策，我的决策质量似乎显著提高了。有了决策就要执行，所以我正在搭建一整套大循环 loop。这整套系统正在搭建中，我暂且称它为 <strong>Cortex</strong>。这个月我的 Token 使用效率比之前高很多，所有的成本基本上控制在 $200 Max Plan 以内。</p>
+                    <p>有了这两套搜索系统的结合，信息获取变得非常容易。再加上我的 <a href="/blog/the-bottleneck-moved.html">Council</a> 可以帮我做决策，我的决策质量似乎显著提高了。有了决策就要执行，所以我正在搭建一整套大循环 loop。这整套系统正在搭建中，我暂且称它为 <strong>Cortex</strong>。这个月我的 Token 使用效率会比之前高很多，所有的成本基本上控制在 $200 Max Plan 以内。</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>6. 宪法文件</h2>
+                    <h2>5. CLAUDE.md &mdash;&mdash; 宪法文件</h2>
 
-                    <p>关于使用，我有一些心得。CLAUDE.md 文件可能是你唯一需要维护的文件。我已经很长时间 &mdash;&mdash; 不止一个月 &mdash;&mdash; 没有看过代码了。我只是维护 CLAUDE.md 里面所有的规则，以及「规则的规则」。</p>
+                    <p>关于使用，我有一些心得：</p>
 
-                    <p>这些规则可以称之为「元规则」，是非常抽象的逻辑。比方说，修改 .md 规则的规则。它就是你需要的最重要的一个文件，你需要非常重视地维护它。除此之外，能放手则放手，不用做太多的干预。</p>
+                    <p>CLAUDE.md 文件可能是你唯一需要维护的文件。我已经很长时间（不止一个月）没有看过代码了，我只是维护 CLAUDE.md 里面所有的规则，以及「规则的规则」。</p>
 
-                    <p>CLAUDE.md 会随着使用变得越来越长，你可能需要做一些拆分：把不常用的内容外挂到别的 .md 文件里，留一个指针回到主要的 CLAUDE.md 即可。这些规则我也都写在了那个 .md 文件里面，所以它基本上都会自己处理。<strong>这就像宪法一样，只要你宪法写得好，这个系统就可以自己运行。</strong></p>
+                    <p>这些规则可以称之为「元规则」，是非常抽象的。比方说，修改 .md 规则的规则，等等之类的。它就是你需要的最重要的一个文件，你需要非常重视地维护它。除此之外，能放手则放手，不用做太多的干预。然后 CLAUDE.md 会随着使用变得越来越长，你可能需要做一些拆分：将一些不常用的内容外挂到别的 .md 文件里，留一个指针回到主要的 CLAUDE.md 即可。</p>
 
-                    <p>我发现用了这么久，其实真正的瓶颈是人的脑子。人每天脑子能处理的信息非常有限。所以要尽可能地降低你决策的次数。通过什么来实现呢？增强 Claude 的连续开发能力：</p>
+                    <p>这些规则我也都写在了那个 .md 文件里面，所以它基本上都会自己处理。<strong>这就像宪法一样，只要你宪法写得好，这个系统就可以自己运行。</strong></p>
+
+                    <p>我发现用了这么久，其实真正的瓶颈是人的脑子，人每天脑子能处理的信息非常有限。所以要尽可能地降低你决策的次数，通过什么来实现呢？就是增加你 Claude 的连续开发能力。比如：</p>
 
                     <ul>
                         <li>给它外接 <strong>EvoMap</strong>，让它遇到难题自己去找方法论</li>
-                        <li>安装能找到高质量 Skills 的 Skill &mdash;&mdash; 自主发现和安装高质量能力</li>
-                        <li>自动读取我 <strong>Twitter 书签</strong>的 Heartbeat &mdash;&mdash; 里面是我沉淀的方法论集合，它会根据设置周期性地吸收</li>
+                        <li>安装能找到高质量 Skills 的 Skill</li>
+                        <li>自动读取我 <strong>Twitter Bookmarks</strong>（里面也是一些方法论的集合）的 Heartbeat</li>
                     </ul>
 
-                    <p>遇到开发困难的时候也可以自己去调用。所以现在 CC 的单兵作战能力是极强的。</p>
+                    <p>它会根据我的设置周期性地进行，遇到开发困难的时候也可以自己去调用。所以现在 CC 的单兵作战能力是极强的。</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>7. Ideation 才是真正的工作</h2>
+                    <h2>6. Ideation 才是真正的工作</h2>
 
-                    <p>最花时间的地方在 ideation 阶段。我就是跟它聊聊各种各样的细节，让它去问我，让它跟我一起去 ideate。其实只要 plan 做得好，整个项目里的逻辑是通顺的，它 one-shot 开发完的概率还是蛮高的。</p>
+                    <p>最花时间的地方在 ideation 的这个阶段。我就是跟它聊聊各种各样的细节，让它去问我，就是让它跟我一起去 ideate。其实只要 plan 做得好，整个项目里的逻辑是通顺的，它 one-shot 开发完的概率还是蛮高的。</p>
 
                     <p>所以那些比较炫酷的编程技巧，其实不如去真的把你要做的事情想清楚。就像我<a href="/blog/claude-code-report.html">一个月前</a>所说的一些上下文管理小技巧，I gotta say 这个世界进化得太快了。</p>
+
+                    <div class="section-divider"></div>
+
+                    <h2>7. Opus 4.6</h2>
 
                     <p><strong>Opus 4.6 其实已经不需要我去用这样的技巧，它本身的上下文能力已经足够了。</strong>所以在这些层面，这些 AI 进化得简直飞快。</p>
 
@@ -260,11 +232,11 @@ END_META
 
                     <h2>8. Prompt Injection：不能掉以轻心</h2>
 
-                    <p>至于 Prompt Injection，大家有各种各样的方式可以去防御了。网上说的那些因为 Prompt 被盗、把钱骗走之类的问题说实话还是存在的，所以还是不能掉以轻心。但是它可见地变少了，只有一些零星的案例 &mdash;&mdash; 也有可能是大部分人被骗了不愿意说吧。</p>
+                    <p>至于 Prompt Injection，大家有各种各样的方式可以去防御了。网上说的那些因为 Prompt 被盗、把钱骗走之类的问题说实话还是存在的，所以还是不能掉以轻心。</p>
 
-                    <p>各大厂都开启了 Agent 访问的各种通道，各种钱包也接了 Agent 的功能。虽然 Moltbook 的发展没有我预想的好，灌水很严重，但是整个 Agent 生态还是在慢慢变好的。</p>
+                    <p>但是它可见地变少了，只有一些零星的案例，也有可能是大部分人被钱拐跑了不愿意说吧。各大厂都开启了 Agent 访问的各种通道，各种钱包也接了 Agent 的功能。</p>
 
-                    <p>保持观察，保持好奇心。</p>
+                    <p>虽然 Moltbook 的发展没有我预想的好，灌水很严重，但是整个 Agent 生态还是在慢慢变好的。保持观察，保持好奇心。</p>
                 </div>
             </div>
 
@@ -296,7 +268,7 @@ END_META
                 enLabel.classList.remove('active');
                 zhLabel.classList.add('active');
                 document.documentElement.lang = 'zh-CN';
-                document.title = '月度更新：手机上的九个终端 - Michael Yang';
+                document.title = '月度更新：关于我最近的一些 Technical Setup - Michael Yang';
             } else {
                 toggle.checked = false;
                 zhContent.classList.remove('active');
@@ -304,7 +276,7 @@ END_META
                 zhLabel.classList.remove('active');
                 enLabel.classList.add('active');
                 document.documentElement.lang = 'en';
-                document.title = 'Monthly Update: Nine Terminals From My Phone - Michael Yang';
+                document.title = 'Monthly Update: Recent Technical Setup - Michael Yang';
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
