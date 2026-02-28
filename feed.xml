@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Sat, 28 Feb 2026 14:49:49 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 28 Feb 2026 14:54:07 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -96,17 +96,11 @@
 
                     <p>The most time-consuming part is the ideation phase. I just chat with it about all kinds of details, let it ask me questions, let it ideate with me. As long as the plan is solid and the project logic is coherent, the probability of a one-shot implementation is actually quite high.</p>
 
-                    <p>So those flashy coding techniques actually matter less than truly thinking through what you want to build. Like the context management tricks I mentioned <a href="/blog/claude-code-report.html">a month ago</a> &mdash; I gotta say, the world evolves terrifyingly fast.</p>
+                    <p>So those flashy coding techniques actually matter less than truly thinking through what you want to build. Like the context management tricks I mentioned <a href="/blog/claude-code-report.html">a month ago</a> &mdash; I gotta say, the world evolves terrifyingly fast. <strong>Opus 4.6 doesn&rsquo;t need me to use those tricks anymore &mdash; its native context handling is already good enough.</strong> On this dimension, AI is evolving at a pace that&rsquo;s simply staggering.</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>7. Opus 4.6</h2>
-
-                    <p><strong>Opus 4.6 doesn&rsquo;t need me to use those tricks anymore &mdash; its native context handling is already good enough.</strong> On this dimension, AI is evolving at a pace that&rsquo;s simply staggering.</p>
-
-                    <div class="section-divider"></div>
-
-                    <h2>8. Prompt Injection: Don&rsquo;t Let Your Guard Down</h2>
+                    <h2>7. Prompt Injection: Don&rsquo;t Let Your Guard Down</h2>
 
                     <p>As for prompt injection, there are all kinds of ways to defend against it now. But the stories about stolen prompts and drained wallets are still real &mdash; you can&rsquo;t afford to be complacent.</p>
 
@@ -190,17 +184,11 @@
 
                     <p>最花时间的地方在 ideation 的这个阶段。我就是跟它聊聊各种各样的细节，让它去问我，就是让它跟我一起去 ideate。其实只要 plan 做得好，整个项目里的逻辑是通顺的，它 one-shot 开发完的概率还是蛮高的。</p>
 
-                    <p>所以那些比较炫酷的编程技巧，其实不如去真的把你要做的事情想清楚。就像我<a href="/blog/claude-code-report.html">一个月前</a>所说的一些上下文管理小技巧，I gotta say 这个世界进化得太快了。</p>
+                    <p>所以那些比较炫酷的编程技巧，其实不如去真的把你要做的事情想清楚。就像我<a href="/blog/claude-code-report.html">一个月前</a>所说的一些上下文管理小技巧，I gotta say 这个世界进化得太快了。<strong>Opus 4.6 其实已经不需要我去用这样的技巧，它本身的上下文能力已经足够了。</strong>所以在这些层面，这些 AI 进化得简直飞快。</p>
 
                     <div class="section-divider"></div>
 
-                    <h2>7. Opus 4.6</h2>
-
-                    <p><strong>Opus 4.6 其实已经不需要我去用这样的技巧，它本身的上下文能力已经足够了。</strong>所以在这些层面，这些 AI 进化得简直飞快。</p>
-
-                    <div class="section-divider"></div>
-
-                    <h2>8. Prompt Injection：不能掉以轻心</h2>
+                    <h2>7. Prompt Injection：不能掉以轻心</h2>
 
                     <p>至于 Prompt Injection，大家有各种各样的方式可以去防御了。网上说的那些因为 Prompt 被盗、把钱骗走之类的问题说实话还是存在的，所以还是不能掉以轻心。</p>
 
