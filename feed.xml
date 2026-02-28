@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Sat, 28 Feb 2026 15:05:45 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 28 Feb 2026 15:10:51 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -54,8 +54,6 @@
 
                     <p>With these two search systems combined, information acquisition becomes very easy. Add my <a href="/blog/the-bottleneck-moved.html">Council</a> for decision-making, and my decision quality seems to have improved significantly. Decisions need execution, so I&rsquo;m building a full loop. The whole system is under construction &mdash; I&rsquo;m calling it <strong>Cortex</strong> for now.</p>
 
-                    <p>The broader agent ecosystem is slowly getting better too. Every major platform has opened agent-access channels, wallets have added agent functionality. Moltbook&rsquo;s growth hasn&rsquo;t met my expectations &mdash; too much noise &mdash; but the direction is right. Stay observant. Stay curious.</p>
-
                     <div class="section-divider"></div>
 
                     <h2>3. The Constitution File</h2>
@@ -86,6 +84,7 @@
 
                     <p>So those flashy coding techniques actually matter less than truly thinking through what you want to build. Like the context management tricks I mentioned <a href="/blog/claude-code-report.html">a month ago</a> &mdash; I gotta say, the world evolves terrifyingly fast. <strong>Opus 4.6 doesn&rsquo;t need me to use those tricks anymore &mdash; its native context handling is already good enough.</strong> On this dimension, AI is evolving at a pace that&rsquo;s simply staggering.</p>
 
+                    <p>The broader agent ecosystem is slowly getting better too. Every major platform has opened agent-access channels, wallets have added agent functionality. Moltbook&rsquo;s growth hasn&rsquo;t met my expectations &mdash; too much noise &mdash; but the direction is right. Stay observant. Stay curious.</p>
                 </div>
             </div>
 
@@ -121,8 +120,6 @@
 
                     <p>有了这两套搜索系统的结合，信息获取变得非常容易。再加上我的 <a href="/blog/the-bottleneck-moved.html">Council</a> 可以帮我做决策，我的决策质量似乎显著提高了。有了决策就要执行，所以我正在搭建一整套大循环 loop。这整套系统正在搭建中，我暂且称它为 <strong>Cortex</strong>。</p>
 
-                    <p>整个 Agent 生态也在慢慢变好。各大厂都开启了 Agent 访问的各种通道，各种钱包也接了 Agent 的功能。虽然 Moltbook 的发展没有我预想的好，灌水很严重，但方向是对的。保持观察，保持好奇心。</p>
-
                     <div class="section-divider"></div>
 
                     <h2>3. CLAUDE.md &mdash;&mdash; 宪法文件</h2>
@@ -152,6 +149,8 @@
                     <p>最花时间的地方在 ideation 的这个阶段。我就是跟它聊聊各种各样的细节，让它去问我，就是让它跟我一起去 ideate。其实只要 plan 做得好，整个项目里的逻辑是通顺的，它 one-shot 开发完的概率还是蛮高的。</p>
 
                     <p>所以那些比较炫酷的编程技巧，其实不如去真的把你要做的事情想清楚。就像我<a href="/blog/claude-code-report.html">一个月前</a>所说的一些上下文管理小技巧，I gotta say 这个世界进化得太快了。<strong>Opus 4.6 其实已经不需要我去用这样的技巧，它本身的上下文能力已经足够了。</strong>所以在这些层面，这些 AI 进化得简直飞快。</p>
+
+                    <p>整个 Agent 生态也在慢慢变好。各大厂都开启了 Agent 访问的各种通道，各种钱包也接了 Agent 的功能。虽然 Moltbook 的发展没有我预想的好，灌水很严重，但方向是对的。保持观察，保持好奇心。</p>
 
                 </div>
             </div>
