@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const GEMINI_API_KEY = 'AIzaSyAf_kt_WNEMT0B7HinQqWtflXn5Fza3uYQ';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+if (!GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not set. Add to /workspace/.env');
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key=${GEMINI_API_KEY}`;
 
 const HEADLESS_SHELL = path.join(
