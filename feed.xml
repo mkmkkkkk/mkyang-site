@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Wed, 11 Mar 2026 17:18:09 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 11 Mar 2026 17:21:34 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -32,7 +32,7 @@
                 <div class="prose">
                     <p>Harvard Business Review recently published <a href="https://hbr.org/2026/03/when-using-ai-leads-to-brain-fry" target="_blank" rel="noopener"><em>&ldquo;When Using AI Leads to Brain Fry&rdquo;</em></a>, surveying 1,488 full-time workers and finding that 14% of AI users experience &ldquo;AI brain fry.&rdquo; After reading it, I realized &mdash; this is exactly what I&rsquo;ve been going through the past few months. In my last post, I talked about how the bottleneck ultimately lands on the human brain. This is a problem most people will run into eventually.</p>
 
-                    <p>AI brain fry shows up as mental exhaustion, a buzzing sensation, brain fog, difficulty focusing, slower decision-making, headaches, and the feeling that you need to stop and reset. It&rsquo;s like having too many browser tabs open in your head &mdash; your thinking becomes cluttered. The cause: mainly high-intensity AI supervision &mdash; monitoring multiple tool outputs &mdash; leading to a 14% increase in mental effort, 12% in mental fatigue, and 19% in information overload. On top of that, AI amplifies workload, task-switching, and dense interaction.</p>
+                    <p>AI brain fry shows up as mental exhaustion, a buzzing sensation, brain fog, difficulty focusing, slower decision-making, headaches, and the feeling that you need to stop and reset. It&rsquo;s like having too many browser tabs open in your head &mdash; your thinking becomes cluttered. The cause: mainly high-intensity AI supervision &mdash; monitoring multiple tool outputs at once.</p>
 
                     <p>Vibe coding is a high-cognitive task, so burnout is inevitable. Since it&rsquo;s cognitive, reset with higher quality sleep and exercise &mdash; weight training plus cardio.</p>
 
@@ -54,7 +54,7 @@
                 <div class="prose">
                     <p>哈佛商业评论最近发了一篇文章叫<a href="https://hbr.org/2026/03/when-using-ai-leads-to-brain-fry" target="_blank" rel="noopener">《When Using AI Leads to &ldquo;Brain Fry&rdquo;》</a>，调查了 1,488 个全职员工，发现 14% 的 AI 使用者出现了&ldquo;AI 脑烧&rdquo;。我看完之后觉得，这就是我过去几个月一直在经历的东西。上一篇聊到瓶颈最终会落在人脑上，这是未来大部分人都会遇到的问题。</p>
 
-                    <p>AI 脑烧（brain fry）表现为精神疲惫、嗡嗡感、精神雾、注意力困难、决策变慢、头痛，以及需要暂停工作重置的感觉，像大脑中打开太多浏览器标签导致的杂乱思考。原因主要源于高强度 AI 监督（如监控多个工具输出），导致精神努力增加 14%、精神疲惫 12%、信息过载 19%。此外包括 AI 加剧工作量、多任务切换、密集互动。</p>
+                    <p>AI 脑烧（brain fry）表现为精神疲惫、嗡嗡感、精神雾、注意力困难、决策变慢、头痛，以及需要暂停工作重置的感觉，像大脑中打开太多浏览器标签导致的杂乱思考。原因主要源于高强度 AI 监督（如监控多个工具输出）。</p>
 
                     <p>Vibe coding 是高认知任务，就一定会有 burnout。既然是认知任务，那就用更高质量的睡眠和运动去 reset，包括 weight training 和有氧训练。</p>
 
