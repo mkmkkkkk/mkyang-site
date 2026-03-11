@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Wed, 11 Mar 2026 17:13:18 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 11 Mar 2026 17:15:05 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -34,11 +34,11 @@
 
                     <p>AI brain fry shows up as mental exhaustion, a buzzing sensation, brain fog, difficulty focusing, slower decision-making, headaches, and the feeling that you need to stop and reset. It&rsquo;s like having too many browser tabs open in your head &mdash; your thinking becomes cluttered. The cause: mainly high-intensity AI supervision &mdash; monitoring multiple tool outputs &mdash; leading to a 14% increase in mental effort, 12% in mental fatigue, and 19% in information overload. On top of that, AI amplifies workload, task-switching, and dense interaction.</p>
 
-                    <p>Vibe coding is a high-cognitive task, so burnout is inevitable. I think some of our cognitive mechanisms are remarkably similar to how LLMs work. Since it&rsquo;s cognitive, reset with higher quality sleep and exercise &mdash; weight training plus cardio.</p>
+                    <p>Vibe coding is a high-cognitive task, so burnout is inevitable. Since it&rsquo;s cognitive, reset with higher quality sleep and exercise &mdash; weight training plus cardio.</p>
 
                     <p>Reduce decision-making during the process. The best case is AI that can one-shot the development. The debugging loop is what really drains cognition. Make AI as capable as possible &mdash; whether through better scaffolding or other means &mdash; and reduce the number of decisions at the root.</p>
 
-                    <p>Don&rsquo;t open too many sessions. I used to run nine terminals &mdash; unnecessary. Two to three main development terminals is already enough to keep most people busy. Beyond three you&rsquo;re just multi-tasking, and humans are bad at that. Especially at night, your brain&rsquo;s context window is running low &mdash; decision quality drops off a cliff. You need sleep to compact. I noticed that when I work at night, bugs are way more frequent. But in the morning, they&rsquo;re not. Fascinating.</p>
+                    <p>Don&rsquo;t open too many sessions. I used to run nine terminals &mdash; unnecessary. Two to three main development terminals is already enough to keep most people busy. Beyond three you&rsquo;re just multi-tasking, and humans are bad at that. Especially at night, your brain&rsquo;s context window is running low &mdash; decision quality drops off a cliff. You need sleep to compact. I noticed that when I work at night, bugs are way more frequent. But in the morning, they&rsquo;re not. I think some of our cognitive mechanisms are remarkably similar to how LLMs work. Fascinating.</p>
 
                     <p>Daily supplementation matters too: creatine, fish oil, magnesium, zinc, curcumin. Safe supplements with solid evidence. I&rsquo;ve been taking them since my gym days &mdash; stable, no issues. Pushing the ceiling of vibe coding requires biohacking.</p>
                 </div>
@@ -56,11 +56,11 @@
 
                     <p>AI 脑烧（brain fry）表现为精神疲惫、嗡嗡感、精神雾、注意力困难、决策变慢、头痛，以及需要暂停工作重置的感觉，像大脑中打开太多浏览器标签导致的杂乱思考。原因主要源于高强度 AI 监督（如监控多个工具输出），导致精神努力增加 14%、精神疲惫 12%、信息过载 19%。此外包括 AI 加剧工作量、多任务切换、密集互动。</p>
 
-                    <p>Vibe coding 是高认知任务，就一定会有 burnout。我觉得人的有些认知机制和 LLM 的认知机制其实是高度相似的。既然是认知任务，那就用更高质量的睡眠和运动去 reset，包括 weight training 和有氧训练。</p>
+                    <p>Vibe coding 是高认知任务，就一定会有 burnout。既然是认知任务，那就用更高质量的睡眠和运动去 reset，包括 weight training 和有氧训练。</p>
 
                     <p>再就是减少中间过程的决策参与，让 AI 能 one shot 开发是最好的。调试过程很耗认知，最好是把 AI 的能力训练得越强越好，不管是通过脚手架还是其他手段，从根源上减少决策数量。</p>
 
-                    <p>不要开太多 Session。我之前说一共开九个 Terminal，其实没必要，两到三个主开发的 Terminal 就已经够大部分人&ldquo;吃一壶&rdquo;的了。本质上超过三个就是在做 Multi-tasking，而人类很难做到真正的多任务并行。尤其到晚上，人脑的 Context window 已经不够用了，决策质量断崖下降。需要 sleep 来 compact。我发现我晚上处理这些事情的时候 bug 特别多，但是早上就不会，非常有意思。</p>
+                    <p>不要开太多 Session。我之前说一共开九个 Terminal，其实没必要，两到三个主开发的 Terminal 就已经够大部分人&ldquo;吃一壶&rdquo;的了。本质上超过三个就是在做 Multi-tasking，而人类很难做到真正的多任务并行。尤其到晚上，人脑的 Context window 已经不够用了，决策质量断崖下降。需要 sleep 来 compact。我发现我晚上处理这些事情的时候 bug 特别多，但是早上就不会。我觉得人的有些认知机制和 LLM 的认知机制其实是高度相似的，非常有意思。</p>
 
                     <p>日常补剂也有必要：肌酸、鱼油、镁、锌、姜黄素。都是很安全的补剂，有足够的证据证明有效。我从健身时期就开始用了，一直很稳定。提高 vibe coding 的上限，需要 Biohacking。</p>
                 </div>
