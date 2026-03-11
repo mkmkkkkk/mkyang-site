@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Wed, 11 Mar 2026 17:26:49 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 11 Mar 2026 17:27:51 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -34,7 +34,7 @@
 
                     <p>AI brain fry shows up as mental exhaustion, a buzzing sensation, brain fog, difficulty focusing, slower decision-making, headaches, and the feeling that you need to stop and reset. It&rsquo;s like having too many browser tabs open in your head &mdash; your thinking becomes cluttered. The cause: mainly high-intensity AI supervision &mdash; monitoring multiple tool outputs at once.</p>
 
-                    <p>Vibe coding is a high-cognitive task, so burnout is inevitable. Since it&rsquo;s cognitive, reset with higher quality sleep and exercise &mdash; weight training plus cardio. Daily supplementation helps too: zinc and magnesium aid nerve recovery and sleep, curcumin is anti-inflammatory, fish oil (Omega-3) is essential brain nutrition, and creatine provides a slight energy boost. Safe supplements with solid evidence. I&rsquo;ve been taking them since my gym days &mdash; stable, no issues.</p>
+                    <p>Vibe coding is a high-cognitive task, so burnout is inevitable. Since it&rsquo;s cognitive, reset with higher quality sleep and exercise &mdash; weight training plus cardio. Daily supplementation helps too: zinc and magnesium aid nerve recovery and sleep, curcumin is anti-inflammatory, fish oil (Omega-3) is essential brain nutrition, and creatine provides a slight energy boost. Safe supplements with solid evidence. I&rsquo;ve been taking them since my gym days &mdash; stable, no issues. Diet matters too &mdash; cut the salt and grease. A Mediterranean diet works best.</p>
 
                     <p>Reduce decision-making during the process. The best case is AI that can one-shot the development. The debugging loop is what really drains cognition. Make AI as capable as possible &mdash; whether through better scaffolding or other means &mdash; and reduce the number of decisions at the root.</p>
 
@@ -56,7 +56,7 @@
 
                     <p>AI 脑烧（brain fry）表现为精神疲惫、嗡嗡感、精神雾、注意力困难、决策变慢、头痛，以及需要暂停工作重置的感觉，像大脑中打开太多浏览器标签导致的杂乱思考。原因主要源于高强度 AI 监督（如监控多个工具输出）。</p>
 
-                    <p>Vibe coding 是高认知任务，就一定会有 burnout。既然是认知任务，那就用更高质量的睡眠和运动去 reset，包括 weight training 和有氧训练。日常补剂也有必要：锌和镁有助于神经恢复和睡眠，姜黄素抗炎，鱼油（Omega-3）是大脑必需的营养物质，肌酸能略微提升能量水平。都是很安全的补剂，有足够的证据证明有效。我从健身时期就开始用了，一直很稳定。</p>
+                    <p>Vibe coding 是高认知任务，就一定会有 burnout。既然是认知任务，那就用更高质量的睡眠和运动去 reset，包括 weight training 和有氧训练。日常补剂也有必要：锌和镁有助于神经恢复和睡眠，姜黄素抗炎，鱼油（Omega-3）是大脑必需的营养物质，肌酸能略微提升能量水平。都是很安全的补剂，有足够的证据证明有效。我从健身时期就开始用了，一直很稳定。饮食也要注意，不能高盐高油，地中海饮食的效果是最好的。</p>
 
                     <p>再就是减少中间过程的决策参与，让 AI 能 one shot 开发是最好的。调试过程很耗认知，最好是把 AI 的能力训练得越强越好，不管是通过脚手架还是其他手段，从根源上减少决策数量。</p>
 
