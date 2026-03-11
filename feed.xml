@@ -8,7 +8,7 @@
     <description>Thoughts on AI, building products, and the future of work.</description>
     <language>en</language>
     <managingEditor>yangzk2001@gmail.com (Michael Yang)</managingEditor>
-    <lastBuildDate>Wed, 11 Mar 2026 17:01:31 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 11 Mar 2026 17:07:38 GMT</lastBuildDate>
     <atom:link href="https://mkyang.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://mkyang.ai/favicon.svg</url>
@@ -16,7 +16,7 @@
       <link>https://mkyang.ai/blog</link>
     </image>
     <item>
-      <title>The Bottleneck Is My Brain</title>
+      <title>Wetware Upgrade</title>
       <link>https://mkyang.ai/blog/the-bottleneck-is-my-brain.html</link>
       <guid isPermaLink="true">https://mkyang.ai/blog/the-bottleneck-is-my-brain.html</guid>
       <pubDate>Wed, 11 Mar 2026 00:00:00 GMT</pubDate>
@@ -25,7 +25,7 @@
       <content:encoded><![CDATA[<!-- ==================== ENGLISH ==================== -->
             <div class="lang-content active" id="content-en">
                 <div class="article-meta">Michael Yang &middot; March 11, 2026</div>
-                <h1 class="article-title">The Bottleneck Is My Brain</h1>
+                <h1 class="article-title">Wetware Upgrade</h1>
                 <p class="article-subtitle">The ceiling of vibe coding isn&rsquo;t AI &mdash; it&rsquo;s biology.</p>
                 <div class="article-rule"></div>
 
@@ -34,28 +34,26 @@
 
                     <p>In my last post, I talked about how the bottleneck ultimately lands on the human brain. This post is about what to do about it.</p>
 
-                    <p>I think this is a problem most people will run into eventually. AI brain fry shows up as mental exhaustion, a buzzing sensation, brain fog, difficulty focusing, slower decision-making, headaches, and the feeling that you need to stop and reset. It&rsquo;s like having too many browser tabs open in your head &mdash; your thinking becomes cluttered.</p>
+                    <p>This is a problem most people will run into eventually. AI brain fry shows up as mental exhaustion, a buzzing sensation, brain fog, difficulty focusing, slower decision-making, headaches, and the feeling that you need to stop and reset. It&rsquo;s like having too many browser tabs open in your head &mdash; your thinking becomes cluttered.</p>
 
                     <p>The cause: mainly high-intensity AI supervision &mdash; monitoring multiple tool outputs &mdash; leading to a 14% increase in mental effort, 12% in mental fatigue, and 19% in information overload. On top of that, AI amplifies workload, task-switching, and dense interaction.</p>
 
-                    <p>Here&rsquo;s my solution.</p>
+                    <p>Vibe coding is a high-cognitive task, so burnout is inevitable. Since it&rsquo;s cognitive, reset with higher quality sleep and exercise &mdash; weight training plus cardio.</p>
 
-                    <p>Vibe coding is a high-cognitive task, so burnout is inevitable. Since it&rsquo;s cognitive, reset it with higher quality sleep and exercise &mdash; weight training plus cardio.</p>
+                    <p>Reduce decision-making during the process. The best case is AI that can one-shot the development. The debugging loop is what really drains cognition. Make AI as capable as possible &mdash; whether through better scaffolding or other means &mdash; and reduce the number of decisions at the root.</p>
 
-                    <p>You also need less decision-making during the process. The best case is AI that can one-shot the development. The debugging loop in between is what really drains cognition. The middle steps are never good anyway &mdash; the goal is to make AI as capable as possible, whether through better scaffolding or other means. Solve decision fatigue at the root. Reduce the number of decisions.</p>
+                    <p>Don&rsquo;t open too many sessions. I used to run nine terminals &mdash; unnecessary. Two to three main development terminals is already enough to keep most people busy. Beyond three you&rsquo;re just multi-tasking, and humans are bad at that. Especially at night, your brain&rsquo;s context window is running low &mdash; decision quality drops off a cliff. You need sleep to compact.</p>
 
-                    <p>Don&rsquo;t open too many sessions. Beyond three, the negative impact on your brain is massive. I used to say I run nine terminals &mdash; that&rsquo;s unnecessary. Two to three main development terminals is already enough to keep most people busy. Opening more seriously tanks your efficiency. You&rsquo;re essentially multi-tasking, and that&rsquo;s really hard to do. Especially at night, your brain&rsquo;s context window is already running low &mdash; decision quality drops off a cliff. You need sleep to compact.</p>
+                    <p>I noticed that when I work on these things at night, bugs are way more frequent. But in the morning, they&rsquo;re not. Fascinating.</p>
 
-                    <p>I noticed something interesting: when I work on these things at night, bugs are way more frequent. But in the morning, they&rsquo;re not. Fascinating.</p>
-
-                    <p>Some daily supplementation is also necessary &mdash; creatine, fish oil, magnesium, zinc, and curcumin. These are very safe supplements with solid evidence behind them. I started taking them a long time ago from my gym days, and they&rsquo;ve been stable. So pushing the ceiling of vibe coding requires biohacking.</p>
+                    <p>Daily supplementation matters too: creatine, fish oil, magnesium, zinc, curcumin. Safe supplements with solid evidence. I&rsquo;ve been taking them since my gym days &mdash; stable, no issues. Pushing the ceiling of vibe coding requires biohacking.</p>
                 </div>
             </div>
 
             <!-- ==================== CHINESE ==================== -->
             <div class="lang-content" id="content-zh">
                 <div class="article-meta">Michael Yang &middot; 2026 年 3 月 11 日</div>
-                <h1 class="article-title">瓶颈是我的脑子</h1>
+                <h1 class="article-title">湿件升级</h1>
                 <p class="article-subtitle">Vibe coding 的天花板不是 AI，是生物硬件。</p>
                 <div class="article-rule"></div>
 
@@ -64,21 +62,19 @@
 
                     <p>上一篇聊到瓶颈最终会落在人脑上。这篇接着聊&mdash;&mdash;怎么解决。</p>
 
-                    <p>我觉得这是未来大部分人都会遇到的问题。AI 脑烧（brain fry）表现为精神疲惫、嗡嗡感、精神雾、注意力困难、决策变慢、头痛，以及需要暂停工作重置的感觉，像大脑中打开太多浏览器标签导致的杂乱思考。</p>
+                    <p>这是未来大部分人都会遇到的问题。AI 脑烧（brain fry）表现为精神疲惫、嗡嗡感、精神雾、注意力困难、决策变慢、头痛，以及需要暂停工作重置的感觉，像大脑中打开太多浏览器标签导致的杂乱思考。</p>
 
                     <p>原因：主要源于高强度 AI 监督（如监控多个工具输出），导致精神努力增加 14%、精神疲惫 12%、信息过载 19%。此外包括 AI 加剧工作量、多任务切换、密集互动。</p>
 
-                    <p>我给一个解决方案。</p>
+                    <p>Vibe coding 是高认知任务，就一定会有 burnout。既然是认知任务，那就用更高质量的睡眠和运动去 reset，包括 weight training 和有氧训练。</p>
 
-                    <p>Vibe coding 是高认知任务，就一定会有 burnout。既然是认知任务，那就用更高质量的睡眠和运动去 reset 这种 burnout，包括 weight training 和一些其他的有氧训练。</p>
+                    <p>再就是减少中间过程的决策参与，让 AI 能 one shot 开发是最好的。调试过程很耗认知，最好是把 AI 的能力训练得越强越好，不管是通过脚手架还是其他手段，从根源上减少决策数量。</p>
 
-                    <p>再就是需要更少的中间过程决策参与，让 AI 能 one shot 开发是最好的。中间调试过程其实很耗认知，反正中间过程都不好，最好是把 AI 的能力训练得越强越好。不管是通过各种脚手架还是其他手段，从根源上解决我的决策疲劳，减少决策数量。</p>
+                    <p>不要开太多 Session。我之前说一共开九个 Terminal，其实没必要，两到三个主开发的 Terminal 就已经够大部分人&ldquo;吃一壶&rdquo;的了。本质上超过三个就是在做 Multi-tasking，而人类很难做到真正的多任务并行。尤其到晚上，人脑的 Context window 已经不够用了，决策质量断崖下降。需要 sleep 来 compact。</p>
 
-                    <p>还有就是不要开太多的 Session。超过三个 Session 之后，会对人脑认知产生极大的负面影响。我之前说一共开九个 Terminal，其实没必要。实际上，两到三个主开发的 Terminal 就已经够大部分人&ldquo;吃一壶&rdquo;的了。开得太多之后会严重影响效率，本质上是在做 Multi-tasking（多任务并行），而这其实是很难做到的。尤其到晚上，人脑的 Context window 就已经不够用了，决策质量会断崖下降。需要 sleep 来 compact。</p>
+                    <p>我发现我晚上处理这些事情的时候，bug 特别多，但是早上就不会，非常有意思。</p>
 
-                    <p>所以我发现我晚上处理这些事情的时候，bug 特别多，但是早上就不会，非常有意思。</p>
-
-                    <p>然后一些日常的补充是有必要的，包括服用肌酸、鱼油、镁、锌还有姜黄素。这些都是很安全的补剂，并且有足够的证据证明它是有效果的。我很早就开始在用了，因为之前 Gym 有用过很长一段时间，都还挺稳定的。所以提高 vibe coding 的上限是需要 Biohacking 的。</p>
+                    <p>日常补剂也有必要：肌酸、鱼油、镁、锌、姜黄素。都是很安全的补剂，有足够的证据证明有效。我从健身时期就开始用了，一直很稳定。提高 vibe coding 的上限，需要 Biohacking。</p>
                 </div>
             </div>
 
